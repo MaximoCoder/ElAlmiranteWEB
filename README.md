@@ -18,3 +18,6 @@ Este repositorio contiene el código fuente de la página web para **"Mariscos E
 - **Autenticación:** Sistema de registro y login para usuarios y administradores.
 - **Carrito de Compras:** Funcionalidad para agregar productos al carrito y proceder al pago.
 - **Gestión de Pedidos:** Procesamiento de pedidos y pagos tanto en línea como en tienda física.
+
+## Lista de colaboradores:
+- Juan Antonio Sanchez Arce 
