@@ -1,0 +1,28 @@
+
+<div class="container">
+    <form class="form-group register-form" action="register" method="post">
+        <div class="mb-3 bg-form text-white p-5 rounded">
+            <h2 class="text-center">Registrarse</h2>
+
+            <?php if (!empty($error)): ?>
+                <div class="alert alert-danger">
+                    <?= htmlspecialchars($error); ?>
+                </div>
+            <?php endif; ?>
+
+            <label for="" class="mt-4 fw-semibold">Nombre completo:</label>
+            <input type="text" name="full_name" class="form-control input-formU" value="<?php echo isset($_POST["name"]) ? $_POST["name"] : ''; ?>" required>
+        
+            <label class=" fw-semibold" for="">Correo:</label>
+            <input type="email" name="email" class="form-control input-formU" value="<?php echo isset($_POST["email"]) ? $_POST["email"] : ''; ?>" required>
+        
+            <label class=" fw-semibold" for="">Contraseña:</label>
+            <input type="password" name="password" class="form-control input-formU" value="<?php echo isset($_POST["password"]) ? $_POST["password"] : ''; ?>" required>    
+        
+            <label class="fw-semibold" for="">Confirmar contraseña:</label>
+            <input type="password" name="confirm_password" class="form-control input-formU" value="<?php echo isset($_POST["confirm_password"]) ? $_POST["confirm_password"] : ''; ?>" required>    
+            <a href="login" class="text-white">¿Ya tienes una cuenta?</a>
+            <input type="submit" value="Registrarse" class="form-control btn-color fw-bold">
+        </div>
+    </form>
+</div>
