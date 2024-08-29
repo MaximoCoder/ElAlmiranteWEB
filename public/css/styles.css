@@ -1,0 +1,180 @@
+/* 
+    Colores 
+*/
+:root {
+    --bg-primary: #151515;
+    --bg-secondary: #A91D3A;
+    --bg-tertiary: #C73659;
+    --bg-quaternary: #EEEEEE;
+    --text-primary: #ffffff;
+}
+
+/* 
+    NAVBAR
+*/
+.navbar {
+    background-color: var(--bg-primary);
+}
+
+.nav-link .active {
+    background-color: var(--bg-secondary);
+}
+
+/* CONTACT FORM */
+.form-area {
+    background-color: var(--bg-secondary);
+    margin-bottom: 80px;
+}
+
+.row.single-form {
+    box-shadow: 0 2px 20px 0 rgba(0, 0, 0, 0.5);
+}
+
+.left {
+    background: var(--bg-secondary);
+    padding: 150px 98px;
+}
+
+.left h2 {
+    color: #fff;
+    font-weight: 700;
+    font-size: 48px;
+}
+
+.left h2 span {
+    font-weight: 100;
+}
+
+.single-form {
+    background: #fff;
+}
+
+.right {
+    padding: 70px 100px;
+    position: relative;
+}
+
+.right i {
+    position: absolute;
+    font-size: 80px;
+    left: -27px;
+    top: 40%;
+    color: #fff;
+}
+
+.form-control {
+    border: 2px solid #000;
+}
+
+.right button {
+    border: none;
+    border-radius: 0;
+    background: var(--bg-primary);
+    width: 180px;
+    color: #fff;
+    padding: 15px 0;
+    display: inline-block;
+    font-size: 16px;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+.right button:hover {
+    background-color: var(--bg-secondary);
+    transition: .3s ease;
+}
+
+/* REGISTER FORM */
+.form-control{
+    border: none;
+    background-color: #EEEEEE;
+}
+.input-formU{
+    background-color: #fff;
+}
+.register-form {
+    width: 37%;
+    margin: auto;
+    padding-top: 30px;
+    padding-bottom: 50px;
+}
+.bg-form{
+    background-color: var(--bg-tertiary);
+}
+.btn-color{
+    color: #fff;
+    margin-top: 10px;
+    background-color: var(--bg-primary);
+}
+.btn-color:hover{
+   background-color: var(--bg-secondary);
+}
+
+/*responsive*/
+
+@media (min-width:768px) and (max-width:991px) {
+    /* CONTACT FORM */
+    .right i {
+        top: -52px;
+        transform: rotate(90deg);
+        left: 50%;
+    }
+
+    /* REGISTER AND LOGIN FORM */
+    .register-form {
+        width: 60%;
+        margin: auto;
+    }
+
+}
+
+@media (max-width:767px) {
+    /* LOCATION */
+
+    .map-location {
+        width: 95%;
+        margin: auto;
+    }
+
+    /* REGISTER AND LOGIN FORM */
+    .register-form {
+        width: 90%;
+        margin: auto;
+    }
+
+    .p-loc {
+        font-size: 18px;
+    }
+
+    .left {
+        padding: 90px 15px;
+        text-align: center;
+    }
+
+    .left h2 {
+        font-size: 25px;
+    }
+
+    .right {
+        padding: 25px;
+    }
+
+    .right i {
+        top: -52px;
+        transform: rotate(90deg);
+        left: 46%;
+    }
+
+    .right button {
+        width: 150px;
+        padding: 12px 0;
+    }
+
+}
+
+/* 
+    FOOTER
+*/
+footer {
+    background-color: var(--bg-primary);
+}
