@@ -20,4 +20,5 @@ Este repositorio contiene el código fuente de la página web para **"Mariscos E
 - **Gestión de Pedidos:** Procesamiento de pedidos y pagos tanto en línea como en tienda física.
 
 ## Lista de colaboradores:
-- Juan Antonio Sanchez Arce 
+- Juan Antonio Sanchez Arce
+- Maximo Gonzalez Nacianceno
