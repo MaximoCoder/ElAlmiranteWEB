@@ -22,3 +22,4 @@ Este repositorio contiene el código fuente de la página web para **"Mariscos E
 ## Lista de colaboradores:
 - Juan Antonio Sanchez Arce
 - Maximo Gonzalez Nacianceno
+- Diego Alonso Noriega Bañuelos
