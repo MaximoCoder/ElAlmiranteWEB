@@ -6,10 +6,11 @@ Este repositorio contiene el código fuente de la página web para **"Mariscos E
 
 ## Tecnologías Utilizadas
 
-- **PHP:** Lenguaje principal para la lógica del servidor.
-- **JQuery:** Librería JavaScript para la manipulación del DOM y la interacción con el usuario.
-- **Bootstrap:** Framework CSS para un diseño responsive y moderno.
-- **MySQL:** Sistema de gestión de bases de datos relacional para almacenar y gestionar la información del sitio.
+- **PHP:** Será el lenguaje principal para implementar la lógica del servidor, manejando el patrón MVC (Modelo-Vista-Controlador), enrutamiento de las solicitudes (Router), controladores para gestionar las diferentes funcionalidades del sitio y modelos para las conexiones a la base de datos.
+- **JQuery:** Se empleará como librería JavaScript para la manipulación del DOM y la interacción dinámica con el usuario, permitiendo una experiencia más fluida y responsiva.
+- **Bootstrap:** Servirá como framework CSS para asegurar un diseño responsive y moderno, garantizando que el sitio se vea bien en diferentes dispositivos y resoluciones.
+- **MySQL:** Actuará como nuestro sistema de gestión de bases de datos relacional, donde se almacenará y gestionará toda la información crítica del sitio, como usuarios, productos, pedidos y ventas.
+
 
 ## Características Principales
 
