@@ -11,7 +11,7 @@
             <div class="col-sm-12 col-lg-6">
                 <div class="right">
                     <i class="fa fa-caret-left"></i>
-                    <form action="https://formspree.io/f/xkndaywz" method="POST">
+                    <form action="https://formspree.io/f/mqaznvke" method="POST" class="Contactform">
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Tu nombre</label>
                             <input type="text" class="form-control" name="nombre" aria-describedby="emailHelp" required>
@@ -31,44 +31,3 @@
         </div>
     </div>
 </div>
-
-<script>
-    // SCRIPT PARA MANEJAR EL ENVIO DEL FORMULARIO
-    const form = document.querySelector("form");
-    form.addEventListener("submit", handleSubmit);
-
-    async function handleSubmit(event) {
-        event.preventDefault();
-        const formData = new FormData(event.target);
-        try {
-            const response = await fetch(event.target.action, {
-                method: event.target.method,
-                body: formData,
-                headers: {
-                    'Accept': 'application/json'
-                }
-            });
-
-            if (response.ok) {
-                event.target.reset();
-                Swal.fire({
-                    title: "¡Buen trabajo!",
-                    text: "Tu mensaje ha sido enviado.",
-                    icon: "success"
-                });
-            } else {
-                Swal.fire({
-                    title: "Oops...",
-                    text: "Hubo un problema al enviar tu mensaje. Intenta nuevamente.",
-                    icon: "error"
-                });
-            }
-        } catch (error) {
-            Swal.fire({
-                title: "Oops...",
-                text: "Hubo un problema al enviar tu mensaje. Intenta nuevamente.",
-                icon: "error"
-            });
-        }
-    }
-</script>

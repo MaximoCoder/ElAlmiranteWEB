@@ -55,16 +55,17 @@ class Router
     {
         http_response_code($code);
 
-        switch ($code) {
-            case 404:
-                include 'views/templates_errors/404.html';
-                break;
-            case 500:
-                include 'views/templates_errors/500.html';
-                break;
-            default:
-                include 'views/templates_errors/500.html';
-                break;
-        }
+        $errorMessages = [
+            404 => 'Página no encontrada',
+            500 => 'Error interno del servidor',
+            403 => 'Acceso prohibido',
+        ];
+
+        $errorTitle = $errorMessages[$code] ?? 'Error desconocido';
+
+        $this->render('templates_errors/error', [
+            'errorCode' => $code,
+            'errorTitle' => $errorTitle
+        ]);
     }
 }

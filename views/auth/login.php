@@ -11,15 +11,16 @@
             <?php endif; ?>
             
             <label class=" fw-semibold" for="">Correo:</label>
-            <input type="email" name="email" class="form-control input-formU" value="<?php echo isset($_POST["email"]) ? $_POST["email"] : ''; ?>" required>
+            <input type="email" name="Correo" class="form-control input-formU" value="<?php echo isset($_POST["Correo"]) ? $_POST["Correo"] : ''; ?>" required>
         
             <label class=" fw-semibold" for="">Contraseña:</label>
-            <input type="password" name="password" class="form-control input-formU" value="<?php echo isset($_POST["password"]) ? $_POST["password"] : ''; ?>" required>    
+            <input type="password" name="Password" class="form-control input-formU" value="<?php echo isset($_POST["Password"]) ? $_POST["Password"] : ''; ?>" required>    
+            
+            <input type="submit" value="Iniciar sesión" class="form-control btn-color fw-bold">
             <div class="d-flex justify-content-between">
                 <a href="forgotPassword" class="text-white h6">olvide mi contraseña</a>
                 <a href="register" class="text-white h6">¿aun no tienes una cuenta?</a>
             </div>
-            <input type="submit" value="Iniciar sesión" class="form-control btn-color fw-bold">
         </div>
     </form>
 </div>

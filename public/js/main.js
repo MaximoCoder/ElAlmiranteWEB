@@ -1,27 +1,81 @@
-//FOR CURRENT PATH
-
-// Espera a que el DOM esté completamente cargado
+// Ejecución cuando el DOM esté completamente cargado
 document.addEventListener('DOMContentLoaded', function () {
-    // Obtener la URL actual sin parámetros de consulta ni fragmentos
-    const currentPath = window.location.pathname;
-    //console.log(currentPath);
+    handleCurrentPath();
+    handleContactForm();
+});
 
-    // Seleccionar todos los enlaces de navegación
+// Function para manejar la navegación activa
+function handleCurrentPath() {
+    const currentPath = window.location.pathname;
     const navLinks = document.querySelectorAll('.navbar a');
 
-    // Recorrer los enlaces y agregar la clase 'active' al que coincida con la ruta actual
     navLinks.forEach(link => {
         const href = link.getAttribute('href');
 
-        // Si el href está contenido en la ruta actual, agregar la clase 'active'
         if (currentPath.includes(href) && href !== '') {
             link.classList.add('active');
         }
 
-        // Manejar caso especial para la raíz del sitio ('/')
+        // Caso especial para la raíz del sitio ('/')
         if (currentPath === '/' && href === '../') {
             link.classList.add('active');
         }
     });
-});
+}
 
+// Function para manejar el loader
+function handleLoader() {
+    window.addEventListener("load", () => {
+        const loaderContainer = document.querySelector(".loader-container");
+
+        loaderContainer.classList.add("loader--hidden");
+
+        loaderContainer.addEventListener("transitionend", () => {
+            document.body.removeChild(loaderContainer);
+        });
+    });
+}
+
+// Function para manejar el envío del formulario de contacto
+function handleContactForm() {
+    const form = document.querySelector(".Contactform");
+    if (!form) return; // Verificar si existe el formulario en la página
+
+    form.addEventListener("submit", async function handleSubmit(event) {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        try {
+            const response = await fetch(event.target.action, {
+                method: event.target.method,
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+
+            if (response.ok) {
+                event.target.reset();
+                Swal.fire({
+                    title: "¡Buen trabajo!",
+                    text: "Tu mensaje ha sido enviado.",
+                    icon: "success"
+                });
+            } else {
+                Swal.fire({
+                    title: "Oops...",
+                    text: "Hubo un problema al enviar tu mensaje. Intenta nuevamente.",
+                    icon: "error"
+                });
+            }
+        } catch (error) {
+            Swal.fire({
+                title: "Oops...",
+                text: "Hubo un problema al enviar tu mensaje. Intenta nuevamente.",
+                icon: "error"
+            });
+        }
+    });
+}
+
+// Ejecuta el loader
+handleLoader();

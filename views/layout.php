@@ -12,14 +12,12 @@ $user = $sessionController->getUser();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project</title>
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="../css/styles.css">
-    <!-- SWIPER JS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <!-- SWEET ALERT -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="../js/sweetalert2.all.min.js"></script>
 </head>
 
 <body>
@@ -50,7 +48,7 @@ $user = $sessionController->getUser();
                     </li>
                     <?php if ($user): ?>
                         <li class="nav-item">
-                            <a class="nav-link"><i class="bi bi-person-circle heading"><?php echo htmlspecialchars($user['full_name']); ?></i></a>
+                            <a class="nav-link"><i class="bi bi-person-circle heading"><?php echo htmlspecialchars($user['Nombre']); ?></i></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="../auth/logout"><i class="bi bi-box-arrow-right"></i></a>
@@ -67,6 +65,10 @@ $user = $sessionController->getUser();
             </div>
         </div>
     </nav>
+    <!-- Loader -->
+    <div class="loader-container">
+        <div class="loader"></div>
+    </div>
 
     <div class="container mt-4">
         <?php echo $contenido; ?>
@@ -184,12 +186,11 @@ $user = $sessionController->getUser();
     <!-- MAIN JS -->
     <script src="../js/main.js"></script>
     <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/bootstrap.bundle.min.js"></script>
 
     <!-- JQUERY -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- SWIPER JS -->
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    
 </body>
 
 </html>
