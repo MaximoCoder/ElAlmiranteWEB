@@ -85,34 +85,40 @@
 }
 
 /* REGISTER FORM */
-.form-control{
+.form-control {
     border: none;
     background-color: #EEEEEE;
 }
-.input-formU{
+
+.input-formU {
     background-color: #fff;
 }
+
 .register-form {
     width: 37%;
     margin: auto;
     padding-top: 30px;
     padding-bottom: 50px;
 }
-.bg-form{
+
+.bg-form {
     background-color: var(--bg-tertiary);
 }
-.btn-color{
+
+.btn-color {
     color: #fff;
     margin-top: 10px;
     background-color: var(--bg-primary);
 }
-.btn-color:hover{
-   background-color: var(--bg-secondary);
+
+.btn-color:hover {
+    background-color: var(--bg-secondary);
 }
 
 /*responsive*/
 
 @media (min-width:768px) and (max-width:991px) {
+
     /* CONTACT FORM */
     .right i {
         top: -52px;
@@ -177,4 +183,60 @@
 */
 footer {
     background-color: var(--bg-primary);
+}
+
+/* 
+LOADER 
+*/
+.loader-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    transition: opacity 0.3s ease-out;
+}
+
+.loader {
+    --height-of-loader: 4px;
+    --loader-color: var(--bg-secondary);
+    width: 250px;
+    height: 20px;
+    border-radius: 30px;
+    background-color: #000000;
+    position: relative;
+}
+
+.loader::before {
+    content: "";
+    position: absolute;
+    background: var(--loader-color);
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 100%;
+    border-radius: 30px;
+    animation: moving 1s ease-in-out infinite;
+}
+
+@keyframes moving {
+    50% {
+        width: 100%;
+    }
+
+    100% {
+        width: 0;
+        right: 0;
+        left: unset;
+    }
+}
+
+.loader-container.loader--hidden {
+    opacity: 0;
+    pointer-events: none;
 }

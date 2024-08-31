@@ -29,13 +29,13 @@ class UserController
         // Lógica para registrar un nuevo usuario
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Obtener datos del formulario
-            $full_name = trim($_POST['full_name']);
-            $email = trim($_POST['email']);
-            $password = $_POST['password'];
-            $confirmPassword = $_POST['confirm_password'];
+            $name = htmlspecialchars(trim($_POST['Nombre']), ENT_QUOTES, 'UTF-8');
+            $email = filter_var(trim($_POST['Correo']), FILTER_SANITIZE_EMAIL);
+            $Password = trim($_POST['Password']);
+            $confirmPassword = trim($_POST['confirm_password']);
 
             // Validar los datos
-            if ($password !== $confirmPassword) {
+            if ($Password !== $confirmPassword) {
                 $error = "Las contraseñas no coinciden.";
             } else {
                 $userModel = new UserModel();
@@ -43,8 +43,8 @@ class UserController
                 if ($userModel->findByEmail($email)) {
                     $error = "El correo ya está en uso.";
                 } else {
-                    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-                    $userCreated = $userModel->createUser($full_name, $email, $hashedPassword);
+                    $hashedPassword = password_hash($Password, PASSWORD_DEFAULT);
+                    $userCreated = $userModel->createUser($name, $email, $hashedPassword);
 
                     if ($userCreated) {
                         header('Location: login');
@@ -72,29 +72,26 @@ class UserController
         // Lógica para iniciar sesión
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Obtener datos del formulario
-            $email = trim($_POST['email']);
-            $password = $_POST['password'];
+            $email = trim($_POST['Correo']);
+            $Password = $_POST['Password'];
 
             $userModel = new UserModel();
             $sessionController = new SessionController();
 
             // Validar los datos
-            $userData = $userModel->findByEmail($email, 'email');
+            $userData = $userModel->findByemail($email, 'Correo');
             if (!$userData) {
                 $error = "El correo que has introducido no existe.";
             } else {
-                if (!password_verify($password, $userData['password'])) {
+                if (!password_verify($Password, $userData['Password'])) {
                     $error = "La contraseña es incorrecta.";
                 } else {
                     // Iniciar sesión
                     $sessionController->startSession();
-                    $_SESSION['user_id'] = $userData['id_user']; // Guardar el ID del usuario en la sesión
+                    $_SESSION['user_id'] = $userData['IdUsuario']; // Guardar el ID del usuario en la sesión
+                    //Redririgir segun el rol PENDIENTE
+                    header('Location: /');
 
-                    if ($userData['is_admin'] == 1) {
-                        header('Location: admin/');
-                    } else {
-                        header('Location: /');
-                    }
                     exit();
                 }
             }
@@ -138,11 +135,11 @@ class UserController
 /*
     public function updatePassword()
     {
-        // Lógica para cambiar la contraseña
+        // Lógica para cambiar la Password
     }
 
     public function forgotPassword()
     {
-        // Lógica para recuperación de contraseña
+        // Lógica para recuperación de Password
     }
 */

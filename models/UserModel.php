@@ -14,28 +14,35 @@ class UserModel
     // FUNCIONES DE REGISTRO
     public function findByEmail($email)
     {
-        $query = "SELECT * FROM users WHERE email = :email";
+        $query = "SELECT * FROM usuario WHERE Correo = :Correo";
         $stmt = $this->db->prepare($query);
-        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':Correo', $email);
         $stmt->execute();
         return $stmt->fetch(); // Devuelve un solo resultado o false si no existe
     }
 
-    public function createUser($full_name, $email, $password)
+    public function createUser($name, $email, $Contraseña)
     {
-        $query = "INSERT INTO users (full_name, email, password, is_admin ,date_joined) VALUES (:full_name, :email, :password, 0, NOW())";
-        $stmt = $this->db->prepare($query);
-        $stmt->bindParam(':full_name', $full_name);
-        $stmt->bindParam(':email', $email);
-        $stmt->bindParam(':password', $password);
+        try {
+            $query = "INSERT INTO usuario (Nombre, Correo, Password, FechaCreacion, Estado) VALUES (:Nombre, :Correo, :Password, NOW(), 0)";
+            $stmt = $this->db->prepare($query);
+            $stmt->bindParam(':Nombre', $name);
+            $stmt->bindParam(':Correo', $email);
+            $stmt->bindParam(':Password', $Contraseña);
 
-        return $stmt->execute(); // Devuelve true en caso de éxito, false en caso contrario
+            $result = $stmt->execute();
+            #error_log("Consulta ejecutada. Resultado: " . ($result ? "Éxito" : "Fallo"));
+            return $result;
+        } catch ( \PDOException $e ) {
+            echo "Error en createUser: " . $e->getMessage();
+            return false;
+        }
     }
 
     // Método para obtener los datos de un usuario
-    public function getUserData($value, $field = 'id_user')
+    public function getUserData($value, $field = 'IdUsuario')
     {
-        $query = "SELECT * FROM users WHERE $field = :value";
+        $query = "SELECT * FROM usuario WHERE $field = :value";
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':value', $value);
         $stmt->execute();
@@ -44,33 +51,32 @@ class UserModel
     }
     // metodo para verificar el password
 
-    public function verifyPassword($userId, $password)
+    public function verifyPassword($userId, $Contraseña)
     {
-        $query = "SELECT password FROM users WHERE id_user = :id";
+        $query = "SELECT Password FROM usuario WHERE IdUsuario = :IdUsuario";
         $stmt = $this->db->prepare($query);
-        $stmt->bindParam(':id', $userId);
+        $stmt->bindParam(':IdUsuario', $userId);
         $stmt->execute();
         $userData = $stmt->fetch();
-        if (password_verify($password, $userData['password'])) {
-            //Mostrar que esta activo al campo is_active
-            $stmt = $this->db->query("UPDATE users SET is_active = 1 WHERE id_user = $userId");
-            $stmt->execute();
+        if (password_verify($Contraseña, $userData['Contraseña'])) {
             return true;
         } else {
             return false;
         }
     }
     // FUNCIONES PARA MOSTRAR ACTIVO O INACTIVO AL USUARIO
-    public function setActive($userId) {
-        $query = "UPDATE users SET is_active = 1 WHERE id_user = :id";
+    public function setActive($userId)
+    {
+        $query = "UPDATE usuario SET Estado = 1 WHERE IdUsuario = :IdUsuario";
         $stmt = $this->db->prepare($query);
-        $stmt->bindParam(':id', $userId);
+        $stmt->bindParam(':IdUsuario', $userId);
         $stmt->execute();
     }
-    public function setInactive($userId) {
-        $query = "UPDATE users SET is_active = 0 WHERE id_user = :id";
+    public function setInactive($userId)
+    {
+        $query = "UPDATE usuario SET Estado = 0 WHERE IdUsuario = :IdUsuario";
         $stmt = $this->db->prepare($query);
-        $stmt->bindParam(':id', $userId);
+        $stmt->bindParam(':IdUsuario', $userId);
         $stmt->execute();
     }
 }
