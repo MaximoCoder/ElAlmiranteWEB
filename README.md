@@ -24,3 +24,4 @@ Este repositorio contiene el código fuente de la página web para **"Mariscos E
 - Juan Antonio Sanchez Arce
 - Maximo Gonzalez Nacianceno
 - Diego Alonso Noriega Bañuelos
+- José Enrique Martinez Ramirez
