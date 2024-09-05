@@ -224,7 +224,7 @@ class UserController
 
             // Verificar si el código es válido
             $userModel = new UserModel();
-            $userData = $userModel->verifyCode($code); // Asumiendo que tienes un método para buscar por código
+            $userData = $userModel->verifyCode($code); 
 
             if (!$userData) {
                 $error = 'El código ingresado es inválido.';
