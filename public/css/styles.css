@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
 /* 
     Colores 
 */
@@ -7,6 +9,9 @@
     --bg-tertiary: #C73659;
     --bg-quaternary: #EEEEEE;
     --text-primary: #ffffff;
+}
+body{
+    font-family: 'Poppins', sans-serif;
 }
 
 /* 
@@ -118,6 +123,9 @@
 /*responsive*/
 
 @media (min-width:768px) and (max-width:991px) {
+    .FishError{
+        width: 50%; 
+    }
 
     /* CONTACT FORM */
     .right i {
@@ -135,6 +143,9 @@
 }
 
 @media (max-width:767px) {
+    .FishError{
+        width: 50%; 
+    }
     /* LOCATION */
 
     .map-location {
@@ -240,3 +251,9 @@ LOADER
     opacity: 0;
     pointer-events: none;
 }
+
+/*ERROR PAGE*/
+.FishError{
+    width: 25%; 
+}
+

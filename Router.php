@@ -37,18 +37,20 @@ class Router
         }
     }
 
-    public function render($view, $datos = []) {
-        // Leer lo que le pasamos  a la vista
+    public function render($view, $datos = [], $layout = 'layout') {
+        // Leer lo que le pasamos a la vista
         foreach ($datos as $key => $value) {
             $$key = $value;  
         }
-
+    
         ob_start(); // Almacenamiento en memoria durante un momento...
-
-        // entonces incluimos la vista en el layout
+    
+        // Incluir la vista
         include_once __DIR__ . "/views/$view.php";
         $contenido = ob_get_clean(); // Limpia el Buffer
-        include_once __DIR__ . '/views/layout.php';
+    
+        // Seleccionar el layout (por defecto 'layout.php')
+        include_once __DIR__ . "/views/{$layout}.php";
     }
 
     private function handleError($code)

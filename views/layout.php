@@ -134,7 +134,7 @@ $user = $sessionController->getUser();
                             class="mb-4 mt-0 d-inline-block mx-auto"
                             style="width: 60px; background-color: #7c4dff; height: 2px" />
                         <p>
-                            <a href="menu" class="text-white">Menu</a>
+                            <a href="../pages/menu" class="text-white">Menu</a>
                         </p>
                     </div>
                     <!-- Grid column -->
@@ -147,10 +147,10 @@ $user = $sessionController->getUser();
                             class="mb-4 mt-0 d-inline-block mx-auto"
                             style="width: 60px; background-color: #7c4dff; height: 2px" />
                         <p>
-                            <a href="auth/login" class="text-white">Tu cuenta</a>
+                            <a href="../auth/login" class="text-white">Tu cuenta</a>
                         </p>
                         <p>
-                            <a href="pages/job" class="text-white">Unete a nuestro equipo</a>
+                            <a href="../pages/jobVacancy" class="text-white">Unete a nuestro equipo</a>
                         </p>
                     </div>
                     <!-- Grid column -->
