@@ -18,8 +18,8 @@
             
             <input type="submit" value="Iniciar sesión" class="form-control btn-color fw-bold">
             <div class="d-flex justify-content-between">
-                <a href="forgotPassword" class="text-white h6">olvide mi contraseña</a>
-                <a href="register" class="text-white h6">¿aun no tienes una cuenta?</a>
+                <a href="forgot-Password" class="text-white fs-6">olvide mi contraseña</a>
+                <a href="register" class="text-white fs-6">¿aun no tienes una cuenta?</a>
             </div>
         </div>
     </form>
