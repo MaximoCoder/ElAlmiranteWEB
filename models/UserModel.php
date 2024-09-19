@@ -55,6 +55,26 @@ class UserModel
         $userData = $stmt->fetch();
         return $userData;
     }
+    // Método para obtener el rol de un usuario
+    public function getUserRole($userId)
+    {
+        try {
+            // Aquí obtendremos el rol del usuario desde las tablas 'asignacion' y 'rol'
+            $query = "SELECT r.NombreRol FROM asignación a 
+                      JOIN rol r ON a.IdRol = r.IdRol 
+                      WHERE a.IdUsuario = :userId";
+
+            $stmt = $this->db->prepare($query);
+            $stmt->bindParam(':userId', $userId);
+            $stmt->execute();
+
+            return $stmt->fetchColumn(); // Devolver solo el nombre del rol
+        } catch (\PDOException $e) {
+            // Manejar el error de la base de datos y devolver null o algún valor predeterminado
+            echo "Error al obtener el rol del usuario: " . $e->getMessage();
+            return null; // O un valor por defecto
+        }
+    }
     // metodo para verificar el password
 
     public function verifyPassword($userId, $Contraseña)
