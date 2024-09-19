@@ -97,9 +97,18 @@ class UserController
                 } else {
                     // Iniciar sesión
                     $sessionController->startSession();
-                    $_SESSION['user_id'] = $userData['IdUsuario']; // Guardar el ID del usuario en la sesión
-                    //Redririgir segun el rol PENDIENTE
-                    header('Location: /');
+                    $_SESSION['user_id'] = $userData['IdUsuario'];
+
+                    // Obtener y guardar el rol del usuario
+                    $userRole = $userModel->getUserRole($userData['IdUsuario']);
+                    $_SESSION['user_role'] = $userRole;
+
+                    // Redirigir según el rol
+                    if ($userRole === 'Admin') {
+                        header('Location: /admin/'); // Ruta para administradores
+                    } else {
+                        header('Location: /'); // Ruta para usuarios regulares
+                    }
 
                     exit();
                 }
@@ -154,7 +163,6 @@ class UserController
             $userVerify = $userModel->findByEmail($correo, 'Correo');
             if (!$userVerify) {
                 $error = 'El correo no existe';
-                return;
             } else {
                 // Guardar el nombre del usuario  
                 $username = $userVerify['Nombre'];
@@ -224,7 +232,7 @@ class UserController
 
             // Verificar si el código es válido
             $userModel = new UserModel();
-            $userData = $userModel->verifyCode($code); 
+            $userData = $userModel->verifyCode($code);
 
             if (!$userData) {
                 $error = 'El código ingresado es inválido.';

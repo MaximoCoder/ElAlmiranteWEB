@@ -48,8 +48,14 @@ $user = $sessionController->getUser();
                     </li>
                     <?php if ($user): ?>
                         <li class="nav-item">
-                            <a class="nav-link"><i class="bi bi-person-circle heading"><?php echo htmlspecialchars($user['Nombre']); ?></i></a>
+                            <a class="nav-link"><i class="bi bi-person-circle heading"><?php echo htmlspecialchars($user['Nombre'] ?? 'Usuario'); ?></i></a>
                         </li>
+                        <!-- Comprobar si el usuario es admin -->
+                        <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'Admin'): ?>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/admin/">Panel Admin</a> <!-- Enlace al inicio de admin -->
+                            </li>
+                        <?php endif; ?>
                         <li class="nav-item">
                             <a class="nav-link" href="../auth/logout"><i class="bi bi-box-arrow-right"></i></a>
                         </li>
@@ -70,7 +76,7 @@ $user = $sessionController->getUser();
         <div class="loader"></div>
     </div>
 
-    <div class="container mt-4">
+    <div>
         <?php echo $contenido; ?>
     </div> <!-- End of container -->
 
@@ -90,19 +96,9 @@ $user = $sessionController->getUser();
                 <a href="https://www.facebook.com/profile.php?id=100049553063567" target="_blank" class="text-white text-decoration-none me-4">
                     <i class="bi bi-facebook"></i>
                 </a>
-                <a href="" class="text-white text-decoration-none me-4" target="_blank">
-                    <i class="bi bi-twitter"></i>
-                </a>
-                <a href="" class="text-white text-decoration-none me-4" target="_blank">
-                    <i class="bi bi-google"></i>
-                </a>
-                <a href="" class="text-white text-decoration-none me-4" target="_blank">
+                <a href="https://www.instagram.com/mariscosalmirante?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" class="text-white text-decoration-none me-4" target="_blank">
                     <i class="bi bi-instagram"></i>
                 </a>
-                <a href="" class="text-white text-decoration-none me-4" target="_blank">
-                    <i class="bi bi-linkedin"></i>
-                </a>
-
             </div>
             <!-- Right -->
         </section>
@@ -190,7 +186,7 @@ $user = $sessionController->getUser();
 
     <!-- JQUERY -->
     <script src="../js/jquery-3.6.0.min.js"></script>
-    
+
 </body>
 
 </html>
