@@ -15,7 +15,7 @@ use Controllers\UserController;
 
 $router = new Router();
 /*                 DEFINIR RUTAS                  */
-$userController = new UserController(); // Aquí se ejecuta el constructor y se imprimen las variables
+$userController = new UserController(); // Aquí se ejecuta el constructor 
 // HOMECONTROLLER
 $router->get('/', [HomeController::class, 'index']);
 // PAGESCONTROLLER

@@ -17,12 +17,11 @@ class SessionController
         if (isset($_SESSION['user_id'])) {
             $userModel = new UserModel();
             $userData = $userModel->getUserData($_SESSION['user_id']); // Obtener datos del usuario
-
+            $userRole = $userModel->getUserRole($_SESSION['user_id']); // Obtener el rol
+            // Asegurarse de que los datos del usuario se cargan correctamente
             if ($userData) {
-                // Guardar los datos del usuario en la sesión
                 $_SESSION['user'] = $userData;
-
-                // Opcional: Puedes agregar una lógica adicional para actualizar el estado de la sesión
+                $_SESSION['user_role'] = $userRole ?: 'User'; // Asignar rol 'User' si no es Admin
                 $userModel->setActive($_SESSION['user_id']);
             } else {
                 // Si no se encontraron datos del usuario, destruir la sesión
