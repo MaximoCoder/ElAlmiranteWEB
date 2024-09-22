@@ -27,21 +27,20 @@ class UserModel
         }
     }
 
-    public function createUser($name, $email, $Contraseña)
+    // Función para crear un nuevo usuario
+    public function create($name, $email, $hashedPassword)
     {
         try {
-            $query = "INSERT INTO usuario (Nombre, Correo, Password, FechaCreacion, Estado) VALUES (:Nombre, :Correo, :Password, NOW(), 0)";
+            $query = "INSERT INTO usuario (Nombre, Correo, Password, FechaCreacion, Estado) 
+                      VALUES (:Nombre, :Correo, :Password, NOW(), 0)";
             $stmt = $this->db->prepare($query);
             $stmt->bindParam(':Nombre', $name);
             $stmt->bindParam(':Correo', $email);
-            $stmt->bindParam(':Password', $Contraseña);
-
-            $result = $stmt->execute();
-            #error_log("Consulta ejecutada. Resultado: " . ($result ? "Éxito" : "Fallo"));
-            return $result;
+            $stmt->bindParam(':Password', $hashedPassword);
+            return $stmt->execute();
         } catch (\PDOException $e) {
-            echo "Error en createUser: " . $e->getMessage();
-            return false;
+            // Manejar el error usando la funcion handleError
+            return $this->handleError($e);
         }
     }
 
@@ -156,5 +155,14 @@ class UserModel
             echo "Error en updatePassword: " . $e->getMessage();
             return false;
         }
+    }
+
+    // Función para manejar errores y devolver respuesta
+    private function handleError($e)
+    {
+        return [
+            'status' => 'error',
+            'message' => $e->getMessage()
+        ];
     }
 }
