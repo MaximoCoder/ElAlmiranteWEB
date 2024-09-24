@@ -21,9 +21,8 @@ class UserModel
             $stmt->execute();
             return $stmt->fetch(\PDO::FETCH_ASSOC); // Devuelve un solo resultado como array asociativo
         } catch (\PDOException $e) {
-            // Manejar el error
-            echo "Error: " . $e->getMessage();
-            return false;
+            // Manejar el error usando la funcion handleError
+            return $this->handleError($e);
         }
     }
 
@@ -47,12 +46,17 @@ class UserModel
     // Método para obtener los datos de un usuario
     public function getUserData($value, $field = 'IdUsuario')
     {
-        $query = "SELECT * FROM usuario WHERE $field = :value";
-        $stmt = $this->db->prepare($query);
-        $stmt->bindParam(':value', $value);
-        $stmt->execute();
-        $userData = $stmt->fetch();
-        return $userData;
+        try{
+            $query = "SELECT * FROM usuario WHERE $field = :value";
+            $stmt = $this->db->prepare($query);
+            $stmt->bindParam(':value', $value);
+            $stmt->execute();
+            $userData = $stmt->fetch();
+            return $userData;
+        }catch (\PDOException $e) {
+            // Manejar el error usando la funcion handleError
+            return $this->handleError($e);
+        }
     }
     // Método para obtener el rol de un usuario
     public function getUserRole($userId)
@@ -137,9 +141,8 @@ class UserModel
             $stmt->execute();
             return $stmt->fetch(\PDO::FETCH_ASSOC); // Devuelve un solo resultado como array asociativo
         } catch (\PDOException $e) {
-            // Manejar el error
-            echo "Error en verifyCode: " . $e->getMessage();
-            return false;
+            // Manejar el error usando la funcion handleError
+            return $this->handleError($e);
         }
     }
     public function changePassword($email, $newPassword)
@@ -152,8 +155,8 @@ class UserModel
             $result = $stmt->execute();
             return $result;
         } catch (\PDOException $e) {
-            echo "Error en updatePassword: " . $e->getMessage();
-            return false;
+            // Manejar el error usando la funcion handleError
+            return $this->handleError($e);
         }
     }
 
