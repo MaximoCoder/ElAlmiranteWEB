@@ -11,6 +11,7 @@ class SessionController
         // Iniciar la sesión si no ha sido iniciada previamente
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
+            session_regenerate_id(); // Regenerar el ID de sesión para prevenir fijación de sesión
         }
 
         // Suponiendo que has guardado el ID de usuario en la sesión al hacer login

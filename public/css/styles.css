@@ -25,6 +25,33 @@ body{
     background-color: var(--bg-secondary);
 }
 
+/* Slider */
+.carousel-control-prev,
+.carousel-control-next {
+    background-color: rgba(0, 0, 0, 0.6);
+    width: 40px;
+    height: 70px;
+    margin: auto;
+}
+/* Menu */
+#menu .nav-pills .nav-link {
+    background-color: #fff;
+    margin-left: 8px;
+    margin-right: 8px;
+    color: #222;
+    border-radius: 100px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+}
+
+#menu .nav-pills .nav-link.active {
+    background-color: var(--bg-secondary);
+    color: #ffffff;
+} 
+
+.menu-item .stars {
+    color: #F58d17;
+}
+
 /* CONTACT FORM */
 .form-area {
     background-color: var(--bg-secondary);

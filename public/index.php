@@ -31,12 +31,13 @@ $router->get('/pages/cart', [CartController::class, 'index']);
 $router->get('/auth/register', function($router) {
     UserController::renderAuthView($router, 'register');
 });
-$router->post('/auth/register', [UserController::class, 'register']); // Routes Register
+$router->post('/auth/register', [UserController::class, 'apiRegister']); // NUEVA RUTA PARA API REST
+//$router->post('/auth/register', [UserController::class, 'register']); // Routes Register
 
 $router->get('/auth/login', function($router) {
     UserController::renderAuthView($router, 'login');
 });
-$router->post('/auth/login', [UserController::class, 'login']); // Routes Login
+$router->post('/auth/login', [UserController::class, 'apiLogin']); // Routes Login
 
 $router->get('/auth/logout', [UserController::class, 'logout']); // Routes Logout
 
@@ -55,7 +56,6 @@ $router->get('/auth/change-Password', function($router) {
     UserController::renderAuthView($router, 'change-Password');
 });
 $router->post('/auth/change-Password', [UserController::class, 'changePassword']); // Routes Change Password
-
 
 
 /* 

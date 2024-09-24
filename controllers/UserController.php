@@ -32,57 +32,57 @@ class UserController
             'error' => $error
         ]);
     }
-    public static function register(Router $router)
+    // Funcion para registrar un nuevo usuario 
+    public static function apiRegister()
     {
-        $error = ''; // Inicializar variable de error
-        // Lógica para registrar un nuevo usuario
+        header('Content-Type: application/json');
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Obtener datos del formulario
-            $name = htmlspecialchars(trim($_POST['Nombre']), ENT_QUOTES, 'UTF-8');
-            $email = filter_var(trim($_POST['Correo']), FILTER_SANITIZE_EMAIL);
-            $Password = trim($_POST['Password']);
-            $confirmPassword = trim($_POST['confirm_password']);
+            $data = json_decode(file_get_contents('php://input'), true);
 
-            // Validar los datos
-            if ($Password !== $confirmPassword) {
-                $error = "Las contraseñas no coinciden.";
-            } else {
-                $userModel = new UserModel();
+            $name = htmlspecialchars(trim($data['Nombre']), ENT_QUOTES, 'UTF-8');
+            $email = filter_var(trim($data['Correo']), FILTER_SANITIZE_EMAIL);
+            $password = trim($data['Password']);
+            $confirmPassword = trim($data['confirm_password']);
 
-                if ($userModel->findByEmail($email)) {
-                    $error = "El correo ya está en uso.";
-                } else {
-                    $hashedPassword = password_hash($Password, PASSWORD_DEFAULT);
-                    $userCreated = $userModel->createUser($name, $email, $hashedPassword);
-
-                    if ($userCreated) {
-                        header('Location: login');
-                        exit();
-                    } else {
-                        $error = "Error al crear la cuenta. Inténtalo de nuevo.";
-                    }
-                }
+            // verificar que el correo no este en uso
+            $userModel = new UserModel();
+            if ($userModel->findByEmail($email)) {
+                echo json_encode(['status' => 'error', 'message' => 'El correo ya está en uso.']);
+                return;
             }
+            // validar que password sea igual a confirmar password
+            if ($password !== $confirmPassword) {
+                echo json_encode(['status' => 'error', 'message' => 'Las contraseñas no coinciden.']);
+                return;
+            }
+            // Hashear la nueva contraseña antes de almacenarla
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+            // Crear el usuario
+            $userCreated = $userModel->create($name, $email, $hashedPassword);
+            // Redirigir a la vista de inicio de sesión o mostrar un error
+            echo json_encode(
+                $userCreated
+                    ? ['status' => 'success', 'message' => 'Usuario registrado correctamente.']
+                    : ['status' => 'error', 'message' => 'Error al crear la cuenta.']
+            );
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Método no permitido.']);
+            return;
         }
-
-        // Mostrar la vista con el mensaje de error
-        $router->render('auth/register', [
-            'error' => $error
-        ]);
     }
 
-
-
-
-    public static function login(Router $router)
+    public static function apiLogin()
     {
-        $error = ''; // Inicializar variable de error
+        header('Content-Type: application/json');
 
         // Lógica para iniciar sesión
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Obtener datos del formulario
-            $email = trim($_POST['Correo']);
-            $Password = $_POST['Password'];
+            // Obtener los datos del formulario 
+            $data = json_decode(file_get_contents('php://input'), true);
+            $email = filter_var(trim($data['Correo']), FILTER_SANITIZE_EMAIL);
+            $Password = trim($data['Password']);
+
 
             $userModel = new UserModel();
             $sessionController = new SessionController();
@@ -90,10 +90,12 @@ class UserController
             // Validar los datos
             $userData = $userModel->findByemail($email, 'Correo');
             if (!$userData) {
-                $error = "El correo que has introducido no existe.";
+                echo json_encode(['status' => 'error', 'message' => 'El correo que has introducido no existe.']);
+                return;
             } else {
                 if (!password_verify($Password, $userData['Password'])) {
-                    $error = "La contraseña es incorrecta.";
+                    echo json_encode(['status' => 'error', 'message' => 'La contraseña es incorrecta.']);
+                    return;
                 } else {
                     // Iniciar sesión
                     $sessionController->startSession();
@@ -105,20 +107,17 @@ class UserController
 
                     // Redirigir según el rol
                     if ($userRole === 'Admin') {
-                        header('Location: /admin/'); // Ruta para administradores
+                        //enviar el rol
+                        echo json_encode(['status' => 'success', 'rol' => 'Admin']);
                     } else {
-                        header('Location: /'); // Ruta para usuarios regulares
+                        //enviar el rol
+                        echo json_encode(['status' => 'success', 'rol' => 'User']);
                     }
 
                     exit();
                 }
             }
         }
-
-        // Renderizar la vista con el mensaje de error
-        $router->render('auth/login', [
-            'error' => $error
-        ]);
     }
 
     public static function logout()
@@ -149,20 +148,24 @@ class UserController
             echo "La sesión no está activa o el usuario no está conectado.";
         }
     }
-    public static function sendMailCode(Router $router)
+    public static function sendMailCode()
     {
+        header('Content-Type: application/json');
+        // Datos para enviar el correo
         $mailUser = $_ENV['MAIL_USERNAME'] ?? null;
         $mailPass = $_ENV['MAIL_PASSWORD'] ?? null;
         #echo "Mail: " . $MailUser . " Pass: " . $MailPass;
-        $error = ''; // Inicializar variable de error
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $correo = $_POST['Correo'];
+            // Obtener los datos del formulario 
+            $data = json_decode(file_get_contents('php://input'), true);
+            $correo = filter_var(trim($data['Correo']), FILTER_SANITIZE_EMAIL);
 
             // Validar que el correo exista en la base de datos
             $userModel = new UserModel();
             $userVerify = $userModel->findByEmail($correo, 'Correo');
             if (!$userVerify) {
-                $error = 'El correo no existe';
+                echo json_encode(['status' => 'error', 'message' => 'El correo no existe.']);
+                return;
             } else {
                 // Guardar el nombre del usuario  
                 $username = $userVerify['Nombre'];
@@ -204,72 +207,71 @@ class UserController
 
                         // Enviar el correo
                         $mail->send();
-
-                        //Redireccionar a changePassword
-                        header('Location: verify-Code');
+                        // Redireccionar a la pagina que sigue y mostrar un mensaje de exito
+                        echo json_encode(['status' => 'success', 'message' => 'El correo ha sido enviado.']);
                     } catch (Exception $e) {
-                        $error =  "Error al enviar el correo: {$mail->ErrorInfo}";
+                        // En caso de error, mostrar un mensaje de error
+                        echo json_encode(['status' => 'error', 'message' => 'Error al enviar el correo:' . $mail->ErrorInfo]);
+                        return;
                     }
                 } else {
-                    $error = 'Error al guardar el código en la base de datos';
+                    // Error al generar y guardar el codigo en la db
+                    echo json_encode(['status' => 'error', 'message' => 'Lo sentimos, ha ocurrido un error. Por favor, intenta de nuevo.']);
+                    return;
                 }
             }
         }
-
-        // Mostrar la vista con el mensaje de error
-        $router->render('auth/forgot-Password', [
-            'error' => $error
-        ]);
     }
     // Lógica para cambiar la Password
-    public static function verifyCode(Router $router)
+    public static function verifyCode()
     {
-        $error = ''; // Inicializar variable de error
+        header('Content-Type: application/json');
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Obtener los datos del formulario 
+            $data = json_decode(file_get_contents('php://input'), true);
             // Obtener el código ingresado
-            $code = htmlspecialchars(trim($_POST['Code']), ENT_QUOTES, 'UTF-8');
+            $code = htmlspecialchars(trim($data['Code']), ENT_QUOTES, 'UTF-8');
 
             // Verificar si el código es válido
             $userModel = new UserModel();
             $userData = $userModel->verifyCode($code);
 
             if (!$userData) {
-                $error = 'El código ingresado es inválido.';
+                echo json_encode(['status' => 'error', 'message' => 'El codigo ingresado es invalido.']);
+                return;
             } else {
                 session_start();
                 $_SESSION['user_email'] = $userData['Correo'];
 
-                // Redirigir a la vista de cambiar la Password
-                header('Location: change-Password');
+                // Redireccionar a la pagina que sigue y mostrar un mensaje de exito
+                echo json_encode(['status' => 'success', 'message' => 'El codigo es valido.']);
                 exit();
             }
         }
-
-        // Renderizar la vista con el mensaje de error
-        $router->render('auth/verify-Code', [
-            'error' => $error
-        ]);
     }
 
-    public static function changePassword(Router $router)
+    public static function changePassword()
     {
         session_start(); // Iniciar la sesión
-        $error = ''; // Inicializar variable de error
+        header('Content-Type: application/json');
 
         if (!isset($_SESSION['user_email'])) {
             // Si no hay un correo en la sesión, redirigir a la página de login o mostrar un error
-            header('Location: login');
+            echo json_encode(['status' => 'error', 'message' => 'Lo sentimos, ocurrio un error.']);
             exit();
         } else {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                $newPassword = htmlspecialchars(trim($_POST['newPassword']), ENT_QUOTES, 'UTF-8');
-                $confirmPassword = htmlspecialchars(trim($_POST['confirmPassword']), ENT_QUOTES, 'UTF-8');
+                // Obtener los datos del formulario 
+                $data = json_decode(file_get_contents('php://input'), true);
+                $newPassword = htmlspecialchars(trim($data['newPassword']), ENT_QUOTES, 'UTF-8');
+                $confirmPassword = htmlspecialchars(trim($data['confirmPassword']), ENT_QUOTES, 'UTF-8');
                 $userEmail = $_SESSION['user_email'];  // Obtener el correo del usuario de la sesión
 
                 // validar que new password sea igual a confirmar password
                 if ($newPassword !== $confirmPassword) {
-                    $error = 'Las contraseñas no coinciden.';
+                    echo json_encode(['status' => 'error', 'message' => 'Las contraseñas no coinciden.']);
+                    return;
                 } else {
                     // Hashear la nueva contraseña antes de almacenarla
                     $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
@@ -278,18 +280,15 @@ class UserController
                     if ($userModel->changePassword($userEmail, $hashedPassword)) {
                         // Eliminar el correo de la sesión después de cambiar la contraseña
                         unset($_SESSION['user_email']);
-                        header('Location: login');
+                        // Redirigir a la página de login o mostrar un mensaje de exito
+                        echo json_encode(['status' => 'success', 'message' => 'La contraseña ha sido cambiada.']);
                         exit();
                     } else {
-                        $error = 'Error al intentar cambiar la contraseña.';
+                        echo json_encode(['status' => 'error', 'message' => 'Error al intentar cambiar la contraseña.']);
+                        return;
                     }
                 }
             }
         }
-
-        // Renderizar la vista con el mensaje de error  
-        $router->render('auth/change-Password', [
-            'error' => $error
-        ]);
     }
 }
