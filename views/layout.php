@@ -21,16 +21,16 @@ $user = $sessionController->getUser();
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container-fluid d-flex justify-content-between align-items-center">
+    <nav class="navbar sticky-top navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
             <a class="navbar-brand" href="../">
-                <img class="img-fluid w-25 h-25" src="../images/almiranteNOBG.png" alt="LOGO">
+                <img class="img-fluid" src="../images/almiranteNOBG.png" alt="LOGO" style="width: 100px;">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-                <ul class="navbar-nav text-uppercase font-weight-bold">
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav text-uppercase font-weight-bold fs-5">
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="../">Inicio</a>
                     </li>
@@ -50,10 +50,9 @@ $user = $sessionController->getUser();
                         <li class="nav-item">
                             <a class="nav-link"><i class="bi bi-person-circle heading"><?php echo htmlspecialchars($user['Nombre'] ?? 'Usuario'); ?></i></a>
                         </li>
-                        <!-- Comprobar si el usuario es admin -->
                         <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'Admin'): ?>
                             <li class="nav-item">
-                                <a class="nav-link" href="/admin/">Panel Admin</a> <!-- Enlace al inicio de admin -->
+                                <a class="nav-link" href="/admin/">Admin</a>
                             </li>
                         <?php endif; ?>
                         <li class="nav-item">

@@ -12,18 +12,30 @@ function handleCurrentPath() {
     const navLinks = document.querySelectorAll('.navbar a');
 
     navLinks.forEach(link => {
-        const href = link.getAttribute('href');
+        try {
+            // Valida si el link.href es válido antes de construir el objeto URL
+            const href = new URL(link.href).pathname; // Normaliza el href a un pathname completo
 
-        if (currentPath.includes(href) && href !== '') {
-            link.classList.add('active');
-        }
+            // Elimina la clase 'active' de todos los enlaces
+            link.classList.remove('active');
 
-        // Caso especial para la raíz del sitio ('/')
-        if (currentPath === '/' && href === '../') {
-            link.classList.add('active');
+            // Compara el href con el currentPath
+            if (currentPath === href || (currentPath.startsWith(href) && href !== '/')) {
+                link.classList.add('active');
+            }
+
+            // Caso especial para la raíz de la página web ('/')
+            if (currentPath === '/' && href === '/') {
+                link.classList.add('active');
+            }
+
+        } catch (error) {
+            // Manejar el caso de una URL inválida
+            console.error(`URL inválida en el enlace: ${link.href}`, error);
         }
     });
 }
+
 
 // Function para manejar el loader
 function handleLoader() {
