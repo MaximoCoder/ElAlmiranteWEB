@@ -165,8 +165,8 @@ function handleLoginForm() {
                     loginForm.reset();
                     //Redirigir segun el rol
                     //console.log(response.rol);
-                    if (response.rol === 'Admin') {
-                        window.location.href = '../admin';
+                    if (response.rol === 'admin') {
+                        window.location.href = '/admin';
                     } else if (response.rol === 'User') {
                         window.location.href = '../';
                     }

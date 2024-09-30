@@ -11,18 +11,21 @@ class SessionController
         // Iniciar la sesión si no ha sido iniciada previamente
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
-            session_regenerate_id(); // Regenerar el ID de sesión para prevenir fijación de sesión
         }
 
-        // Suponiendo que has guardado el ID de usuario en la sesión al hacer login
+        // Verificar si el ID de usuario está guardado en la sesión
         if (isset($_SESSION['user_id'])) {
+            // Crear una instancia del modelo de usuario
             $userModel = new UserModel();
-            $userData = $userModel->getUserData($_SESSION['user_id']); // Obtener datos del usuario
-            $userRole = $userModel->getUserRole($_SESSION['user_id']); // Obtener el rol
-            // Asegurarse de que los datos del usuario se cargan correctamente
+
+            // Obtener los datos del usuario basado en el ID guardado en la sesión
+            $userData = $userModel->getUserData($_SESSION['user_id']);
+
             if ($userData) {
+                // Guardar los datos del usuario en la sesión
                 $_SESSION['user'] = $userData;
-                $_SESSION['user_role'] = $userRole ?: 'User'; // Asignar rol 'User' si no es Admin
+
+                // Opcional: Puedes agregar una lógica adicional para actualizar el estado de la sesión
                 $userModel->setActive($_SESSION['user_id']);
             } else {
                 // Si no se encontraron datos del usuario, destruir la sesión
@@ -30,6 +33,7 @@ class SessionController
             }
         }
     }
+
 
     public function getUser()
     {
@@ -50,4 +54,5 @@ class SessionController
         // Verificar si la sesión está activa
         return isset($_SESSION['user_id']);
     }
+    
 }

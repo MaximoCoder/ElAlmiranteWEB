@@ -5,7 +5,9 @@ namespace Controllers;
 require __DIR__ . '/../vendor/autoload.php';
 
 use Model\UserModel;
+use Model\RolModel;
 use Controllers\SessionController;
+use Controllers\AdminController;
 use MVC\Router;
 // PARA ENVIO DE CORREOS
 use PHPMailer\PHPMailer\PHPMailer;
@@ -75,20 +77,19 @@ class UserController
     public static function apiLogin()
     {
         header('Content-Type: application/json');
-
+    
         // Lógica para iniciar sesión
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Obtener los datos del formulario 
             $data = json_decode(file_get_contents('php://input'), true);
             $email = filter_var(trim($data['Correo']), FILTER_SANITIZE_EMAIL);
             $Password = trim($data['Password']);
-
-
+    
             $userModel = new UserModel();
             $sessionController = new SessionController();
-
+    
             // Validar los datos
-            $userData = $userModel->findByemail($email, 'Correo');
+            $userData = $userModel->findByEmail($email, 'Correo');
             if (!$userData) {
                 echo json_encode(['status' => 'error', 'message' => 'El correo que has introducido no existe.']);
                 return;
@@ -100,25 +101,27 @@ class UserController
                     // Iniciar sesión
                     $sessionController->startSession();
                     $_SESSION['user_id'] = $userData['IdUsuario'];
-
+    
                     // Obtener y guardar el rol del usuario
                     $userRole = $userModel->getUserRole($userData['IdUsuario']);
                     $_SESSION['user_role'] = $userRole;
-
+    
                     // Redirigir según el rol
-                    if ($userRole === 'Admin') {
-                        //enviar el rol
-                        echo json_encode(['status' => 'success', 'rol' => 'Admin']);
+                    if ($userRole === 'admin') {
+                        // Redireccionar a dashboard de admin
+                        header('Location: /admin');
+                        exit();
                     } else {
-                        //enviar el rol
+                        // Enviar respuesta para usuarios regulares
                         echo json_encode(['status' => 'success', 'rol' => 'User']);
                     }
-
+    
                     exit();
                 }
             }
         }
     }
+    
 
     public static function logout()
     {
@@ -250,7 +253,24 @@ class UserController
             }
         }
     }
-
+ 
+    public function dashboard(Router $router) {
+        $sessionController = new \Controllers\SessionController();
+        $sessionController->startSession();
+        $user = $sessionController->getUser();
+    
+        if ($user && $user['rol'] === 'admin') {
+            $router->render('admin/dashboard', [
+                'layout' => 'layoutadmin',
+                'contenido' => 'contenido del panel de administración'
+            ]);
+        } else {
+            $router->render('pages/error404', [
+                'layout' => 'layout',
+                'contenido' => 'Error 404: Página no encontrada'
+            ]);
+        }
+    }   
     public static function changePassword()
     {
         session_start(); // Iniciar la sesión
@@ -291,4 +311,24 @@ class UserController
             }
         }
     }
-}
+        public function isAdmin($userId) {
+            // Lógica para verificar si el usuario es admin
+            $db = connectDB();
+            $stmt = $db->prepare("SELECT IdAdmin FROM admin WHERE IdUsuario = ?");
+            $stmt->execute([$userId]);
+            return $stmt->fetch() !== false; // Si encuentra un resultado, el usuario es admin
+        }
+    
+        // Método para redirigir al dashboard correspondiente
+        public function redirectToDashboard($router, $user) {
+            if ($user->role === 'admin') {
+                // Redirigir al dashboard de admin con layoutAdmin
+                $router->render('admin/dashboard', ['user' => $user], 'layoutAdmin');
+            } else {
+                // Redirigir al dashboard de usuario estándar
+                $router->render('dashboard', ['user' => $user], 'layout');
+            }
+        }
+    }
+
+

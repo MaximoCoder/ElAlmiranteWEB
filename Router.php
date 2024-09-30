@@ -84,14 +84,15 @@ class Router
     // Método para renderizar vistas, útil en peticiones que no son API
     public function render($view, $datos = [], $layout = 'layout')
     {
-        // Si el API responde en JSON
+        // Si se solicita una respuesta JSON
         if (isset($datos['json'])) {
+            // Asegurarse de que se detenga cualquier otro proceso posterior
             header('Content-Type: application/json');
             echo json_encode($datos['json']);
-            return;
+            exit; // Detener cualquier otro código para evitar enviar HTML adicional
         }
-
-        // Manejo tradicional de vistas 
+    
+        // Si no es JSON, continuar con el manejo tradicional de vistas
         foreach ($datos as $key => $value) {
             $$key = $value;
         }
@@ -100,6 +101,7 @@ class Router
         $contenido = ob_get_clean();
         include_once __DIR__ . "/views/{$layout}.php";
     }
+    
 
 
     private function handleError($code, $layout = 'layout')
