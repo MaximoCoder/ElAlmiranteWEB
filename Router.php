@@ -46,6 +46,13 @@ class Router
         $method = $_SERVER['REQUEST_METHOD'];
         $function = null;
 
+        // Establecer el layout predeterminado
+        $layout = 'layout'; // Layout por defecto
+
+        // En las rutas de admin, utiliza el layoutAdmin
+        if (strpos($currentUrl, '/admin') === 0) {
+            $layout = 'layoutAdmin';
+        }
         try {
             switch ($method) {
                 case 'GET':
@@ -64,7 +71,7 @@ class Router
                     $function = $this->routesDELETE[$currentUrl] ?? null;
                     break;
                 default:
-                    $this->handleError(405); // Método no permitido
+                    $this->handleError(405, $layout); // Método no permitido
                     return;
             }
 
@@ -73,11 +80,11 @@ class Router
                 call_user_func($function, $this);
             } else {
                 // URL no encontrada (404)
-                $this->handleError(404);
+                $this->handleError(404, $layout);
             }
         } catch (\Exception $e) {
             // Manejo de errores generales (500)
-            $this->handleError(500);
+            $this->handleError(500, $layout);
         }
     }
 
@@ -115,10 +122,14 @@ class Router
 
         $errorTitle = $errorMessages[$code] ?? 'Error desconocido';
 
+        // URL PARA VOLVER AL INICIO SEGUN EL LAYOUT
+        $url = $layout === 'layoutAdmin' ? '/admin/dashboard' : '/';
+
         // Renderiza la vista de error usando el layout proporcionado
         $this->render('templates_errors/error', [
             'errorCode' => $code,
-            'errorTitle' => $errorTitle
+            'errorTitle' => $errorTitle,
+            'url' => $url
         ], $layout); // Pasamos el layout para que maneje ambos layouts ,d
     }
 }

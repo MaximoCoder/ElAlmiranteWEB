@@ -16,6 +16,8 @@ $user = $sessionController->getUser();
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/error.css">
+
     <!-- SWEET ALERT -->
     <script src="../js/sweetalert2.all.min.js"></script>
 </head>
@@ -52,7 +54,7 @@ $user = $sessionController->getUser();
                         </li>
                         <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'Admin'): ?>
                             <li class="nav-item">
-                                <a class="nav-link" href="/admin/">Admin</a>
+                                <a class="nav-link" href="/admin/dashboard">Admin</a>
                             </li>
                         <?php endif; ?>
                         <li class="nav-item">

@@ -5,17 +5,12 @@ use MVC\Router;
 
 class AdminController
 {
-    public static function renderAuthView(Router $router, $viewName, $layout)
+    // Renderiza las vistas de ADMIN
+    public static function renderAdminView(Router $router, $viewName, $layout, $data = [])
     {
-        $error = ''; // Inicializar variable de error
-        $router->render('admin/' . $viewName, [
-            'error' => $error
-        ], $layout); // Pasamos el layout
+        // Renderizamos la vista pasando solo los datos que sean necesarios
+        $router->render('admin/' . $viewName, $data, $layout); 
     }
-    public function dashboard()
-    {
-        // Aquí podrías definir la lógica para mostrar la vista del dashboard
-        echo "Bienvenido al Dashboard de Admin";
-    }
+    
 }
 

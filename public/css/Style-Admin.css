@@ -112,41 +112,6 @@ img {
 }
 
 
-/* Estilos para las tarjetas más pequeñas */
-.card {
-  position: relative;
-  width: 100%;
-  max-width: 300px;
-  background-color: white;
-  border-radius: 15px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-  transition: transform 0.5s ease, box-shadow 0.5s ease;
-  transform: translateZ(-50px) scale(0.95); /* Vista inicial desde lejos */
-  perspective: 1000px;
-  cursor: pointer;
-  padding: 10px;
-}
-
-.card:hover {
-  transform: translateZ(0px) scale(1); /* Acercar y hacerla de tamaño normal */
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-}
-
-.card-header {
-  font-size: 1.2em;
-  font-weight: bold;
-  text-align: center;
-  margin-bottom: 10px;
-}
-
-.card-body {
-  text-align: center;
-}
-
-.card-body p {
-  font-size: 0.9em;
-}
-
 .btn-custom {
   background-color: red;
   color: white;
@@ -162,32 +127,6 @@ img {
   background-color: red;
 }
 
-/* Para que se vean 3 tarjetas por fila */
-.card {
-  flex: 1 1 calc(33.333% - 40px); /* 3 columnas menos el espacio del gap */
-  margin: 10px;
-}
-
-/* Ajuste para pantallas pequeñas */
-@media (max-width: 992px) {
-  .card {
-      flex: 1 1 calc(50% - 40px); /* 2 columnas en pantallas medianas */
-  }
-}
-
-@media (max-width: 768px) {
-  .card {
-      flex: 1 1 100%; /* 1 columna en pantallas pequeñas */
-  }
-}
-.nueva-clase {
-  background-color: white;
-  border: 2px solid black;
-  border-radius: 5px;
-  padding: 10px;
-  width: 100%;
-  margin: 10px 0;
-} 
 
 .container-fluid {
   margin-top: 0;
@@ -232,3 +171,14 @@ img {
     }
 
 
+/* CARD ADD PRODUCT */ 
+.card-add-product {
+  padding: 0 110px;
+  box-shadow: 0 4px 15px rgb(0 0 0 / 20%);
+}
+
+/*FORM CONTROL */
+.form-control {
+  border: none;
+  background-color: #EEEEEE;
+}

@@ -1,20 +1,7 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Administrar Categorías</title>
-    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../css/bootstrap.min_.css">
-    <link rel="stylesheet" href="../css/Style-Admin.css">
-</head>
-<body>
 <div class="container">
     <form class="form-group register-form" action="/categorias/agregar" method="POST">
-        <div class="mb-3 bg-form text-white p-5 rounded" style="margin-top: 50px;">
-            <h2 class="text-center">Agregar Categoría</h2>
+        <div class="mb-3 bg-form  p-5 rounded">
+            <h2 class="text-center text-black">Agregar Categoría</h2>
             <?php if (!empty($error)): ?>
                 <div class="alert alert-danger">
                     <?= htmlspecialchars($error); ?>
@@ -83,9 +70,3 @@ function eliminarCategoria(id) {
     }
 }
 </script>
-<script src="../js/mainAdmin.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
-
-</body>
-</html>
