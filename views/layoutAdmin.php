@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -64,7 +64,14 @@
       <li><a href="../admin/Gestion_Usuarios"><span class="fa fa-users mr-3"></span> Gestión de Usuarios</a></li>
       <li><a href="../admin/Pedidos"><span class="fa fa-list-alt mr-3"></span> Pedidos</a></li>
       <li><a href="../admin/Config"><span class="fa fa-cog mr-3"></span> Configuración de Página</a></li>
+      <div
+            class="text-center p-3 text-white"
+            style="background-color: rgba(0, 0, 0, 0.2)">
+            © 2024 Copyright:
+            <a class="text-white" href="https://www.facebook.com/profile.php?id=100049553063567" target="_blank">Mariscos El Almirante</a>
+    </div>
     </ul>
+    
   </nav>
 
   <div class="main-content">
