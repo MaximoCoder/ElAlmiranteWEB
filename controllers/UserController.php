@@ -27,7 +27,7 @@ class UserController
     // Método genérico para renderizar cualquier vista de autenticación
     public static function renderAuthView(Router $router, $viewName)
     {
-        $error = ''; // Inicializar variable de error
+        $error = ''; // Inicializar variable de error,d
         $router->render('auth/' . $viewName, [
             'error' => $error
         ]);

@@ -11,6 +11,7 @@ use Controllers\PagesController;
 use Controllers\MenuController;
 use Controllers\JobController;
 use Controllers\CartController;
+use Controllers\TestController;
 use Controllers\UserController;
 
 $router = new Router();
@@ -57,6 +58,11 @@ $router->get('/auth/change-Password', function($router) {
 });
 $router->post('/auth/change-Password', [UserController::class, 'changePassword']); // Routes Change Password
 
+
+//TEST
+$router->get('/admin/dashboard', function($router) {
+    TestController::renderAuthView($router, 'dashboard', 'layoutAdmin');
+});
 
 /* 
 USAR LAYOUT ADMINISTRATIVO

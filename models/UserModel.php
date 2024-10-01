@@ -141,7 +141,7 @@ class UserModel
             $stmt->execute();
             return $stmt->fetch(\PDO::FETCH_ASSOC); // Devuelve un solo resultado como array asociativo
         } catch (\PDOException $e) {
-            // Manejar el error usando la funcion handleError
+            // Manejar el error usando la funcion handleError,d
             return $this->handleError($e);
         }
     }

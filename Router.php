@@ -119,6 +119,6 @@ class Router
         $this->render('templates_errors/error', [
             'errorCode' => $code,
             'errorTitle' => $errorTitle
-        ], $layout); // Pasamos el layout para que maneje ambos layouts
+        ], $layout); // Pasamos el layout para que maneje ambos layouts ,d
     }
 }

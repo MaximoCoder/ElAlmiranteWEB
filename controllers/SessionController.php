@@ -14,7 +14,7 @@ class SessionController
             session_regenerate_id(); // Regenerar el ID de sesión para prevenir fijación de sesión
         }
 
-        // Suponiendo que has guardado el ID de usuario en la sesión al hacer login
+        // Suponiendo que has guardado el ID de usuario en la sesión al hacer login,d
         if (isset($_SESSION['user_id'])) {
             $userModel = new UserModel();
             $userData = $userModel->getUserData($_SESSION['user_id']); // Obtener datos del usuario

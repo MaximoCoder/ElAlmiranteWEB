@@ -14,7 +14,7 @@ function handleCurrentPath() {
     navLinks.forEach(link => {
         try {
             // Valida si el link.href es válido antes de construir el objeto URL
-            const href = new URL(link.href).pathname; // Normaliza el href a un pathname completo
+            const href = new URL(link.href).pathname; // Normaliza el href a un pathname completo,d
 
             // Elimina la clase 'active' de todos los enlaces
             link.classList.remove('active');
@@ -166,7 +166,7 @@ function handleLoginForm() {
                     //Redirigir segun el rol
                     //console.log(response.rol);
                     if (response.rol === 'Admin') {
-                        window.location.href = '../admin';
+                        window.location.href = '../admin/dashboard';
                     } else if (response.rol === 'User') {
                         window.location.href = '../';
                     }
