@@ -1,37 +1,49 @@
-(function($) {
+// AQUI IRAN FUNCIONES PRINCIPALES DE ADMINISTRADOR COMO: Agregar platillos, agregar categorias, etc.
 
-	"use strict";
+// Function para manejar el registro de un platillo jQuery/Ajax
+function addPlatilloForm() {
+    const platilloForm = document.getElementById("platillo-form");
+    if (!platilloForm) return; // Verificar si existe el formulario de registro en la página
 
-	var fullHeight = function() {
+    platilloForm.addEventListener("submit", function (event) {
+        event.preventDefault();
 
-		$('.js-fullheight').css('height', $(window).height());
-		$(window).resize(function(){
-			$('.js-fullheight').css('height', $(window).height());
-		});
-
-	};
-	fullHeight();
-
-	$('#sidebarCollapse').on('click', function () {
-      $('#sidebar').toggleClass('active');
-  });
-
-})(jQuery);
-
-$(document).ready(function () {
-    $('#sidebarCollapse').on('click', function () {
-        $('#sidebar').toggleClass('collapsed');
+        // Crear FormData para enviar los datos del formulario y la imagen
+        const formData = new FormData(platilloForm);
+        $.ajax({
+            url: '/admin/Agregar_Productos',
+            method: 'POST',
+            processData: false,
+            contentType: false,
+            data: formData, // Usamos formData en lugar de JSON
+            success: function (response) {
+                if (response.status === 'success') {
+                    platilloForm.reset();
+                    previewImagen.src = "";
+                    previewImagen.style.display = 'none';
+                    eliminarImagenBtn.style.display = 'none';
+                    Swal.fire({
+                        title: "Éxito",
+                        text: response.message,
+                        icon: "success"
+                    });
+                } else {
+                    // Muestra el mensaje de error que proviene del servidor
+                    Swal.fire({
+                        title: "Oops...",
+                        text: response.message || "Hubo un problema al agregar el platillo.",
+                        icon: "error"
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log("Respuesta completa del servidor: ", xhr.responseText); // Mostrar la respuesta en la consola
+                Swal.fire({
+                    title: "Oops...",
+                    text: "Error en la solicitud: " + error,
+                    icon: "error"
+                });
+            }
+        });
     });
-});
-
-
-document.getElementById('imageUpload').addEventListener('change', function(event) {
-    const file = event.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            document.getElementById('previewImage').src = e.target.result;
-        }
-        reader.readAsDataURL(file);
-    }
-});
+}

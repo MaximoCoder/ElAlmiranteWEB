@@ -212,10 +212,6 @@ LOADER
     pointer-events: none;
 }
 
-/*ERROR PAGE*/
-.FishError {
-    width: 25%;
-}
 
 /* CART PAGE */
 .card-Cart {
@@ -340,10 +336,7 @@ input[type='radio']:checked{
 /*responsive*/
 
 @media (min-width:768px) and (max-width:991px) {
-    .FishError {
-        width: 50%;
-    }
-
+    
     /* CONTACT FORM */
     .right i {
         top: -52px;
@@ -360,9 +353,7 @@ input[type='radio']:checked{
 }
 
 @media (max-width:767px) {
-    .FishError {
-        width: 50%;
-    }
+
 
     /* LOCATION */
 
