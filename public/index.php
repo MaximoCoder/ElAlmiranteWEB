@@ -11,6 +11,7 @@ use Controllers\PagesController;
 use Controllers\MenuController;
 use Controllers\JobController;
 use Controllers\CartController;
+use Controllers\TestController;
 use Controllers\UserController;
 use Controllers\AdminController;
 use Controllers\CategoriasController;
@@ -65,11 +66,17 @@ $router->get('/auth/change-Password', function($router) {
 });
 $router->post('/auth/change-Password', [UserController::class, 'changePassword']); // Routes Change Password
 
-/*USAR LAYOUT ADMINISTRATIVO*/
-$router->get('/admin/dashboard', function(Router $router) {
-    $adminController = new \Controllers\AdminController();
-    return $adminController->dashboard();
+//TEST
+$router->get('/admin/dashboard', function($router) {
+    TestController::renderAuthView($router, 'dashboard', 'layoutAdmin');
 });
+
+/* 
+USAR LAYOUT ADMINISTRATIVO
+$router->get('/admin/dashboard', function($router) {
+    $router->render('admin/dashboard', [], 'layoutAdmin'); // Usa layoutAdmin para el dashboard
+=======
+*/
 
 // ---------------- Controles de Administrador ----------------
 // Control Dashboard
@@ -145,14 +152,7 @@ $router->get('/admin/Editar_Productos', function($router) {
 $router->get('/admin/Ventas', function($router) {
     VentasController::renderAdminView($router, 'Ventas');
 });
-// Control Reportes
-$router->get('/admin/Reportes', function($router) {
-    ReportesController::renderAdminView($router, 'Reportes');
-});
-// Control Gestion de Usuarios
-$router->get('/admin/Gestion_Usuarios', function($router) {
-    GestionUsuariosController::renderAdminView($router, 'Gestion_Usuarios');
-});
+
 // Control Pedidos
 $router->get('/admin/Pedidos', function($router) {
     PedidosController::renderAdminView($router, 'Pedidos');
