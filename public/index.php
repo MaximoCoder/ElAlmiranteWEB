@@ -17,8 +17,6 @@ use Controllers\CategoriasController;
 use Controllers\AgregarProductosController;
 use Controllers\EditarProductosController;
 use Controllers\VentasController;
-use Controllers\ReportesController;
-use Controllers\GestionUsuariosController;
 use Controllers\PedidosController;
 use Controllers\ConfiguracionAdminController;
 
@@ -96,6 +94,7 @@ $router->get('/admin/Agregar_Productos', function($router) {
 });
 // Control para agregar productos
 $router->post('/productos/agregar', function() {
+    // ESTO NO VA AQUI.
     $nombrePlatillo = $_POST['nombrePlatillo'];
     $descripcionPlatillo = $_POST['descripcionPlatillo'];
     $precioPlatillo = $_POST['precioPlatillo'];
