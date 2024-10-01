@@ -1,5 +1,0 @@
-cd public
-php -S localhost:3000
-
-admin@example.com
-$2y$10$3fwYfPDrqB/fASqnpqofIOQFyvQ/m.9QmyytELlKB9Sx4VIoqP9oa
