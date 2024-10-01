@@ -13,8 +13,16 @@ use Controllers\JobController;
 use Controllers\CartController;
 use Controllers\TestController;
 use Controllers\UserController;
+use Controllers\AdminController;
+use Controllers\CategoriasController;
+use Controllers\AgregarProductosController;
+use Controllers\EditarProductosController;
+use Controllers\VentasController;
+use Controllers\PedidosController;
+use Controllers\ConfiguracionAdminController;
 
 $router = new Router();
+
 /*                 DEFINIR RUTAS                  */
 $userController = new UserController(); // Aquí se ejecuta el constructor 
 // HOMECONTROLLER
@@ -58,7 +66,6 @@ $router->get('/auth/change-Password', function($router) {
 });
 $router->post('/auth/change-Password', [UserController::class, 'changePassword']); // Routes Change Password
 
-
 //TEST
 $router->get('/admin/dashboard', function($router) {
     TestController::renderAuthView($router, 'dashboard', 'layoutAdmin');
@@ -68,7 +75,92 @@ $router->get('/admin/dashboard', function($router) {
 USAR LAYOUT ADMINISTRATIVO
 $router->get('/admin/dashboard', function($router) {
     $router->render('admin/dashboard', [], 'layoutAdmin'); // Usa layoutAdmin para el dashboard
-});
+=======
 */
+
+// ---------------- Controles de Administrador ----------------
+// Control Dashboard
+$router->get('/admin/dashboard', [\Controllers\AdminController::class, 'dashboard']);
+// Control Categorias
+$router->get('/admin/Categorias', function($router) {
+    Controllers\CategoriasController::renderAdminView($router, 'Categorias');
+});
+
+
+// Control Agregar Categorias
+$router->get('/admin/categorias', [Controllers\CategoriasController::class, 'listarCategorias']);
+
+// Agregar Categoría
+$router->post('/categorias/agregar', [Controllers\CategoriasController::class, 'agregarCategoria']);
+$router->post('/categorias/editar',  [CategoriasController::class, 'editarCategoria']);
+$router->delete('/admin/categorias/eliminar', [CategoriasController::class, 'eliminarCategoria']); 
+
+// Control Productos
+$router->get('/admin/Agregar_Productos', function($router) {
+    AgregarProductosController::renderAdminView($router, 'Agregar_Productos');
+});
+// Control para agregar productos
+$router->post('/productos/agregar', function() {
+    // ESTO NO VA AQUI.
+    $nombrePlatillo = $_POST['nombrePlatillo'];
+    $descripcionPlatillo = $_POST['descripcionPlatillo'];
+    $precioPlatillo = $_POST['precioPlatillo'];
+    $disponibilidad = $_POST['disponibilidad'];
+    $categoriaId = $_POST['categoria'];
+
+    if (isset($_FILES['imagenProducto']) && $_FILES['imagenProducto']['error'] === UPLOAD_ERR_OK) {
+        $nombreImagen = $_FILES['imagenProducto']['name'];  
+        $rutaTemporal = $_FILES['imagenProducto']['tmp_name'];
+
+        $carpetaDestino = __DIR__ . '../Uploads/';  
+
+        if (!is_dir($carpetaDestino)) {
+            mkdir($carpetaDestino, 0755, true);
+        }
+
+        $rutaDestino = $carpetaDestino . $nombreImagen;
+
+        if (move_uploaded_file($rutaTemporal, $rutaDestino)) {
+            $imgNombre = $nombreImagen;
+        } else {
+            echo "Error al subir la imagen";
+            exit;
+        }
+    } else {
+        $imgNombre = null; 
+    }
+
+    try {
+        $db = connectDB();
+        $stmt = $db->prepare("INSERT INTO platillo (NombrePlatillo, DescripciónPlatillo, PrecioPlatillo, Disponibilidad, IdCategoría, img) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->execute([$nombrePlatillo, $descripcionPlatillo, $precioPlatillo, $disponibilidad, $categoriaId, $imgNombre]);
+
+        header('Location: /admin/Agregar_Productos?success=1');
+        exit;
+    } catch (PDOException $e) {
+        echo "Error al agregar el producto: " . $e->getMessage();
+    }
+});
+
+
+// Control Editar Productos
+$router->get('/admin/Editar_Productos', function($router) {
+    EditarProductosController::renderAdminView($router, 'Editar_Productos');
+});
+
+// Control Ventas
+$router->get('/admin/Ventas', function($router) {
+    VentasController::renderAdminView($router, 'Ventas');
+});
+
+// Control Pedidos
+$router->get('/admin/Pedidos', function($router) {
+    PedidosController::renderAdminView($router, 'Pedidos');
+});
+// Control Configuracion de Pagina
+$router->get('/admin/Config', function($router) {
+    ConfiguracionAdminController::renderAdminView($router, 'Config');
+});
+
 // Manejar la solicitud
 $router->checkRoutes();
