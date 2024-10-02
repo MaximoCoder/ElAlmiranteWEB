@@ -26,8 +26,7 @@
 <body>
 
   <!-- MENU LATERAL -->
-  
-
+ 
   <div class="wrapper">
     <aside id="sidebar">
       <div class="d-flex">
@@ -46,56 +45,56 @@
           </a>
         </li>
         <li class="sidebar-item">
-          <a href="#" class="sidebar-link">
+          <a href="../admin/Agregar_Productos" class="sidebar-link">
             <i class="lni lni-gallery"></i>
             <span>Agregar Productos</span>
           </a>
         </li>
         <li class="sidebar-item">
-          <a href="#" class="sidebar-link">
+          <a href="../admin/Categorias" class="sidebar-link">
             <i class="lni lni-archive"></i>
             <span>Categorias</span>
           </a>
         </li>
         <li class="sidebar-item">
-          <a href="#" class="sidebar-link">
+          <a href="../admin/Editar_Productos" class="sidebar-link">
             <i class="lni lni-pencil-alt"></i>
             <span>Editar Productos</span>
           </a>
         </li>
         <li class="sidebar-item">
-          <a href="#" class="sidebar-link">
+          <a href="../admin/Ventas" class="sidebar-link">
             <i class="lni lni-cart"></i>
             <span>Ventas</span>
           </a>
         </li>
         <li class="sidebar-item">
-          <a href="#" class="sidebar-link">
+          <a href="../admin/Reportes" class="sidebar-link">
             <i class="lni lni-stats-up"></i>
             <span>Reportes</span>
           </a>
         </li>
         <li class="sidebar-item">
-          <a href="#" class="sidebar-link">
+          <a href="../admin/Gestion_Usuarios" class="sidebar-link">
             <i class="lni lni-users"></i>
             <span>Gestion de Usuarios</span>
           </a>
         </li>
         <li class="sidebar-item">
-          <a href="#" class="sidebar-link">
+          <a href="../admin/Pedidos" class="sidebar-link">
             <i class="lni lni-delivery"></i>
             <span>Pedidos</span>
           </a>
         </li>
         <li class="sidebar-item">
-          <a href="#" class="sidebar-link">
+          <a href="../admin/Config" class="sidebar-link">
             <i class="lni lni-cog"></i>
             <span>Configuración de Pagina</span>
           </a>
         </li>
       </ul>
       <div class="sidebar-footer">
-        <a href="#" class="sidebar-link">
+        <a href="../auth/logout" class="sidebar-link">
           <i class="lni lni-exit"></i>
           <span>Salir</span>
         </a>
