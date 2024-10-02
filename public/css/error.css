@@ -2,12 +2,15 @@
 /*ERROR PAGE*/
 .FishError {
     width: 15%;
+    max-width: 300px;
+    margin: 0 auto;
 }
 /*responsive*/
 
 @media (max-width:767px) {
     .FishError {
         width: 50%;
+        max-width: 200px;
     }
 }
 
@@ -16,4 +19,11 @@
         width: 25%;
     }
 
+}
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%; 
 }
