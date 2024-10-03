@@ -25,94 +25,102 @@
 
 <body>
 
-  
-  <div class="main-wrapper">
-    <!-- MENU LATERAL -->
 
-    <div class="wrapper">
-      <aside id="sidebar">
-        <div class="d-flex">
-          <button id="toggle-btn" type="button">
-            <i class="lni lni-grid-alt"></i>
-          </button>
-          <div class="sidebar-logo">
-            <a href="../admin/dashboard">Administrar</a>
-          </div>
+
+  <!-- MENU LATERAL -->
+  <div class="wrapper">
+    <aside id="sidebar">
+      <div class="d-flex">
+        <button id="toggle-btn" type="button">
+          <i class="lni lni-grid-alt"></i>
+        </button>
+        <div class="sidebar-logo">
+          <a href="../admin/dashboard">Mariscos El Almirante</a>
         </div>
-        <ul class="sidebar-nav">
-          <li class="sidebar-item">
-            <a href="../admin/dashboard" class="sidebar-link">
-              <i class="lni lni-bar-chart"></i>
-              <span>Resumen</span>
-            </a>
-          </li>
-          <li class="sidebar-item">
-            <a href="../admin/Agregar_Productos" class="sidebar-link">
-              <i class="lni lni-gallery"></i>
-              <span>Agregar Productos</span>
-            </a>
-          </li>
-          <li class="sidebar-item">
-            <a href="../admin/Categorias" class="sidebar-link">
-              <i class="lni lni-archive"></i>
-              <span>Categorias</span>
-            </a>
-          </li>
-          <li class="sidebar-item">
-            <a href="../admin/Editar_Productos" class="sidebar-link">
-              <i class="lni lni-pencil-alt"></i>
-              <span>Editar Productos</span>
-            </a>
-          </li>
-          <li class="sidebar-item">
-            <a href="../admin/Ventas" class="sidebar-link">
-              <i class="lni lni-cart"></i>
-              <span>Ventas</span>
-            </a>
-          </li>
-          <li class="sidebar-item">
-            <a href="../admin/Reportes" class="sidebar-link">
-              <i class="lni lni-stats-up"></i>
-              <span>Reportes</span>
-            </a>
-          </li>
-          <li class="sidebar-item">
-            <a href="../admin/Gestion_Usuarios" class="sidebar-link">
-              <i class="lni lni-users"></i>
-              <span>Gestion de Usuarios</span>
-            </a>
-          </li>
-          <li class="sidebar-item">
-            <a href="../admin/Pedidos" class="sidebar-link">
-              <i class="lni lni-delivery"></i>
-              <span>Pedidos</span>
-            </a>
-          </li>
-          <li class="sidebar-item">
-            <a href="../admin/Config" class="sidebar-link">
-              <i class="lni lni-cog"></i>
-              <span>Configuración de Pagina</span>
-            </a>
-          </li>
-        </ul>
-        <div class="sidebar-footer">
-          <a href="../auth/logout" class="sidebar-link">
-            <i class="lni lni-exit"></i>
-            <span>Salir</span>
-          </a>
-        </div>
-      </aside>
-    </div>
-
-
-    <!-- FIN MENU LATERAL-->
-    <div class="main-content">
-      <!-- Contenedor para centrar el contenido -->
-      <div class="centered-content">
-        <?php echo $contenido; ?>
       </div>
-    </div>
+      <ul class="sidebar-nav">
+        <li class="sidebar-item">
+          <a href="../admin/dashboard" class="sidebar-link">
+            <i class="lni lni-bar-chart"></i>
+            <span>Resumen</span>
+          </a>
+        </li>
+        <li class="sidebar-item">
+          <a href="../admin/Agregar_Productos" class="sidebar-link">
+            <i class="lni lni-gallery"></i>
+            <span>Agregar Productos</span>
+          </a>
+        </li>
+        <li class="sidebar-item">
+          <a href="../admin/Categorias" class="sidebar-link">
+            <i class="lni lni-archive"></i>
+            <span>Categorias</span>
+          </a>
+        </li>
+        <li class="sidebar-item">
+          <a href="../admin/Editar_Productos" class="sidebar-link">
+            <i class="lni lni-pencil-alt"></i>
+            <span>Editar Productos</span>
+          </a>
+        </li>
+        <li class="sidebar-item">
+          <a href="../admin/Ventas" class="sidebar-link">
+            <i class="lni lni-cart"></i>
+            <span>Ventas</span>
+          </a>
+        </li>
+        <li class="sidebar-item">
+          <a href="../admin/Reportes" class="sidebar-link">
+            <i class="lni lni-stats-up"></i>
+            <span>Reportes</span>
+          </a>
+        </li>
+        <li class="sidebar-item">
+          <a href="../admin/Gestion_Usuarios" class="sidebar-link">
+            <i class="lni lni-users"></i>
+            <span>Gestion de Usuarios</span>
+          </a>
+        </li>
+        <li class="sidebar-item">
+          <a href="../admin/Pedidos" class="sidebar-link">
+            <i class="lni lni-delivery"></i>
+            <span>Pedidos</span>
+          </a>
+        </li>
+        <li class="sidebar-item">
+          <a href="../admin/Config" class="sidebar-link">
+            <i class="lni lni-cog"></i>
+            <span>Configuración de Pagina</span>
+          </a>
+        </li>
+        <li class="sidebar-item">
+          <a href="../" class="sidebar-link">
+          <i class="lni lni-eye"></i>
+            <span>Ver sitio</span>
+          </a>
+        </li>
+      </ul>
+      <div class="sidebar-footer">
+        <a href="../auth/logout" class="sidebar-link">
+          <i class="lni lni-exit"></i>
+          <span>Salir</span>
+        </a>
+      </div>
+    </aside>
   </div>
+
+
+  <!-- FIN MENU LATERAL-->
+
+  <!-- Contenedor para centrar el contenido -->
+  <div class="centered-content">
+    <?php echo $contenido; ?>
+  </div>
+
+
+
+
+
 
   <script src="../js/jquery-3.6.0.min.js"></script>
   <script src="../js/bootstrap.bundle.min.js"></script>

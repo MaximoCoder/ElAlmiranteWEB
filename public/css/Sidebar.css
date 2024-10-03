@@ -23,12 +23,7 @@ h1 {
 body {
     font-family: 'Poppins', sans-serif;
 }
-.wrapper{
-    display: flex;
-    margin-top: 56px;
-    
-    
-}
+
 .main-wrapper {
     display: flex;
 }
@@ -89,9 +84,10 @@ body {
 }
 
 a.sidebar-link{
+    display: flex;
+    align-items: center;
     padding: .625rem 1.625rem;
     color: #fff;
-    display: block;
     font-size: 0.9rem;
     white-space: nowrap;
     border-left: 3px solid transparent;
@@ -147,7 +143,6 @@ a.sidebar-link {
     text-decoration: none; 
     padding: .625rem 1.625rem;
     color: #fff;
-    display: block;
     font-size: 0.9rem;
     white-space: nowrap;
     border-left: 3px solid transparent;
