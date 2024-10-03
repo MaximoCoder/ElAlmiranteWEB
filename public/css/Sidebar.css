@@ -25,8 +25,12 @@ body {
 }
 .wrapper{
     display: flex;
+    margin-top: 56px;
     
     
+}
+.main-wrapper {
+    display: flex;
 }
 .main{
     min-height: 100vh;
@@ -44,6 +48,10 @@ body {
     display: flex;
     flex-direction: column;
     background-color: #0e2230;
+    height: 100vh;
+    position: fixed; 
+    top: 0;
+    left: 0;
     
 }
 #sidebar.expand{
@@ -135,4 +143,15 @@ position: relative;
     transform: rotate(45deg);
     transition: all .2s ease-out;
 }
-
+a.sidebar-link {
+    text-decoration: none; 
+    padding: .625rem 1.625rem;
+    color: #fff;
+    display: block;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    border-left: 3px solid transparent;
+}
+.sidebar-logo a {
+    text-decoration: none; 
+}
