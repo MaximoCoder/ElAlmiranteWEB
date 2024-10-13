@@ -36,6 +36,24 @@ body {
 }
 
 /* Menu */
+.name-Product a{
+    color: var(--bg-secondary);
+    text-decoration: none;
+    font-weight: 600;
+}
+.btn-menu{
+    background-color: var(--bg-primary);
+    color: #ffffff;
+    font-weight: 600;
+}
+.btn-menu:hover{
+    background-color: var(--bg-secondary);
+    color: #ffffff;
+    font-weight: 600;
+}
+.image-container {
+    height: 400px;
+}
 #menu .nav-pills .nav-link {
     background-color: #fff;
     margin-left: 8px;
@@ -49,11 +67,24 @@ body {
     background-color: var(--bg-secondary);
     color: #ffffff;
 }
-
-.menu-item .stars {
-    color: #F58d17;
+/* ANIMATION OF APPEAR */
+@keyframes appear{
+    from{
+        opacity: 0;
+        /*scale: 0.5;*/
+        transform: translateX(-200px)
+    }
+    to{
+        opacity: 1;
+        /*scale: 1;*/
+        transform: translateX(0px)
+    }
 }
-
+.menu-item{
+    animation: appear linear;
+    animation-timeline: view();
+    animation-range: entry 0 cover 20%;
+}
 /* CONTACT FORM */
 .form-area {
     background-color: var(--bg-secondary);
@@ -353,8 +384,10 @@ input[type='radio']:checked{
 }
 
 @media (max-width:767px) {
-
-
+    /*MENU */
+    .image-container {
+        height: 200px;
+    }
     /* LOCATION */
 
     .map-location {

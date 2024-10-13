@@ -32,7 +32,7 @@ $user = $sessionController->getUser();
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-                <ul class="navbar-nav text-uppercase font-weight-bold fs-5">
+                <ul class="navbar-nav font-weight-bold fs-4">
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="../">Inicio</a>
                     </li>
@@ -65,8 +65,12 @@ $user = $sessionController->getUser();
                             <a class="nav-link" href="../auth/register"><i class="bi bi-person-circle heading">Perfil</i></a>
                         </li>
                     <?php endif; ?>
-                    <li class="nav-item">
-                        <a class="nav-link" href="../pages/cart"><i class="bi bi-cart heading"></i></a>
+                    <li class="nav-item mr-3 ">
+                        <a class="nav-link fw-bold" href="../pages/cart">
+                            <i class="bi bi-cart heading fw-bold">
+                                
+                            </i>
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -81,7 +85,7 @@ $user = $sessionController->getUser();
         <?php echo $contenido; ?>
     </div> <!-- End of container -->
 
-    <footer class=" text-center text-lg-start  text-muted mt-4">
+    <footer class=" text-center text-lg-start  text-muted ">
         <!-- Section: Social media -->
         <section
             class="d-flex justify-content-between p-4"
@@ -187,6 +191,8 @@ $user = $sessionController->getUser();
 
     <!-- JQUERY -->
     <script src="../js/jquery-3.6.0.min.js"></script>
+    <!-- MENU JS -->
+    <script src="../js/menu.js"></script>
 
 </body>
 
