@@ -1,9 +1,5 @@
 <?php
 
-// LLAVE PARA ENCRIPTAR
-define("KEY", "MAX");
-define("COD", "AES-128-ECB"); // metodo de encriptacion (NO CAMBIAR)
-
 #FUNCION DE CONEXION A LA BASE DE DATOS Y ENCRIPTACION 
 function connectDB() {
     $host = 'localhost';
@@ -24,12 +20,4 @@ function connectDB() {
     } catch (PDOException $e) {
         throw new PDOException($e->getMessage(), (int)$e->getCode());
     }
-}
-
-function encryptData($data) {
-    return openssl_encrypt($data, COD, KEY);
-}
-
-function decryptData($data) {
-    return openssl_decrypt($data, COD, KEY);
 }

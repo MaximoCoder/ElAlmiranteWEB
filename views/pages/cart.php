@@ -1,4 +1,4 @@
-<div class="container mt-5 card-Cart">
+<div class="container mt-5 card-Cart mb-5">
     <div class="row">
         <div class="col-12">
             <h1 class="mt-4 fw-bold text-center">FINALIZA TU PEDIDO</h1>

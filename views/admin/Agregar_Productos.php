@@ -5,32 +5,32 @@
             <div class="row">
                 <div class="col-lg-8 mb-3">
                     <label for="nombrePlatillo" class="form-label text-black">Nombre del Producto:</label>
-                    <input type="text" class="form-control nueva-clase"  name="NombrePlatillo" required>
+                    <input type="text" class="form-control border-0  input-color"  name="NombrePlatillo" required>
                 </div>
                 <div class="col-lg-4 mb-3">
                     <label for="precioPlatillo" class="form-label text-black">Precio:</label>
-                    <input type="number" step="1" class="form-control nueva-clase" name="PrecioPlatillo" required>
+                    <input type="number" step="1" class="form-control border-0 input-color" name="PrecioPlatillo" required>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-lg-12 mb-4">
                     <label for="descripcionPlatillo" class="form-label text-black">Descripción:</label>
-                    <textarea class="form-control nueva-clase" name="DescripcionPlatillo"  rows="3" required></textarea>
+                    <textarea class="form-control border-0  input-color" name="DescripcionPlatillo"  rows="3" required></textarea>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label for="disponibilidad" class="form-label text-black">Disponibilidad:</label>
-                    <select class="form-control form-select nueva-clase" name="Disponibilidad"  required>
+                    <select class="form-control form-select border-0  input-color" name="Disponibilidad"  required>
                         <option value="Disponible">Disponible</option>
                         <option value="No Disponible">No Disponible</option>
                     </select>
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="categoria" class="form-label text-black">Categoría:</label>
-                    <select class="form-control form-select nueva-clase" name="IdCategoria" id="IdCategoria"  required>
+                    <select class="form-control form-select border-0 input-color" name="IdCategoria" id="IdCategoria"  required>
                         <?php foreach ($categorias as $categoria) : ?>
                             <option value="<?= $categoria['IdCategoría'] ?>"><?= $categoria['NombreCategoría'] ?></option>
                         <?php endforeach; ?>
