@@ -73,22 +73,18 @@ $router->get('/admin/dashboard', function($router) {
 
 // Controles de Productos
 $router->get('/admin/Agregar_Productos', function($router) {
-    //Obtenemos los datos de las categorías
     $categorias = ProductController::getCategories();
-    // Renderizamos y pasamos las categorías
     AdminController::renderAdminView($router, 'Agregar_Productos', 'layoutAdmin', [
         'categorias' => $categorias
     ]);
 });
-// Control para agregar productos
-$router->post('/admin/Agregar_Productos' ,[ProductController::class, 'addProduct']);
- 
+
+$router->post('/admin/Agregar_Productos', [Controllers\ProductController::class, 'addProduct']);
+$router->get('/admin/Editar_Productos', [Controllers\ProductController::class, 'listarProductos']);
+
 // Control Categorias
 $router->get('/admin/Categorias', function($router) {
     Controllers\CategoriasController::renderAdminView($router, 'Categorias');
-});
-$router->get('/admin/Categorias', function($router) {
-    AdminController::renderAdminView($router, 'Categorias', 'layoutAdmin');
 });
 
 
@@ -100,11 +96,28 @@ $router->post('/categorias/agregar', [Controllers\CategoriasController::class, '
 $router->post('/categorias/editar',  [CategoriasController::class, 'editarCategoria']);
 $router->delete('/admin/categorias/eliminar', [CategoriasController::class, 'eliminarCategoria']); 
 
-
 // Control Editar Productos
-$router->get('/admin/Editar_Productos', function($router) {
-    EditarProductosController::renderAdminView($router, 'Editar_Productos');
+$router->get('/admin/Editar_Productos', function($router) use ($db) {
+    try {
+        $controller = new \Controllers\EditarProductosController($db);
+        $productos = $controller->getPlatillos(); 
+        $categorias = $controller->getCategories(); 
+        
+        $controller->renderAdminView($router, 'admin/Editar_Productos', 'layoutAdmin', [
+            'platillos' => $productos,
+            'categorias' => $categorias
+        ]);
+    } catch (Exception $e) {
+        http_response_code(500);
+        echo json_encode(['error' => $e->getMessage()]);
+    }
 });
+// Rutas para obtener platillos
+$router->get('/admin/obtenerPlatillos', [ProductController::class, 'obtenerPlatillos']);
+
+$router->post('/admin/platillos/editar', [ProductController::class, 'editarPlatillo']);
+$router->delete('/admin/platillos/eliminar', [ProductController::class, 'eliminarPlatillo']);
+
 
 // Control Ventas
 $router->get('/admin/Ventas', function($router) {
