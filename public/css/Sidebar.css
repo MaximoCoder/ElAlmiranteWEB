@@ -150,3 +150,23 @@ a.sidebar-link {
 .sidebar-logo a {
     text-decoration: none; 
 }
+
+.submenu {
+    display: none; /* Ocultar por defecto */
+    padding-left: 15px; /* Espaciado a la izquierda */
+    background-color: #f8f9fa; /* Color de fondo */
+  }
+  
+  .submenu-item {
+    margin: 5px 0; /* Espaciado entre items */
+  }
+  
+  .submenu-link {
+    color: #333; /* Color del texto */
+    text-decoration: none; /* Sin subrayado */
+  }
+  
+  .submenu-link:hover {
+    text-decoration: underline; /* Subrayar al pasar el ratón */
+  }
+  

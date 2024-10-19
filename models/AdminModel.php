@@ -51,4 +51,5 @@ class AdminModel
             'message' => $e->getMessage()
         ];
     }
+
 }

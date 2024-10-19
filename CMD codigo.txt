@@ -1,0 +1,9 @@
+cd public
+php -S localhost:3000
+
+admin@example.com
+$2y$10$3fwYfPDrqB/fASqnpqofIOQFyvQ/m.9QmyytELlKB9Sx4VIoqP9oa
+https://github.com/ChrisK106/duolab
+
+http://localhost/duolab/views/productos/listado-producto
+composer require phpoffice/phpspreadsheet

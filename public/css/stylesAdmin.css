@@ -1,0 +1,21 @@
+footer {
+    background-color: rgba(255, 255, 255, 0.5); /* Fondo blanco con transparencia */
+    color: rgba(0, 0, 0, 0.342); /* Color del texto */
+    text-align: center;
+    padding: 10px 0;
+    position: relative;
+}
+
+.content-wrapper {
+    transition: margin-left 0.3s ease; /* Transición suave para el menú lateral */
+    margin-left: 250px; /* Asegúrate de que el tamaño coincide con tu menú lateral */
+}
+
+.sidebar-open .content-wrapper {
+    margin-left: 0; /* Ajustar cuando el menú lateral esté cerrado */
+}
+
+.table-responsive {
+    overflow-x: auto; /* Permitir desplazamiento horizontal si es necesario */
+}
+
