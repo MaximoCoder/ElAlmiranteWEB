@@ -55,6 +55,7 @@ class CategoriasController {
     }
 
     public static function agregarCategoria(Router $router) {
+        header('Content-Type: application/json');
         $error = null;
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -81,6 +82,7 @@ class CategoriasController {
     }
 
     public static function eliminarCategoria(Router $router) {
+        header('Content-Type: application/json');
     if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
         require_once __DIR__ . '/../includes/config/database.php';
 
@@ -100,35 +102,37 @@ class CategoriasController {
 }
 
 
-    public static function editarCategoria(Router $router) {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            require_once __DIR__ . '/../includes/config/database.php';
+public static function editarCategoria(Router $router) {
+    header('Content-Type: application/json');
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        require_once __DIR__ . '/../includes/config/database.php';
 
-            $id = $_POST['categoriaId'] ?? '';
-            $nombreCategoria = $_POST['nombreCategoriaEditar'] ?? '';
+        $id = $_POST['categoriaId'] ?? '';
+        $nombreCategoria = $_POST['nombreCategoriaEditar'] ?? '';
 
-            if (empty($nombreCategoria)) {
-                echo json_encode(['success' => false, 'error' => 'El nombre no puede estar vacío.']);
-                exit;
-            }
-
-            try {
-                $db = connectDB();
-                $stmt = $db->prepare("UPDATE categoria SET NombreCategoría = ? WHERE IdCategoría = ?");
-                $stmt->execute([$nombreCategoria, $id]);
-
-                echo json_encode([
-                    'success' => true,
-                    'id' => $id,
-                    'nombre' => $nombreCategoria
-                ]);
-            } catch (PDOException $e) {
-                echo json_encode([
-                    'success' => false,
-                    'error' => $e->getMessage()
-                ]);
-            }
+        if (empty($id) || empty($nombreCategoria)) {
+            echo json_encode(['success' => false, 'error' => 'Todos los campos deben estar completos.']);
             exit;
         }
+
+        try {
+            $db = connectDB();
+            $stmt = $db->prepare("UPDATE categoria SET NombreCategoría = ? WHERE IdCategoría = ?");
+            $stmt->execute([$nombreCategoria, $id]);
+
+            echo json_encode([
+                'success' => true,
+                'id' => $id,
+                'nombre' => $nombreCategoria
+            ]);
+        } catch (PDOException $e) {
+            echo json_encode([
+                'success' => false,
+                'error' => $e->getMessage()
+            ]);
+        }
+        exit;
     }
+}
+
 }
