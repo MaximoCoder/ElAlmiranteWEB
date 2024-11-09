@@ -1,4 +1,6 @@
 <?php
+
+namespace Includes\Config;
 class Encryption {
     private $key;
     private $cipher;

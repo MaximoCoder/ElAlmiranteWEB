@@ -41,7 +41,7 @@ $(document).ready(function () {
                                     <div class="d-flex justify-content-end">
                                         <span class="fw-bold">Precio - $${product.PrecioPlatillo}</span>
                                     </div>
-                                    <button class="btn btn-menu d-block w-100"><i class="bi bi-cart-plus fs-4"></i></button>
+                                    <button class="btn btn-menu d-block w-100 addToCart" data-id="${product.IdPlatillo}" data-name="${product.NombrePlatillo}" data-price="${product.PrecioPlatillo}"><i class="bi bi-cart-plus fs-4"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -49,10 +49,77 @@ $(document).ready(function () {
                     //console.log('Insertando producto en contenedor: ', containerId);
                     $(containerId).append(productHtml);
                 });
+                // Añadir evento a los botones del carrito
+                $('.addToCart').on('click', function () {
+                    var productId = $(this).data('id');
+                    var productName = $(this).data('name');
+                    var productPrice = $(this).data('price');
+
+                    // Encriptar y enviar los datos del producto
+                    submitEncryptedForm(productId, productName, productPrice);
+                });
             },
             error: function (xhr, status, error) {
                 //console.error('Error al obtener los productos:', error);
                 $(containerId).append('<p class="text-danger">Hubo un error al cargar los productos.</p>');
+            }
+        });
+    }
+
+    // Función para crear y enviar el formulario encriptado
+    function submitEncryptedForm(productId, productName, productPrice) {
+        $.ajax({
+            url: '/encrypt-data',  // Endpoint PHP para cifrar los datos
+            method: 'POST',
+            data: {
+                id: productId,
+                name: productName,
+                price: productPrice,
+            },
+            success: function (encryptedData) {
+                // Enviar los datos cifrados al servidor sin redireccionar
+                $.ajax({
+                    url: '/agregar-al-carrito',  // Endpoint PHP para agregar el producto al carrito
+                    method: 'POST',
+                    data: {
+                        encrypted_data: encryptedData
+                    },
+                    success: function (response) {
+                        // Mostrar mensaje de éxito
+                        Swal.fire({
+                            position: "top-end",
+                            toast: true,
+                            title: "Exito",
+                            text: response.message,
+                            icon: "success",
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                        // Aquí puedes actualizar el carrito dinámicamente si lo deseas
+                    },
+                    error: function () {
+                        Swal.fire({
+                            position: "top-end",
+                            toast: true,
+                            title: "Error",
+                            text: "Hubo un problema al agregar el producto al carrito.",
+                            icon: "error",
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    }
+                });
+            },
+            error: function () {
+                Swal.fire({
+                    position: "top-end",
+                    toast: true,
+                    title: "Error",
+                    text: "Error al cifrar los datos.",
+                    icon: "error",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
             }
         });
     }
@@ -64,11 +131,11 @@ $(document).ready(function () {
     // Manejar el evento de cambio de pestaña
     $('button[data-bs-toggle="pill"]').on('shown.bs.tab', function (e) {
         var category = $(e.target).data('category'); // Obtener el IdCategoria de la pestaña seleccionada
-    
+
         // Mostrar el contenedor correspondiente y ocultar los demás
         $('.tab-pane').removeClass('show active'); // Ocultar todos
         $('#pills-' + category).addClass('show active'); // Mostrar el contenedor de la categoría seleccionada
-    
+
         loadProducts(category); // Cargar los productos de la categoría seleccionada
     });
 });

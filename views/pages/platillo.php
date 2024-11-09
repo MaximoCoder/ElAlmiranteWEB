@@ -16,7 +16,7 @@
             <p class="h6 fw-bold">Precio - $<?= $platillo['PrecioPlatillo']; ?></p>
 
             <!-- AGREGAR AL CARRITO -->
-            <button class="btn btn-menu d-block w-100">Agregar al carrito<i class="bi bi-cart-plus fs-4"></i></button>
+            <button class="btn btn-menu d-block w-100 addToCart" data-id="<?= $platillo['IdPlatillo']; ?>" data-name="<?= $platillo['NombrePlatillo']; ?>" data-price="<?= $platillo['PrecioPlatillo']; ?>">Agregar al carrito<i class="bi bi-cart-plus fs-4"></i></button>
 
             <!-- REGRESAR AL MENU -->
             <a href="../pages/menu" class="btn mt-3 btn-outline-primary">Regresar al menu</a>
