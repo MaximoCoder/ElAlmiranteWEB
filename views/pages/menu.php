@@ -1,348 +1,44 @@
-<section id="menu" class="bg-light">
+<section id="menu" class="bg-light ">
     <div class="container">
         <div class="row">
             <div class="col-12 intro-text">
-                <h1>¡Explora todo nuestro menu!</h1>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae sint temporibus natus optio
-                    eveniet nobis accusantium?</p>
+                <h1>¡Explora todo nuestro menú!</h1>
+                <p>Contamos con una alta variedad de platillos para los amantes del mar. Desde nuestras frescas tostadas de ceviche y sabrosos camarones, hasta los deliciosos tacos gobernador. Disfruta de nuestros cocteles refrescantes, reconfortantes caldos y abundantes mariscadas. No te pierdas nuestros filetes de pescado, el crujiente pescado frito y los picantes aguachiles. Y esto es solo el comienzo - ¡ven a descubrir el sabor del mar en cada bocado!</p>
             </div>
         </div>
     </div>
 
-    <div class="container">
+    <div class="p-4">
+        <!-- Pestañas de Categorías -->
         <ul class="nav nav-pills mb-4 justify-content-center" id="pills-tab" role="tablist">
-
             <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="pills-all-tab" data-bs-toggle="pill" data-bs-target="#pills-all"
-                    type="button" role="tab" aria-controls="pills-all" aria-selected="true">Todos</button>
+                <button class="nav-link active" id="pills-all-tab" data-bs-toggle="pill" data-category="all" type="button" role="tab" aria-controls="pills-all" aria-selected="true">Todos</button>
             </li>
 
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="pills-breakfast-tab" data-bs-toggle="pill"
-                    data-bs-target="#pills-breakfast" type="button" role="tab" aria-controls="pills-breakfast"
-                    aria-selected="true">Individuales</button>
-            </li>
-
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="pills-lunch-tab" data-bs-toggle="pill" data-bs-target="#pills-lunch"
-                    type="button" role="tab" aria-controls="pills-lunch" aria-selected="true">Familiares</button>
-            </li>
-
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="pills-dinner-tab" data-bs-toggle="pill" data-bs-target="#pills-dinner"
-                    type="button" role="tab" aria-controls="pills-dinner" aria-selected="true">Combos</button>
-            </li>
-
+            <?php foreach ($categories as $category): ?>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pills-<?= $category['IdCategoría']; ?>-tab" data-bs-toggle="pill" data-category="<?= $category['IdCategoría']; ?>" type="button" role="tab" aria-controls="pills-<?= $category['IdCategoría']; ?>" aria-selected="false"><?= $category['NombreCategoría']; ?></button>
+                </li>
+            <?php endforeach; ?>
         </ul>
 
+        <!-- Contenido de las Pestañas -->
         <div class="tab-content" id="pills-tabContent">
-
-            <div class="tab-pane fade show active" id="pills-all" role="tabpanel" aria-labelledby="pills-all-tab"
-                tabindex="0">
-
-                <div class="row gy-4">
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="menu-item bg-white shadow-on-hover">
-                            <img src="../../images/camaronesRellenos.jpg" class="img-fluid" alt="">
-                            <div class="menu-item-content p-4">
-                                <h5 class="mt-1 mb-2"><a href="#">Fudgy Chewy Brownies</a></h5>
-                                <p class="small">Incluye arroz y verduras o arroz y papas.</p>
-                                <div class="d-flex justify-content-end ">
-                                    <span class="fw-bold">Platillo - $120</span>
-                                </div>
-                                <button class="btn btn-primary d-block w-100"><i class="bi bi-cart-plus fs-4"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="menu-item bg-white shadow-on-hover">
-                            <img src="../../images/camaronesRellenos.jpg" class="img-fluid" alt="">
-                            <div class="menu-item-content p-4">
-                                <h5 class="mt-1 mb-2"><a href="#">Fudgy Chewy Brownies</a></h5>
-                                <p class="small">Incluye arroz y verduras o arroz y papas.</p>
-                                <div class="d-flex justify-content-end ">
-                                    <span class="fw-bold">Platillo - $120</span>
-                                </div>
-                                <button class="btn btn-primary d-block w-100"><i class="bi bi-cart-plus fs-4"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="menu-item bg-white shadow-on-hover">
-                            <img src="../../images/camaronesRellenos.jpg" class="img-fluid" alt="">
-                            <div class="menu-item-content p-4">
-                                <h5 class="mt-1 mb-2"><a href="#">Fudgy Chewy Brownies</a></h5>
-                                <p class="small">Incluye arroz y verduras o arroz y papas.</p>
-                                <div class="d-flex justify-content-end ">
-                                    <span class="fw-bold">Platillo - $120</span>
-                                </div>
-                                <button class="btn btn-primary d-block w-100"><i class="bi bi-cart-plus fs-4"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="menu-item bg-white shadow-on-hover">
-                            <img src="../../images/camaronesRellenos.jpg" class="img-fluid" alt="">
-                            <div class="menu-item-content p-4">
-                                <h5 class="mt-1 mb-2"><a href="#">Fudgy Chewy Brownies</a></h5>
-                                <p class="small">Incluye arroz y verduras o arroz y papas.</p>
-                                <div class="d-flex justify-content-end ">
-                                    <span class="fw-bold">Platillo - $120</span>
-                                </div>
-                                <button class="btn btn-primary d-block w-100"><i class="bi bi-cart-plus fs-4"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="menu-item bg-white shadow-on-hover">
-                            <img src="../../images/camaronesRellenos.jpg" class="img-fluid" alt="">
-                            <div class="menu-item-content p-4">
-
-                                <h5 class="mt-1 mb-2"><a href="#">Fudgy Chewy Brownies</a></h5>
-                                <p class="small">Incluye arroz y verduras o arroz y papas.</p>
-                                <div class="d-flex justify-content-end ">
-                                    <span class="fw-bold">Platillo - $120</span>
-                                </div>
-                                <button class="btn btn-primary d-block w-100"><i class="bi bi-cart-plus fs-4"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="menu-item bg-white shadow-on-hover">
-                            <img src="../../images/camaronesRellenos.jpg" class="img-fluid" alt="">
-                            <div class="menu-item-content p-4">
-
-                                <h5 class="mt-1 mb-2"><a href="#">Fudgy Chewy Brownies</a></h5>
-                                <p class="small">Incluye arroz y verduras o arroz y papas.</p>
-                                <div class="d-flex justify-content-end ">
-                                    <span class="fw-bold">Platillo - $120</span>
-                                </div>
-                                <button class="btn btn-primary d-block w-100"><i class="bi bi-cart-plus fs-4"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="menu-item bg-white shadow-on-hover">
-                            <img src="../../images/camaronesRellenos.jpg" class="img-fluid" alt="">
-                            <div class="menu-item-content p-4">
-
-                                <h5 class="mt-1 mb-2"><a href="#">Fudgy Chewy Brownies</a></h5>
-                                <p class="small">Incluye arroz y verduras o arroz y papas.</p>
-                                <div class="d-flex justify-content-end ">
-                                    <span class="fw-bold">Platillo - $120</span>
-                                </div>
-                                <button class="btn btn-primary d-block w-100"><i class="bi bi-cart-plus fs-4"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="menu-item bg-white shadow-on-hover">
-                            <img src="../../images/camaronesRellenos.jpg" class="img-fluid" alt="">
-                            <div class="menu-item-content p-4">
-
-                                <h5 class="mt-1 mb-2"><a href="#">Fudgy Chewy Brownies</a></h5>
-                                <p class="small">Incluye arroz y verduras o arroz y papas.</p>
-                                <div class="d-flex justify-content-end ">
-                                    <span class="fw-bold">Platillo - $120</span>
-                                </div>
-                                <button class="btn btn-primary d-block w-100"><i class="bi bi-cart-plus fs-4"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="tab-pane fade show" id="pills-breakfast" role="tabpanel"
-                aria-labelledby="pills-breakfast-tab" tabindex="0">
-                <div class="row gy-4">
-
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="menu-item bg-white shadow-on-hover">
-                            <img src="../../images/camaronesRellenos.jpg" class="img-fluid" alt="">
-                            <div class="menu-item-content p-4">
-
-                                <h5 class="mt-1 mb-2"><a href="#">Fudgy Chewy Brownies</a></h5>
-                                <p class="small">Incluye arroz y verduras o arroz y papas.</p>
-                                <div class="d-flex justify-content-end ">
-                                    <span class="fw-bold">Platillo - $120</span>
-                                </div>
-                                <button class="btn btn-primary d-block w-100"><i class="bi bi-cart-plus fs-4"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="menu-item bg-white shadow-on-hover">
-                            <img src="../../images/camaronesRellenos.jpg" class="img-fluid" alt="">
-                            <div class="menu-item-content p-4">
-
-                                <h5 class="mt-1 mb-2"><a href="#">Fudgy Chewy Brownies</a></h5>
-                                <p class="small">Incluye arroz y verduras o arroz y papas.</p>
-                                <div class="d-flex justify-content-end ">
-                                    <span class="fw-bold">Platillo - $120</span>
-                                </div>
-                                <button class="btn btn-primary d-block w-100"><i class="bi bi-cart-plus fs-4"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="menu-item bg-white shadow-on-hover">
-                            <img src="../../images/camaronesRellenos.jpg" class="img-fluid" alt="">
-                            <div class="menu-item-content p-4">
-
-                                <h5 class="mt-1 mb-2"><a href="#">Fudgy Chewy Brownies</a></h5>
-                                <p class="small">Incluye arroz y verduras o arroz y papas.</p>
-                                <div class="d-flex justify-content-end ">
-                                    <span class="fw-bold">Platillo - $120</span>
-                                </div>
-                                <button class="btn btn-primary d-block w-100"><i class="bi bi-cart-plus fs-4"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="menu-item bg-white shadow-on-hover">
-                            <img src="../../images/camaronesRellenos.jpg" class="img-fluid" alt="">
-                            <div class="menu-item-content p-4">
-
-                                <h5 class="mt-1 mb-2"><a href="#">Fudgy Chewy Brownies</a></h5>
-                                <p class="small">Incluye arroz y verduras o arroz y papas.</p>
-                                <div class="d-flex justify-content-end ">
-                                    <span class="fw-bold">Platillo - $120</span>
-                                </div>
-                                <button class="btn btn-primary d-block w-100"><i class="bi bi-cart-plus fs-4"></i></button>
-                            </div>
-                        </div>
-                    </div>
+            <!-- Todos -->
+            <div class="tab-pane fade show active" id="pills-all" role="tabpanel" aria-labelledby="pills-all-tab" tabindex="0">
+                <div class="row gy-4" id="products-all">
+                    <!-- Productos se cargarán aquí dinámicamente -->
                 </div>
             </div>
 
-            <div class="tab-pane fade show" id="pills-lunch" role="tabpanel" aria-labelledby="pills-lunch-tab"
-                tabindex="0">
-                <div class="row gy-4">
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="menu-item bg-white shadow-on-hover">
-                            <img src="../../images/camaronesRellenos.jpg" class="img-fluid" alt="">
-                            <div class="menu-item-content p-4">
-
-                                <h5 class="mt-1 mb-2"><a href="#">Fudgy Chewy Brownies</a></h5>
-                                <p class="small">Incluye arroz y verduras o arroz y papas.</p>
-                                <div class="d-flex justify-content-end ">
-                                    <span class="fw-bold">Platillo - $120</span>
-                                </div>
-                                <button class="btn btn-primary d-block w-100"><i class="bi bi-cart-plus fs-4"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="menu-item bg-white shadow-on-hover">
-                            <img src="../../images/camaronesRellenos.jpg" class="img-fluid" alt="">
-                            <div class="menu-item-content p-4">
-
-                                <h5 class="mt-1 mb-2"><a href="#">Fudgy Chewy Brownies</a></h5>
-                                <p class="small">Incluye arroz y verduras o arroz y papas.</p>
-                                <div class="d-flex justify-content-end ">
-                                    <span class="fw-bold">Platillo - $120</span>
-                                </div>
-                                <button class="btn btn-primary d-block w-100"><i class="bi bi-cart-plus fs-4"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="menu-item bg-white shadow-on-hover">
-                            <img src="../../images/camaronesRellenos.jpg" class="img-fluid" alt="">
-                            <div class="menu-item-content p-4">
-
-                                <h5 class="mt-1 mb-2"><a href="#">Fudgy Chewy Brownies</a></h5>
-                                <p class="small">Incluye arroz y verduras o arroz y papas.</p>
-                                <div class="d-flex justify-content-end ">
-                                    <span class="fw-bold">Platillo - $120</span>
-                                </div>
-                                <button class="btn btn-primary d-block w-100"><i class="bi bi-cart-plus fs-4"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="menu-item bg-white shadow-on-hover">
-                            <img src="../../images/camaronesRellenos.jpg" class="img-fluid" alt="">
-                            <div class="menu-item-content p-4">
-
-                                <h5 class="mt-1 mb-2"><a href="#">Fudgy Chewy Brownies</a></h5>
-                                <p class="small">Incluye arroz y verduras o arroz y papas.</p>
-                                <div class="d-flex justify-content-end ">
-                                    <span class="fw-bold">Platillo - $120</span>
-                                </div>
-                                <button class="btn btn-primary d-block w-100"><i class="bi bi-cart-plus fs-4"></i></button>
-                            </div>
-                        </div>
+            <!-- Por cada categoría una nueva pestaña -->
+            <?php foreach ($categories as $category): ?>
+                <div class="tab-pane fade" id="pills-<?= $category['IdCategoría']; ?>" role="tabpanel" aria-labelledby="pills-<?= $category['IdCategoría']; ?>-tab" tabindex="0">
+                    <div class="row gy-4" id="products-<?= $category['IdCategoría']; ?>">
+                        <!-- Productos de esta categoría se cargarán aquí dinámicamente -->
                     </div>
                 </div>
-            </div>
-
-            <div class="tab-pane fade show" id="pills-dinner" role="tabpanel" aria-labelledby="pills-dinner-tab"
-                tabindex="0">
-                <div class="row gy-4">
-
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="menu-item bg-white shadow-on-hover">
-                            <img src="../../images/camaronesRellenos.jpg" class="img-fluid" alt="">
-                            <div class="menu-item-content p-4">
-
-                                <h5 class="mt-1 mb-2"><a href="#">Fudgy Chewy Brownies</a></h5>
-                                <p class="small">Incluye arroz y verduras o arroz y papas.</p>
-                                <div class="d-flex justify-content-end ">
-                                    <span class="fw-bold">Platillo - $120</span>
-                                </div>
-                                <button class="btn btn-primary d-block w-100"><i class="bi bi-cart-plus fs-4"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="menu-item bg-white shadow-on-hover">
-                            <img src="../../images/camaronesRellenos.jpg" class="img-fluid" alt="">
-                            <div class="menu-item-content p-4">
-
-                                <h5 class="mt-1 mb-2"><a href="#">Fudgy Chewy Brownies</a></h5>
-                                <p class="small">Incluye arroz y verduras o arroz y papas.</p>
-                                <div class="d-flex justify-content-end ">
-                                    <span class="fw-bold">Platillo - $120</span>
-                                </div>
-                                <button class="btn btn-primary d-block w-100"><i class="bi bi-cart-plus fs-4"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="menu-item bg-white shadow-on-hover">
-                            <img src="../../images/camaronesRellenos.jpg" class="img-fluid" alt="">
-                            <div class="menu-item-content p-4">
-
-                                <h5 class="mt-1 mb-2"><a href="#">Fudgy Chewy Brownies</a></h5>
-                                <p class="small">Incluye arroz y verduras o arroz y papas.</p>
-                                <div class="d-flex justify-content-end ">
-                                    <span class="fw-bold">Platillo - $120</span>
-                                </div>
-                                <button class="btn btn-primary d-block w-100"><i class="bi bi-cart-plus fs-4"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="menu-item bg-white shadow-on-hover">
-                            <img src="../../images/camaronesRellenos.jpg" class="img-fluid" alt="">
-                            <div class="menu-item-content p-4">
-
-                                <h5 class="mt-1 mb-2"><a href="#">Fudgy Chewy Brownies</a></h5>
-                                <p class="small">Incluye arroz y verduras o arroz y papas.</p>
-                                <div class="d-flex justify-content-end ">
-                                    <span class="fw-bold">Platillo - $120</span>
-                                </div>
-                                <button class="btn btn-primary d-block w-100"><i class="bi bi-cart-plus fs-4"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+            <?php endforeach; ?>
         </div>
     </div>
-
-
 </section>

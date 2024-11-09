@@ -9,6 +9,7 @@
         
             <label class=" fw-semibold" for="">Contraseña:</label>
             <input type="password" id="Password" class="form-control input-formU" value="<?php echo isset($_POST["Password"]) ? $_POST["Password"] : ''; ?>" required>    
+
             
             <input type="submit"  class="form-control btn-color fw-bold" onclick="handleLoginForm()">
             <div class="d-flex justify-content-between">

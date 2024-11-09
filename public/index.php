@@ -31,6 +31,15 @@ $router->get('/pages/location', [PagesController::class, 'location']);
 $router->get('/pages/contact', [PagesController::class, 'contact']);
 // MENUCONTROLLER
 $router->get('/pages/menu', [MenuController::class, 'index']);
+$router->get('/api/platillos', [MenuController::class, 'getProducts']);
+// PLATILLO PAGE
+$router->get('/pages/platillo-{IdPlatillo}', function($router, $params) {
+    $IdPlatillo = $params[0];  // Captura el valor del parámetro 'IdPlatillo'
+    // Obtener los datos del platillo utilizando el controlador
+    $data = PagesController::platilloData($IdPlatillo);
+    // Llamar a la función del controlador para renderizar la vista
+    PagesController::platillo($router, $data);
+});
 // JOBCONTROLLER
 $router->get('/pages/jobVacancy', [JobController::class, 'index']);
 // CARTCONTROLLER
@@ -40,7 +49,6 @@ $router->get('/auth/register', function($router) {
     UserController::renderAuthView($router, 'register');
 });
 $router->post('/auth/register', [UserController::class, 'apiRegister']); // NUEVA RUTA PARA API REST
-//$router->post('/auth/register', [UserController::class, 'register']); // Routes Register
 
 $router->get('/auth/login', function($router) {
     UserController::renderAuthView($router, 'login');
@@ -53,7 +61,6 @@ $router->get('/auth/forgot-Password', function($router) {
     UserController::renderAuthView($router, 'forgot-Password');
 });
 $router->post('/auth/forgot-Password', [UserController::class, 'sendMailCode']); // Routes Forgot Password
-
 
 $router->get('/auth/verify-Code', function($router) {
     UserController::renderAuthView($router, 'verify-Code');
@@ -85,15 +92,15 @@ $router->post('/admin/Agregar_Productos' ,[ProductController::class, 'addProduct
  
 // Control Categorias
 $router->get('/admin/Categorias', function($router) {
-    Controllers\CategoriasController::renderAdminView($router, 'Categorias');
+    //Obtenemos los datos de las categorías
+    $categorias = CategoriasController::getCategories();
+    // Renderizamos y pasamos las categorías
+    AdminController::renderAdminView($router, 'Categorias', 'layoutAdmin', [
+        'categorias' => $categorias
+    ]);
 });
-$router->get('/admin/Categorias', function($router) {
-    AdminController::renderAdminView($router, 'Categorias', 'layoutAdmin');
-});
-
 
 // Control Agregar Categorias
-$router->get('/admin/categorias', [Controllers\CategoriasController::class, 'listarCategorias']);
 
 // Agregar Categoría
 $router->post('/categorias/agregar', [Controllers\CategoriasController::class, 'agregarCategoria']);

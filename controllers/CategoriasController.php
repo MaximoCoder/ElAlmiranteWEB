@@ -4,59 +4,19 @@
 namespace Controllers;
 
 use MVC\Router;
-use PDO;
-use PDOException;
+use Model\AdminModel;
 
 class CategoriasController {
-    public static function renderAdminView(Router $router, $viewName) {
-        $sessionController = new \Controllers\SessionController();
-        $sessionController->startSession();
-        $user = $sessionController->getUser();
-
-        if ($user === null) {
-            echo "Usuario no identificado";
-            return;
-        }
-
-        $categorias = self::getCategorias();
-
-        $router->render('admin/' . $viewName, [
-            'user' => $user,
-            'categorias' => $categorias
-        ], 'layoutAdmin');
+    
+    public static function getCategories()
+    {
+        $adminModel = new AdminModel();
+        return $adminModel->getData('categoria');
     }
-        
-    public static function listarCategorias(Router $router) {
-        $sessionController = new \Controllers\SessionController();
-        $sessionController->startSession();
-        $user = $sessionController->getUser();
-
-        if ($user === null) {
-            echo "Usuario no identificado";
-            return;
-        }
-
-        $categorias = self::getCategorias();
-
-        $router->render('admin/Categorias', [
-            'categorias' => $categorias,
-            'user' => $user
-        ], 'layoutAdmin');
-    }
-
-    private static function getCategorias() {
-        require_once __DIR__ . '/../includes/config/database.php';
-        $db = connectDB();
-        
-        $stmt = $db->prepare("SELECT IdCategoría, NombreCategoría, FechaCreación FROM categoria");
-        $stmt->execute();
-        
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
+    /*
     public static function agregarCategoria(Router $router) {
         $error = null;
-
+        
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $nombreCategoria = $_POST['nombreCategoria'] ?? '';
 
@@ -130,5 +90,5 @@ class CategoriasController {
             }
             exit;
         }
-    }
+    }*/
 }
