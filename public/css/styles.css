@@ -250,6 +250,14 @@ LOADER
     box-shadow: 0 4px 15px rgb(0 0 0 / 20%);
 }
 
+.name-Product-cart a{
+    color: var(--bg-primary);
+    text-decoration: none;
+    font-weight: 600;
+}
+.delete{
+    cursor: pointer;
+}
 .btn-red {
     background-color: #fff;
     border-color: var(--bg-secondary);
@@ -261,6 +269,7 @@ LOADER
     text-transform: uppercase;
 
 }
+
 
 .btn-red a {
     color: #000;
@@ -307,6 +316,15 @@ LOADER
 .btn-increment {
     background-color: var(--bg-secondary);
     color: white;
+}
+
+.btn-increment:hover {
+    background-color: var(--bg-tertiary);
+    color: #fff;
+}
+
+.btn-decrement:hover {
+    border: #000 2px solid;
 }
 
 .quantity-display {
@@ -363,6 +381,8 @@ input[type='radio']:checked{
     margin-left: auto;
     font-size: 1rem;
 }
+
+
 
 /*responsive*/
 

@@ -40,8 +40,10 @@ class SessionController
     {
         // Destruir la sesión
         if (session_status() !== PHP_SESSION_NONE) {
-            session_unset();
-            session_destroy();
+            // Eliminar únicamente las variables relacionadas con el usuario
+            unset($_SESSION['user_id']);
+            unset($_SESSION['user']);
+            unset($_SESSION['user_role']);
         }
     }
 
