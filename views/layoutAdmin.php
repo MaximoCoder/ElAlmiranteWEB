@@ -94,6 +94,18 @@
           </a>
         </li>
         <li class="sidebar-item">
+          <a href="../admin/Agregar_Vacante" class="sidebar-link">
+          <i class="lni lni-briefcase"></i>
+            <span>Agregar Vacantes</span>
+          </a>
+        </li>
+        <li class="sidebar-item">
+          <a href="../admin/Editar_Vacante" class="sidebar-link">
+          <i class="lni lni-pencil-alt"></i>
+            <span>Editar Vacantes</span>
+          </a>
+        </li>
+        <li class="sidebar-item">
           <a href="../" class="sidebar-link">
           <i class="lni lni-eye"></i>
             <span>Ver sitio</span>
