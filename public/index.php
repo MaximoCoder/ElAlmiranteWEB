@@ -73,38 +73,50 @@ $router->get('/admin/dashboard', function($router) {
 
 // Controles de Productos
 $router->get('/admin/Agregar_Productos', function($router) {
-    //Obtenemos los datos de las categorías
     $categorias = ProductController::getCategories();
-    // Renderizamos y pasamos las categorías
     AdminController::renderAdminView($router, 'Agregar_Productos', 'layoutAdmin', [
         'categorias' => $categorias
     ]);
 });
-// Control para agregar productos
-$router->post('/admin/Agregar_Productos' ,[ProductController::class, 'addProduct']);
- 
+
+$router->post('/admin/Agregar_Productos', [Controllers\ProductController::class, 'addProduct']);
+$router->get('/admin/Editar_Productos', [Controllers\ProductController::class, 'listarProductos']);
+
 // Control Categorias
 $router->get('/admin/Categorias', function($router) {
-    Controllers\CategoriasController::renderAdminView($router, 'Categorias');
+    \Controllers\CategoriasController::renderAdminView($router, 'Categorias');
 });
-$router->get('/admin/Categorias', function($router) {
-    AdminController::renderAdminView($router, 'Categorias', 'layoutAdmin');
-});
+
 
 
 // Control Agregar Categorias
-$router->get('/admin/categorias', [Controllers\CategoriasController::class, 'listarCategorias']);
+$router->get('/admin/categorias', [Controllers\CategoriasController::class, 'renderAdminView']);
 
 // Agregar Categoría
 $router->post('/categorias/agregar', [Controllers\CategoriasController::class, 'agregarCategoria']);
 $router->post('/categorias/editar',  [CategoriasController::class, 'editarCategoria']);
 $router->delete('/admin/categorias/eliminar', [CategoriasController::class, 'eliminarCategoria']); 
 
-
 // Control Editar Productos
-$router->get('/admin/Editar_Productos', function($router) {
-    EditarProductosController::renderAdminView($router, 'Editar_Productos');
+$router->post('/admin/platillos/editar', function() use ($db) {
+    $controller = new Controllers\EditarProductosController($db);
+    $data = $_POST;
+    $result = $controller->updatePlatillo($data);
+    if ($result) {
+        echo "Producto actualizado con éxito";
+    } else {
+        echo "Error al actualizar producto";
+    }
 });
+
+$router->get('/admin/Editar_Productos', [Controllers\EditarProductosController::class, 'renderAdminView']);
+
+// Rutas para obtener platillos
+$router->get('/admin/obtenerPlatillos', [ProductController::class, 'obtenerPlatillos']);
+
+$router->post('/admin/platillos/editar', [EditarProductosController::class, 'editarPlatillo']);
+$router->delete('/admin/platillos/eliminar', [EditarProductosController::class, 'eliminarPlatillo']);
+
 
 // Control Ventas
 $router->get('/admin/Ventas', function($router) {
