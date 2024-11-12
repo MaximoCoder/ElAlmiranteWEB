@@ -4,6 +4,7 @@
 namespace Controllers;
 
 use MVC\Router;
+
 use Model\ProductModel;
 use PDOException;
 
@@ -24,6 +25,21 @@ class CategoriasController
     public static function agregarCategoria(Router $router)
     {
         header('Content-Type: application/json');
+
+
+use Model\AdminModel;
+
+class CategoriasController {
+    
+    public static function getCategories()
+    {
+        $adminModel = new AdminModel();
+        return $adminModel->getData('categoria');
+    }
+    /*
+    public static function agregarCategoria(Router $router) {
+        $error = null;
+        
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $nombreCategoria = $_POST['nombreCategoria'] ?? '';
@@ -121,5 +137,5 @@ class CategoriasController
                 ]);
             }
         }
-    }
+    }*/
 }

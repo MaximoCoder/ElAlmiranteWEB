@@ -44,7 +44,6 @@ class Router
     {
         $currentUrl = $_SERVER['PATH_INFO'] ?? '/';
         $method = $_SERVER['REQUEST_METHOD'];
-        $function = null;
 
         // Establecer el layout predeterminado
         $layout = 'layout'; // Layout por defecto
@@ -53,31 +52,26 @@ class Router
         if (strpos($currentUrl, '/admin') === 0) {
             $layout = 'layoutAdmin';
         }
+
+        $matchedRoute = null;
+        $params = [];
+
         try {
-            switch ($method) {
-                case 'GET':
-                    $function = $this->routesGET[$currentUrl] ?? null;
+            // Buscar una ruta coincidente con parámetros
+            foreach ($this->{"routes$method"} as $route => $function) {
+                $pattern = $this->convertRouteToRegex($route);
+                if (preg_match($pattern, $currentUrl, $matches)) {
+                    $matchedRoute = $route;
+                    array_shift($matches); // Eliminar la coincidencia completa
+                    $params = $matches;
                     break;
-                case 'POST':
-                    $function = $this->routesPOST[$currentUrl] ?? null;
-                    break;
-                case 'PUT':
-                    $function = $this->routesPUT[$currentUrl] ?? null;
-                    break;
-                case 'PATCH':
-                    $function = $this->routesPATCH[$currentUrl] ?? null;
-                    break;
-                case 'DELETE':
-                    $function = $this->routesDELETE[$currentUrl] ?? null;
-                    break;
-                default:
-                    $this->handleError(405, $layout); // Método no permitido
-                    return;
+                }
             }
 
-            if ($function) {
-                // Ejecuta la función asociada con la ruta y método
-                call_user_func($function, $this);
+            if ($matchedRoute) {
+                $function = $this->{"routes$method"}[$matchedRoute];
+                // Llamar a la función con el Router y los parámetros
+                call_user_func($function, $this, $params);
             } else {
                 // URL no encontrada (404)
                 $this->handleError(404, $layout);
@@ -88,6 +82,10 @@ class Router
         }
     }
 
+    private function convertRouteToRegex($route)
+    {
+        return '#^' . preg_replace('/\{([a-zA-Z0-9_]+)\}/', '([^/]+)', $route) . '$#';
+    }
     // Método para renderizar vistas, útil en peticiones que no son API
     public function render($view, $datos = [], $layout = 'layout')
     {

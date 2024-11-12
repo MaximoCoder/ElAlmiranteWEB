@@ -11,7 +11,7 @@
                 <div class=" p-3 rounded">
                     <h6>Bienvenido a Mariscos El Almirante</h6>
                     <h1 class="display-4">La frescura del mar, a tu alcance</h1>
-                    <a href="pages/menu" class="btn btn-primary mt-3">Ver menú</a>
+                    <a href="pages/menu" class="btn btn-menu mt-3">Ver menú</a>
                 </div>
             </div>
         </div>
@@ -21,7 +21,7 @@
                 <div class=" p-3 rounded">
                     <h6 class="text-white">Bienvenido a Mariscos El Almirante</h6>
                     <h1 class="display-1 text-white">Un festín marino para tus sentidos</h1>
-                    <a href="pages/menu" class="btn btn-primary">Ver menu</a>
+                    <a href="pages/menu" class="btn btn-menu">Ver menu</a>
                 </div>
             </div>
         </div>
@@ -31,7 +31,7 @@
                 <div class=" p-3 rounded">
                     <h6 class="text-white">Bienvenido a Mariscos El Almirante</h6>
                     <h1 class="display-1 text-white">Mariscos fritos: crujientes joyas del océano</h1>
-                    <a href="pages/menu" class="btn btn-primary">Ver menu</a>
+                    <a href="pages/menu" class="btn btn-menu">Ver menu</a>
                 </div>
             </div>
         </div>

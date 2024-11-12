@@ -95,7 +95,7 @@
         </li>
         <li class="sidebar-item">
           <a href="../" class="sidebar-link">
-          <i class="lni lni-eye"></i>
+            <i class="lni lni-eye"></i>
             <span>Ver sitio</span>
           </a>
         </li>

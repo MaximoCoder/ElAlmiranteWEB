@@ -105,7 +105,7 @@ function handleRegisterForm() {
         const confirmPassword = document.getElementById('confirm_password').value;
 
         $.ajax({
-            url: '/auth/register',  
+            url: '/auth/register',
             method: 'POST',
             contentType: 'application/json',
             dataType: 'json',
@@ -199,9 +199,9 @@ function handleForgotForm() {
     forgotForm.addEventListener("submit", function (event) {
         event.preventDefault();
         const correo = document.getElementById('Correo').value;
-       
+
         $.ajax({
-            url: '/auth/forgot-Password',  
+            url: '/auth/forgot-Password',
             method: 'POST',
             contentType: 'application/json',
             dataType: 'json',
@@ -213,7 +213,7 @@ function handleForgotForm() {
                     forgotForm.reset();
                     //Redirigir si se envio el correo
                     window.location.href = '../auth/verify-Code';
-                   
+
                 } else {
                     // Muestra el mensaje de error que proviene del servidor
                     Swal.fire({
@@ -243,9 +243,9 @@ function handleVerifyForm() {
     verifyForm.addEventListener("submit", function (event) {
         event.preventDefault();
         const Code = document.getElementById('Code').value;
-       
+
         $.ajax({
-            url: '/auth/verify-Code',  
+            url: '/auth/verify-Code',
             method: 'POST',
             contentType: 'application/json',
             dataType: 'json',
@@ -257,7 +257,7 @@ function handleVerifyForm() {
                     verifyForm.reset();
                     //Redirigir si el codigo es correcto
                     window.location.href = '../auth/change-Password';
-                   
+
                 } else {
                     // Muestra el mensaje de error que proviene del servidor
                     Swal.fire({
@@ -289,7 +289,7 @@ function handleChangePassword() {
         const newPassword = document.getElementById('newPassword').value;
         const confirmPassword = document.getElementById('confirmPassword').value;
         $.ajax({
-            url: '/auth/change-Password',  
+            url: '/auth/change-Password',
             method: 'POST',
             contentType: 'application/json',
             dataType: 'json',
@@ -302,7 +302,7 @@ function handleChangePassword() {
                     ChangePasswordForm.reset();
                     //Redirigir si el codigo es correcto
                     window.location.href = '../auth/login';
-                   
+
                 } else {
                     // Muestra el mensaje de error que proviene del servidor
                     Swal.fire({

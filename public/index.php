@@ -11,6 +11,7 @@ use Controllers\PagesController;
 use Controllers\MenuController;
 use Controllers\JobController;
 use Controllers\CartController;
+use Controllers\PaymentController;
 use Controllers\UserController;
 // Controllers de Administración
 use Controllers\AdminController;
@@ -22,48 +23,100 @@ use Controllers\PedidosController;
 use Controllers\ConfiguracionAdminController;
 
 $router = new Router();
-/*                 DEFINIR RUTAS                  */
+/* ---------------------------------------------
+   Rutas Públicas (Clientes)
+---------------------------------------------- */
+
 $userController = new UserController(); // Aquí se ejecuta el constructor 
-// HOMECONTROLLER
-$router->get('/', [HomeController::class, 'index']);
-// PAGESCONTROLLER
-$router->get('/pages/location', [PagesController::class, 'location']);
-$router->get('/pages/contact', [PagesController::class, 'contact']);
-// MENUCONTROLLER
-$router->get('/pages/menu', [MenuController::class, 'index']);
-// JOBCONTROLLER
-$router->get('/pages/jobVacancy', [JobController::class, 'index']);
-// CARTCONTROLLER
-$router->get('/pages/cart', [CartController::class, 'index']);
-// USERCONTROLLER
+// HomeController
+$router->get('/', [HomeController::class, 'index']); // Página de inicio
+
+// PagesController
+$router->get('/pages/location', function($router) { PagesController::renderPagesView($router, 'location');}); // Página de ubicaciones
+$router->get('/pages/contact', function($router) { PagesController::renderPagesView($router, 'contact');});   // Página de contacto
+
+// MenuController
+$router->get('/pages/menu', [MenuController::class, 'index']);         // Página de menú
+$router->get('/api/platillos', [MenuController::class, 'getProducts']); // API: obtener platillos
+
+// CartController
+$router->get('/pages/cart', [CartController::class, 'index']); // Página del carrito
+$router->post('/agregar-al-carrito', [CartController::class, 'manageCart']);  // Agregar al carrito
+$router->post('/cart/delete-{id}', function($router, $params) {
+    $id = $params[0]; // Captura el ID del producto
+    CartController::deleteProduct($router, $id); // Eliminar producto
+});
+$router->post('/cart/increase-{id}', function($router, $params) {
+    $id = $params[0]; // Captura el ID del producto
+    CartController::increaseQuantity($router, $id); // Aumentar cantidad
+});
+$router->post('/cart/decrease-{id}', function($router, $params) {
+    $id = $params[0]; // Captura el ID del producto
+    CartController::decreaseQuantity($router, $id); // Disminuir cantidad
+});
+$router->post('/encrypt-data', [CartController::class, 'encryptData']); // Encriptar datos del producto
+// PAYMENTCONTROLLER
+$router->get('/tickets/show-{venta_id}', function($router, $params) {
+    // iniciar sesion
+    session_start();
+    $ventaId = $params[0];
+    PaymentController::showTicket($_SESSION['ticket_path'], $ventaId);
+}); // Mostrar ticket generado
+
+$router->post('/cart/pago-pendiente', [PaymentController::class, 'pagoPendiente']); // Pago pendiente
+// Ruta para procesar el pago de PayPal en checkout
+$router->post('/checkout/paypal', [PaymentController::class, 'checkout']);
+
+
+// Página de platillo individual
+$router->get('/pages/platillo-{IdPlatillo}', function($router, $params) {
+    $IdPlatillo = $params[0];  // Captura el ID del platillo
+    $data = PagesController::platilloData($IdPlatillo); // Obtiene los datos del platillo
+    PagesController::platillo($router, $data); // Renderiza la vista del platillo
+});
+
+// JobController
+$router->get('/pages/jobVacancy', [JobController::class, 'index']); // Página de vacantes de trabajo
+
+// PROFILE PAGE
+$router->get('/pages/profile', function($router) { PagesController::renderPagesView($router, 'profile');});
+
+/* ---------------------------------------------
+   Rutas de Autenticación (Usuarios)
+---------------------------------------------- */
+
+// Registro de usuarios
 $router->get('/auth/register', function($router) {
-    UserController::renderAuthView($router, 'register');
+    UserController::renderAuthView($router, 'register'); // Formulario de registro
 });
-$router->post('/auth/register', [UserController::class, 'apiRegister']); // NUEVA RUTA PARA API REST
-//$router->post('/auth/register', [UserController::class, 'register']); // Routes Register
+$router->post('/auth/register', [UserController::class, 'apiRegister']); // API: registrar usuario
 
+// Inicio de sesión
 $router->get('/auth/login', function($router) {
-    UserController::renderAuthView($router, 'login');
+    UserController::renderAuthView($router, 'login'); // Formulario de inicio de sesión
 });
-$router->post('/auth/login', [UserController::class, 'apiLogin']); // Routes Login
+$router->post('/auth/login', [UserController::class, 'apiLogin']); // API: iniciar sesión
 
-$router->get('/auth/logout', [UserController::class, 'logout']); // Routes Logout
+// Cierre de sesión
+$router->get('/auth/logout', [UserController::class, 'logout']); // Cerrar sesión
 
+// Recuperación de contraseña
 $router->get('/auth/forgot-Password', function($router) {
-    UserController::renderAuthView($router, 'forgot-Password');
+    UserController::renderAuthView($router, 'forgot-Password'); // Formulario de recuperación de contraseña
 });
-$router->post('/auth/forgot-Password', [UserController::class, 'sendMailCode']); // Routes Forgot Password
+$router->post('/auth/forgot-Password', [UserController::class, 'sendMailCode']); // API: enviar código de recuperación
 
-
+// Verificación de código de recuperación
 $router->get('/auth/verify-Code', function($router) {
-    UserController::renderAuthView($router, 'verify-Code');
+    UserController::renderAuthView($router, 'verify-Code'); // Formulario de verificación de código
 });
-$router->post('/auth/verify-Code', [UserController::class, 'verifyCode']); // Routes Verify Code
+$router->post('/auth/verify-Code', [UserController::class, 'verifyCode']); // API: verificar código
 
+// Cambio de contraseña
 $router->get('/auth/change-Password', function($router) {
-    UserController::renderAuthView($router, 'change-Password');
+    UserController::renderAuthView($router, 'change-Password'); // Formulario para cambiar contraseña
 });
-$router->post('/auth/change-Password', [UserController::class, 'changePassword']); // Routes Change Password
+$router->post('/auth/change-Password', [UserController::class, 'changePassword']); // API: cambiar contraseña
 
 // ---------------- Controles de Administrador ----------------
 // Control RESUMEN
@@ -85,15 +138,15 @@ $router->post('/admin/Agregar_Productos' ,[ProductController::class, 'addProduct
  
 // Control Categorias
 $router->get('/admin/Categorias', function($router) {
-    Controllers\CategoriasController::renderAdminView($router, 'Categorias');
+    //Obtenemos los datos de las categorías
+    $categorias = CategoriasController::getCategories();
+    // Renderizamos y pasamos las categorías
+    AdminController::renderAdminView($router, 'Categorias', 'layoutAdmin', [
+        'categorias' => $categorias
+    ]);
 });
-$router->get('/admin/Categorias', function($router) {
-    AdminController::renderAdminView($router, 'Categorias', 'layoutAdmin');
-});
-
 
 // Control Agregar Categorias
-$router->get('/admin/categorias', [Controllers\CategoriasController::class, 'listarCategorias']);
 
 // Agregar Categoría
 $router->post('/categorias/agregar', [Controllers\CategoriasController::class, 'agregarCategoria']);
@@ -119,6 +172,7 @@ $router->get('/admin/Pedidos', function($router) {
 $router->get('/admin/Config', function($router) {
     ConfiguracionAdminController::renderAdminView($router, 'Config');
 });
+
 
 // Manejar la solicitud
 $router->checkRoutes();
