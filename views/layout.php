@@ -10,7 +10,7 @@ $user = $sessionController->getUser();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project</title>
+    <title>Mariscos El Almirante</title>
     <!-- Bootstrap CSS -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -20,6 +20,8 @@ $user = $sessionController->getUser();
 
     <!-- SWEET ALERT -->
     <script src="../js/sweetalert2.all.min.js"></script>
+
+    <link rel="icon" href="../images/marinero2.png" type="image/x-icon">
 </head>
 
 <body>
@@ -32,7 +34,7 @@ $user = $sessionController->getUser();
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-                <ul class="navbar-nav text-uppercase font-weight-bold fs-5">
+                <ul class="navbar-nav font-weight-bold fs-4">
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="../">Inicio</a>
                     </li>
@@ -50,23 +52,27 @@ $user = $sessionController->getUser();
                     </li>
                     <?php if ($user): ?>
                         <li class="nav-item">
-                            <a class="nav-link"><i class="bi bi-person-circle heading"><?php echo htmlspecialchars($user['Nombre'] ?? 'Usuario'); ?></i></a>
+                            <a class="nav-link" href="../pages/profile"><i class="bi bi-person-circle heading"><?php echo htmlspecialchars($user['Nombre'] ?? 'Usuario'); ?></i></a>
                         </li>
                         <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'Admin'): ?>
                             <li class="nav-item">
                                 <a class="nav-link" href="/admin/dashboard">Admin</a>
                             </li>
                         <?php endif; ?>
-                        <li class="nav-item">
-                            <a class="nav-link" href="../auth/logout"><i class="bi bi-box-arrow-right"></i></a>
-                        </li>
                     <?php else: ?>
                         <li class="nav-item">
                             <a class="nav-link" href="../auth/register"><i class="bi bi-person-circle heading">Perfil</i></a>
                         </li>
                     <?php endif; ?>
-                    <li class="nav-item">
-                        <a class="nav-link" href="../pages/cart"><i class="bi bi-cart heading"></i></a>
+                    <li class="nav-item mr-3 ">
+                        <a class="nav-link fw-bold" href="../pages/cart">
+                            <i class="bi bi-cart heading fw-bold">
+                                <!-- Cantidad de elementos en el carrito -->
+                                <span class="position-absolute start-80 translate-middle badge rounded-pill bg-danger" id="cart-count">
+                                   
+                                </span>
+                            </i>
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -81,7 +87,7 @@ $user = $sessionController->getUser();
         <?php echo $contenido; ?>
     </div> <!-- End of container -->
 
-    <footer class=" text-center text-lg-start  text-muted mt-4">
+    <footer class=" text-center text-lg-start  text-muted ">
         <!-- Section: Social media -->
         <section
             class="d-flex justify-content-between p-4"
@@ -187,6 +193,10 @@ $user = $sessionController->getUser();
 
     <!-- JQUERY -->
     <script src="../js/jquery-3.6.0.min.js"></script>
+    <!-- MENU JS -->
+    <script src="../js/menu.js"></script>
+    <!-- CART JS -->
+    <script src="../js/cart.js"></script>
 
 </body>
 

@@ -2,18 +2,25 @@
 
 namespace Controllers;
 use MVC\Router;
+use Model\MenuModel;
 
 class PagesController{
-    // UBICACION 
-    public static function location(Router $router)
+    // PAGES CONTROLLER PARA PAGINAS ESTATICAS LOCATION, CONTACTO, THANK YOU
+    public static function renderPagesView(Router $router, $viewName, $data = [])
     {
-        $router->render('pages/location',[
-
+        // Renderizamos la vista pasando solo los datos que sean necesarios
+        $router->render('pages/' . $viewName, $data); 
+    }
+    //PLATILLO PAGE
+    public static function platillo(Router $router, $data)
+    {
+        $router->render('pages/platillo', [
+            'platillo' => $data
         ]);
     }
-    // CONTACTO
-    public static function contact(Router $router)
-    {
-        $router->render('pages/contact');
+    // PLATILLO OBTENER DATA
+    public static function platilloData($IdPlatillo){
+        $menuModel = new MenuModel();
+        return $menuModel->getProductById($IdPlatillo);
     }
 }

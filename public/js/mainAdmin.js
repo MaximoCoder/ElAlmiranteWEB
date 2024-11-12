@@ -3,10 +3,15 @@
 // Function para manejar el registro de un platillo jQuery/Ajax
 function addPlatilloForm() {
     const platilloForm = document.getElementById("platillo-form");
+    let isSubmitting = false; // Indicador de estado para prevención de envíos multiples
+
     if (!platilloForm) return; // Verificar si existe el formulario de registro en la página
 
     platilloForm.addEventListener("submit", function (event) {
         event.preventDefault();
+
+        if (isSubmitting) return; // Si ya se está enviando, no hacer nada
+        isSubmitting = true; // Marcar como en proceso de envío
 
         // Crear FormData para enviar los datos del formulario y la imagen
         const formData = new FormData(platilloForm);
@@ -15,7 +20,7 @@ function addPlatilloForm() {
             method: 'POST',
             processData: false,
             contentType: false,
-            data: formData, // Usamos formData en lugar de JSON
+            data: formData,
             success: function (response) {
                 if (response.status === 'success') {
                     platilloForm.reset();
@@ -35,14 +40,15 @@ function addPlatilloForm() {
                         icon: "error"
                     });
                 }
+                isSubmitting = false; // Restablecer estado
             },
             error: function (xhr, status, error) {
-                console.log("Respuesta completa del servidor: ", xhr.responseText); // Mostrar la respuesta en la consola
                 Swal.fire({
                     title: "Oops...",
                     text: "Error en la solicitud: " + error,
                     icon: "error"
                 });
+                isSubmitting = false; // Restablecer estado
             }
         });
     });
