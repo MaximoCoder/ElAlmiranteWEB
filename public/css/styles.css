@@ -382,7 +382,32 @@ input[type='radio']:checked{
     font-size: 1rem;
 }
 
-
+/* PROFILE PAGE */
+.content-section {
+    display: none; /* Ocultar todas las secciones por defecto */
+}
+.content-section.active {
+    display: block; /* Mostrar solo la sección activa */
+}
+.order-card {
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgb(0 0 0 / 20%);
+}
+.view-order-btn {
+    border-radius: 8px;
+    padding: 10px 10px;
+    width: 100%;
+}
+.list-group{
+    border: none;
+    box-shadow: 0 4px 15px rgb(0 0 0 / 20%);
+}
+.active-list{
+    color: #fff;
+    background-color: var(--bg-secondary);
+    border-color: var(--bg-secondary);
+}
 
 /*responsive*/
 

@@ -69,7 +69,7 @@ $user = $sessionController->getUser();
                             <i class="bi bi-cart heading fw-bold">
                                 <!-- Cantidad de elementos en el carrito -->
                                 <span class="position-absolute start-80 translate-middle badge rounded-pill bg-danger" id="cart-count">
-                                   
+
                                 </span>
                             </i>
                         </a>
@@ -186,18 +186,19 @@ $user = $sessionController->getUser();
         <!-- Copyright -->
     </footer>
 
-    <!-- MAIN JS -->
-    <script src="../js/main.js"></script>
     <!-- Bootstrap JS -->
     <script src="../js/bootstrap.bundle.min.js"></script>
 
     <!-- JQUERY -->
     <script src="../js/jquery-3.6.0.min.js"></script>
+    <!-- MAIN JS -->
+    <script src="../js/main.js"></script>
     <!-- MENU JS -->
     <script src="../js/menu.js"></script>
     <!-- CART JS -->
     <script src="../js/cart.js"></script>
-
+    <!-- HISTORY  -->
+    <script src="../js/reorder.js"></script>
 </body>
 
 </html>
