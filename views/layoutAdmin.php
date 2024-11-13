@@ -6,121 +6,103 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="../css/Sidebar.css">
   <link rel="stylesheet" href="../css/bootstrap.min.css">
   <link rel="stylesheet" href="../css/stylesAdmin.css">
   <link rel="stylesheet" href="../css/error.css">
   <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
-
-
-
+  <!-- Boxicons -->
+  <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
   <!-- SWEET ALERT -->
   <script src="../js/sweetalert2.all.min.js"></script>
 </head>
 
 <body>
-
-
-
   <!-- MENU LATERAL -->
-  <div class="wrapper">
-    <aside id="sidebar">
-      <div class="d-flex">
-        <button id="toggle-btn" type="button">
-          <i class="lni lni-grid-alt"></i>
-        </button>
-        <div class="sidebar-logo">
-          <a href="../admin/dashboard">Mariscos El Almirante</a>
-        </div>
-      </div>
-      <ul class="sidebar-nav">
-        <li class="sidebar-item">
-          <a href="../admin/dashboard" class="sidebar-link">
-            <i class="lni lni-bar-chart"></i>
-            <span>Resumen</span>
-          </a>
-        </li>
-        <li class="sidebar-item">
-          <a href="../admin/Agregar_Productos" class="sidebar-link">
-            <i class="lni lni-gallery"></i>
-            <span>Agregar Productos</span>
-          </a>
-        </li>
-        <li class="sidebar-item">
-          <a href="../admin/Categorias" class="sidebar-link">
-            <i class="lni lni-archive"></i>
-            <span>Categorias</span>
-          </a>
-        </li>
-        <li class="sidebar-item">
-          <a href="../admin/Editar_Productos" class="sidebar-link">
-            <i class="lni lni-pencil-alt"></i>
-            <span>Editar Productos</span>
-          </a>
-        </li>
-        <li class="sidebar-item">
-          <a href="../admin/Ventas" class="sidebar-link">
-            <i class="lni lni-cart"></i>
-            <span>Ventas</span>
-          </a>
-        </li>
-        <li class="sidebar-item">
-          <a href="../admin/Reportes" class="sidebar-link">
-            <i class="lni lni-stats-up"></i>
-            <span>Reportes</span>
-          </a>
-        </li>
-        <li class="sidebar-item">
-          <a href="../admin/Gestion_Usuarios" class="sidebar-link">
-            <i class="lni lni-users"></i>
-            <span>Gestion de Usuarios</span>
-          </a>
-        </li>
-        <li class="sidebar-item">
-          <a href="../admin/Pedidos" class="sidebar-link">
-            <i class="lni lni-delivery"></i>
-            <span>Pedidos</span>
-          </a>
-        </li>
-        <li class="sidebar-item">
-          <a href="../admin/Config" class="sidebar-link">
-            <i class="lni lni-cog"></i>
-            <span>Configuración de Pagina</span>
-          </a>
-        </li>
-        <li class="sidebar-item">
-          <a href="../" class="sidebar-link">
-            <i class="lni lni-eye"></i>
-            <span>Ver sitio</span>
-          </a>
-        </li>
-      </ul>
-      <div class="sidebar-footer">
-        <a href="../auth/logout" class="sidebar-link">
-          <i class="lni lni-exit"></i>
-          <span>Salir</span>
+  <!-- SIDEBAR -->
+  <section id="sidebar">
+    <a href="../admin/dashboard" class="brand mt-3">
+      <i class='bx bxs-customize'></i>
+      <span class="text">Mariscos El Almirante</span>
+    </a>
+    <ul class="side-menu top">
+      <li class="active">
+        <a href="../admin/dashboard">
+          <i class='bx bxs-dashboard'></i>
+          <span class="text">Dashboard</span>
         </a>
-      </div>
-    </aside>
-  </div>
-
-
-  <!-- FIN MENU LATERAL-->
+      </li>
+      <li>
+        <a href="../admin/Agregar_Productos">
+          <i class='bx bx-store'></i>
+          <span class="text">Agregar Productos</span>
+        </a>
+      </li>
+      <li>
+        <a href="../admin/Categorias">
+          <i class='bx bxs-dish'></i>
+          <span class="text">Categorias</span>
+        </a>
+      </li>
+      <li>
+        <a href="../admin/Editar_Productos">
+          <i class='bx bxs-food-menu'></i>
+          <span class="text">Editar Productos</span>
+        </a>
+      </li>
+      <li>
+        <a href="../admin/Ventas">
+          <i class='bx bxs-receipt'></i>
+          <span class="text">Ventas</span>
+        </a>
+      </li>
+      <li>
+        <a href="../admin/Pedidos">
+          <i class='bx bx-restaurant'></i>
+          <span class="text">Pedidos</span>
+        </a>
+      </li>
+      <li>
+        <a href="../admin/Gestion_Usuarios">
+          <i class='bx bxs-group'></i>
+          <span class="text">Gestion de Usuarios</span>
+        </a>
+      </li>
+      <li>
+        <a href="../">
+          <i class='bx bx-show'></i>
+          <span class="text">Ver sitio</span>
+        </a>
+      </li>
+      <li>
+        <a href="../admin/Reportes">
+          <i class='bx bxs-pie-chart-alt-2'></i>
+          <span class="text">Reportes</span>
+        </a>
+      </li>
+    </ul>
+    <ul class="side-menu">
+      <li>
+        <a href="../admin/Config">
+          <i class='bx bxs-cog'></i>
+          <span class="text">Configuración de Pagina</span>
+        </a>
+      </li>
+      <li>
+        <a href="../auth/logout" class="logout">
+          <i class='bx bxs-log-out-circle'></i>
+          <span class="text">Logout</span>
+        </a>
+      </li>
+    </ul>
+  </section>
+  <!-- SIDEBAR -->
 
   <!-- Contenedor para centrar el contenido -->
-  <div class="centered-content">
+  <section id="content">
     <?php echo $contenido; ?>
-  </div>
-
-
-
-
-
+  </section>
 
   <script src="../js/jquery-3.6.0.min.js"></script>
   <script src="../js/bootstrap.bundle.min.js"></script>
@@ -128,7 +110,8 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous"></script>
-  <script src="../js/script.js"></script>
+  
+  <script src="../js/scriptdash.js"></script>
 
 
 </body>

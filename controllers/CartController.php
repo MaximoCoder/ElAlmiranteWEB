@@ -4,6 +4,7 @@ namespace Controllers;
 
 use MVC\Router;
 use Includes\Config\Encryption; // Importar la clase de encriptación
+use Model\HistoryModel; // para reordenar la orden
 
 class CartController
 {
@@ -13,37 +14,50 @@ class CartController
     }
 
     // FUNCION PARA ENCRIPTAR LOS DATOS DEL CARRITO
-    public static function encryptData()
+    public static function encryptData($data = null)
     {
-        $encryptionKey = $_ENV['ENCRYPTION_KEY'] ?? null; // Obtener la clave de encriptación de la variable de entorno
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $encryption = new Encryption($encryptionKey);
+        $encryptionKey = $_ENV['ENCRYPTION_KEY'] ?? null;
+        $encryption = new Encryption($encryptionKey);
 
-            // Obtener datos del producto
-            $productId = $_POST['id'];
-            $productName = $_POST['name'];
-            $productPrice = $_POST['price'];
+        try {
+            // Si no se proporciona $data, tomar los datos de $_POST (para añadir al carrito)
+            if (is_array($data)) {
+                $dataToEncrypt = json_encode($data);
+                return $encryption->encrypt($dataToEncrypt);
+            } else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                // Obtener datos del producto
+                $productId = $_POST['id'];
+                $productName = $_POST['name'];
+                $productPrice = $_POST['price'];
+                $productQuantity = $_POST['quantity'] ?? 1;
 
-            // Datos a cifrar (Todos los datos del producto selecionado)
-            $dataToEncrypt = json_encode([
-                'id' => $productId,
-                'name' => $productName,
-                'price' => $productPrice
-            ]);
+                // Datos a cifrar (Todos los datos del producto selecionado)
+                $dataToEncrypt = json_encode([
+                    'id' => $productId,
+                    'name' => $productName,
+                    'price' => $productPrice,
+                    'quantity' => $productQuantity ?? 1
+                ]);
 
-            // Cifrar los datos
-            $encryptedData = $encryption->encrypt($dataToEncrypt);
+                // Cifrar los datos
+                $encryptedData = $encryption->encrypt($dataToEncrypt);
 
-            // Devolver los datos cifrados
-            echo $encryptedData;
+                // Devolver los datos cifrados
+                echo $encryptedData;
+            }
+
+            throw new \Exception('Datos incompletos para encriptar.');
+        } catch (\Exception $e) {
+            error_log($e->getMessage());
+            return null; // Opcional: puedes devolver un valor predeterminado o manejarlo de otra manera.
         }
     }
+
 
     // Método para manejar la gestión del carrito
     public static function manageCart()
     {
         session_start();
-
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $encryptedData = $_POST['encrypted_data'] ?? null;
 
@@ -51,6 +65,7 @@ class CartController
                 $encryptionKey = $_ENV['ENCRYPTION_KEY'] ?? null;
                 $encryption = new Encryption($encryptionKey);
                 $decryptedData = $encryption->decrypt($encryptedData);
+
                 $productData = json_decode($decryptedData, true);
 
                 if (isset($productData['id'], $productData['name'], $productData['price'])) {
@@ -58,7 +73,7 @@ class CartController
                         'id' => $productData['id'],
                         'name' => $productData['name'],
                         'price' => $productData['price'],
-                        'quantity' => 1
+                        'quantity' => $productData['quantity'] ?? 1
                     ];
 
                     if (isset($_SESSION['cart'])) {
@@ -102,8 +117,53 @@ class CartController
         header('Content-Type: application/json');
         echo json_encode([
             'status' => 'error',
-            'message' => 'Error al procesar la solicitud.'
+            'message' => 'Error al procesar la solicitud de carrito: '
         ]);
+        return;
+    }
+    // Funcion para volver a ordenar una orden anterior
+    public static function getOrderById($orderId)
+    {
+        header('Content-Type: application/json');
+
+        try {
+            if (!$orderId) {
+                throw new \Exception('ID de orden no proporcionado');
+            }
+
+            $orden = new HistoryModel();
+            $orderItems = $orden->getOrderById($orderId);
+
+            if (empty($orderItems)) {
+                throw new \Exception('No se encontraron productos para esta orden.');
+            }
+
+            $encryptedItems = array_map(function ($item) {
+                try {
+                    return [
+                        'encrypted_data' => self::encryptData([
+                            'id' => $item['id'],
+                            'name' => $item['name'],
+                            'price' => $item['price'],
+                            'quantity' => $item['quantity']
+                        ])
+                    ];
+                } catch (\Exception $e) {
+                    throw new \Exception('Error al encriptar producto: ' . $e->getMessage());
+                }
+            }, $orderItems);
+
+            echo json_encode([
+                'status' => 'success',
+                'orderItems' => $encryptedItems
+            ]);
+        } catch (\Exception $e) {
+            http_response_code(400);
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Error al obtener los productos de la orden: ' . $e->getMessage()
+            ]);
+        }
     }
 
     // Función para eliminar un producto del carrito

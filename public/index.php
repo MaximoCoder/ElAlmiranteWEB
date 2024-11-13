@@ -42,6 +42,10 @@ $router->get('/api/platillos', [MenuController::class, 'getProducts']); // API: 
 // CartController
 $router->get('/pages/cart', [CartController::class, 'index']); // Página del carrito
 $router->post('/agregar-al-carrito', [CartController::class, 'manageCart']);  // Agregar al carrito
+$router->post('/reordenar', function() {
+    $orderId = $_POST['order_id'] ?? null;
+    CartController::getOrderById($orderId);
+});
 $router->post('/cart/delete-{id}', function($router, $params) {
     $id = $params[0]; // Captura el ID del producto
     CartController::deleteProduct($router, $id); // Eliminar producto
@@ -54,7 +58,9 @@ $router->post('/cart/decrease-{id}', function($router, $params) {
     $id = $params[0]; // Captura el ID del producto
     CartController::decreaseQuantity($router, $id); // Disminuir cantidad
 });
-$router->post('/encrypt-data', [CartController::class, 'encryptData']); // Encriptar datos del producto
+$router->post('/encrypt-data', function () {
+    echo CartController::encryptData();
+}); // Encriptar datos del producto
 // PAYMENTCONTROLLER
 $router->get('/tickets/show-{venta_id}', function($router, $params) {
     // iniciar sesion
@@ -79,7 +85,9 @@ $router->get('/pages/platillo-{IdPlatillo}', function($router, $params) {
 $router->get('/pages/jobVacancy', [JobController::class, 'index']); // Página de vacantes de trabajo
 
 // PROFILE PAGE
-$router->get('/pages/profile', function($router) { PagesController::renderPagesView($router, 'profile');});
+$router->get('/pages/profile', function($router) {
+    PagesController::renderProfileView($router, 'profile');
+});
 
 /* ---------------------------------------------
    Rutas de Autenticación (Usuarios)
