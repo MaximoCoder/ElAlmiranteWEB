@@ -15,7 +15,7 @@ class vacanteModel
     public function create($nombreVacante, $descripcionVacante)
     {
         try {
-            $query = "INSERT INTO vacante (nombreVacante, descpricionVacante) 
+            $query = "INSERT INTO vacante (nombreVacante, descripcionVacante) 
                       VALUES (:nombreVacante, :descripcionVacante)";
             $stmt = $this->db->prepare($query);
             $stmt->bindParam(':nombreVacante', $nombreVacante);

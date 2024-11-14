@@ -2,8 +2,10 @@
 
 namespace Controllers;
 
+use Model\vacanteModel;
+
 // Funcion para registrar una nueva vacante
-class registroVacante{
+class vacanteController{
     public static function renderVacanteView(Router $router, $viewName)
     {
         $error = ''; // Inicializar variable de error
@@ -31,7 +33,7 @@ class registroVacante{
 
             // Crear la vacante
             $vacanteCreate = $vacanteModel->createVacante($nombreVacante, $descripcionVacante);
-            
+
             // Redirigir a la vista de vacante o mostrar un error
             echo json_encode(
                 $vacanteCreate
