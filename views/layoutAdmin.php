@@ -27,7 +27,7 @@
       <span class="text">Mariscos El Almirante</span>
     </a>
     <ul class="side-menu top">
-      <li class="active">
+      <li>
         <a href="../admin/dashboard">
           <i class='bx bxs-dashboard'></i>
           <span class="text">Dashboard</span>

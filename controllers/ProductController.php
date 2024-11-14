@@ -17,89 +17,74 @@ class ProductController
     }
 
     // Agrega un nuevo producto con imagen
+    // Funcion para agregar un nuevo producto
     public static function addProduct()
     {
         header('Content-Type: application/json');
-
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $nombrePlatillo = $_POST['NombrePlatillo'] ?? '';
-            $descripcionPlatillo = $_POST['DescripciónPlatillo'] ?? '';
-            $precioPlatillo = $_POST['PrecioPlatillo'] ?? '';
-            $disponibilidad = $_POST['Disponibilidad'] ?? '';
-            $categoriaId = $_POST['IdCategoría'] ?? '';
-            $imgNombre = '';
+            // Obtener los datos del formulario
+            $nombrePlatillo = $_POST['NombrePlatillo'] ?? null;
+            $descripcionPlatillo = $_POST['DescripcionPlatillo'] ?? null;
+            $precioPlatillo = $_POST['PrecioPlatillo'] ?? null;
+            $disponibilidad = $_POST['Disponibilidad'] ?? null;
+            $categoriaId = $_POST['IdCategoria'] ?? null;
 
-            // Validación de campos obligatorios
-            if (empty($nombrePlatillo) || empty($precioPlatillo) || empty($categoriaId)) {
-                echo json_encode([
-                    'success' => false,
-                    'message' => 'El nombre, precio y categoría son obligatorios.'
-                ]);
-                return;
-            }
-
-            // Manejo de la imagen
-            if (isset($_FILES['img']) && $_FILES['img']['error'] === UPLOAD_ERR_OK) {
-                $nombreImagen = $_FILES['img']['name'];
-                $rutaTemporal = $_FILES['img']['tmp_name'];
+            // Manejar la subida de la imagen
+            if (isset($_FILES['imagenProducto']) && $_FILES['imagenProducto']['error'] === UPLOAD_ERR_OK) {
+                $nombreImagen = $_FILES['imagenProducto']['name'];
+                $rutaTemporal = $_FILES['imagenProducto']['tmp_name'];
                 $carpetaDestino = __DIR__ . '/../public/uploads/';
 
-                // Crear la carpeta si no existe
                 if (!is_dir($carpetaDestino)) {
                     mkdir($carpetaDestino, 0755, true);
                 }
 
                 $rutaDestino = $carpetaDestino . $nombreImagen;
 
-                // Mover la imagen al destino final
                 if (move_uploaded_file($rutaTemporal, $rutaDestino)) {
                     $imgNombre = $nombreImagen;
                 } else {
-                    echo json_encode([
-                        'status' => 'error',
-                        'message' => 'Error al subir la imagen'
-                    ]);
+                    echo json_encode(['status' => 'error', 'message' => 'Error al subir la imagen']);
                     return;
                 }
-            } else {
-                echo json_encode([
-                    'status' => 'error',
-                    'message' => 'La imagen es obligatoria'
-                ]);
-                return;
             }
-
-            // Insertar el producto con la imagen en la base de datos
-            $productModel = new ProductModel();
-
             try {
-                $productModel->insertProduct($nombrePlatillo, $descripcionPlatillo, $precioPlatillo, $disponibilidad, $categoriaId, $imgNombre);
-                
-                echo json_encode([
-                    'success' => true,
-                    'message' => 'Producto agregado correctamente'
-                ]);
-            } catch (PDOException $e) {
-                echo json_encode([
-                    'success' => false,
-                    'message' => "Error al agregar el producto: " . $e->getMessage()
-                ]);
+                $productModel = new ProductModel();
+                $platilloCreated = $productModel->insertProduct([
+                    'NombrePlatillo' => $nombrePlatillo,
+                    'DescripcionPlatillo' => $descripcionPlatillo,
+                    'PrecioPlatillo' => $precioPlatillo,
+                    'Disponibilidad' => $disponibilidad,
+                    'IdCategoria' => $categoriaId,
+                    'img' => $imgNombre
+                ], 'platillo');
+
+                if ($platilloCreated) {
+                    echo json_encode(['status' => 'success', 'message' => 'El platillo se agregó correctamente.']);
+                } else {
+                    echo json_encode(['status' => 'error', 'message' => 'No se insertaron filas en la base de datos.']);
+                }
+            } catch (\PDOException $e) {
+                // En caso de error, mostrar un mensaje de error
+                echo json_encode(['status' => 'error', 'message' => 'Error al agregar el platillo:' . $e->getMessage()]);
+                return;
             }
         }
     }
 
-    public static function obtenerPlatillos($router) {
+    public static function obtenerPlatillos($router)
+    {
         header('Content-Type: application/json');
-        include_once 'config/database.php'; 
-    
+        include_once 'config/database.php';
+
         $platilloId = $_GET['id'] ?? null;
-    
+
         try {
             if ($platilloId) {
                 $stmt = $pdo->prepare('SELECT * FROM platillo WHERE IdPlatillo = ?');
                 $stmt->execute([$platilloId]);
-                $platillo = $stmt->fetch(PDO::FETCH_ASSOC);
-    
+                $platillo = $stmt->fetch(\PDO::FETCH_ASSOC);
+
                 if ($platillo) {
                     echo json_encode($platillo);
                 } else {
@@ -107,14 +92,14 @@ class ProductController
                 }
             } else {
                 $stmt = $pdo->query('SELECT * FROM platillo');
-                $platillos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                $platillos = $stmt->fetchAll(\PDO::FETCH_ASSOC);
                 echo json_encode($platillos);
             }
         } catch (PDOException $e) {
             echo json_encode(['error' => $e->getMessage()]);
         }
     }
-    
+
 
     // Lista todos los productos
     public static function listarProductos(Router $router)
@@ -127,7 +112,4 @@ class ProductController
             'productos' => $productos
         ], 'layoutAdmin');
     }
-    
 }
-?>
-

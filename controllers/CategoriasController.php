@@ -6,6 +6,7 @@ namespace Controllers;
 use MVC\Router;
 
 use Model\ProductModel;
+use Model\AdminModel;
 use PDOException;
 
 class CategoriasController
@@ -16,31 +17,21 @@ class CategoriasController
         $categorias = $ProductModel->getAllCategories();
 
         // Renderiza la vista de categorías con los datos obtenidos
-        $router->render('admin/categorias', [
+        $router->render('admin/Categorias', [
             'categorias' => $categorias
         ], 'layoutAdmin');
     }
 
-    
-    public static function agregarCategoria(Router $router)
-    {
-        header('Content-Type: application/json');
 
-
-use Model\AdminModel;
-
-class CategoriasController {
-    
     public static function getCategories()
     {
         $adminModel = new AdminModel();
         return $adminModel->getData('categoria');
     }
-    /*
+
     public static function agregarCategoria(Router $router) {
         $error = null;
         
-
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $nombreCategoria = $_POST['nombreCategoria'] ?? '';
             if (empty($nombreCategoria)) {
@@ -59,7 +50,7 @@ class CategoriasController {
                     'success' => true,
                     'message' => 'Categoría agregada correctamente'
                 ]);
-                header("Location: /admin/Categorias");
+                
                     exit;
             } catch (PDOException $e) {
                 echo json_encode([
@@ -68,7 +59,7 @@ class CategoriasController {
                 ]);
             }
         }
-        $router->render('admin/Categorias', [
+        $router->render('admin/Categorias-add', [
             'error' => $error
         ], 'layoutAdmin');
     
@@ -137,5 +128,6 @@ class CategoriasController {
                 ]);
             }
         }
-    }*/
+    }
+    
 }
