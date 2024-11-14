@@ -29,8 +29,6 @@
 // Function para manejar el registro de vacante usando jQuery/Ajax
 function handleRegisterForm() {
     const registrarVacante = document.getElementById("registrarVacante");
-    event.preventDefault();
-
     const nombreVacante = document.getElementById('nombreVacante').value;
     const descripcionVacante = document.getElementById('descripcionVacante').value;
 
