@@ -3,6 +3,7 @@
 namespace Controllers;
 
 use Model\vacanteModel;
+use MVC\Router;
 
 // Funcion para registrar una nueva vacante
 class vacanteController{

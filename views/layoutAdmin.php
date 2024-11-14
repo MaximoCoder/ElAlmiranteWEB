@@ -71,7 +71,7 @@
       </li>
       <li>
         <a href="../admin/Editar_Vacante">
-          <i class='bx pencil'></i>
+          <i class='bx bxs-pencil'></i>
           <span class="text">Editar vacante</span>
         </a>
       </li>

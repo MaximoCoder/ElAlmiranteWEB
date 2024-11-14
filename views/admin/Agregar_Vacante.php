@@ -1,20 +1,39 @@
-<div class="container">
-    <form class="form-group register-form" id="registrarVacante">
-        <div class="mb-3 bg-form text-white p-5 rounded">
-            <h2 class="text-center">Registrar Vacante</h2>
-            <label for="" class="mt-4 fw-semibold">Nombre de la vacante:</label>
-            <input type="text" id="nombreVacante" class="form-control input-formU" value="<?php echo isset($_POST["nombreVacante"]) ? $_POST["nombreVacante"] : ''; ?>" required>
+<div class="container mt-5">
+    <h2 class="mb-4">Registrar vacante</h2>
+    <form id="registrarVacante">
+        <!-- Nombre de la vacante -->
+        <div class="row mb-3">
+            <div class="col-12">
+                <label for="nombreVacante" class="form-label">Nombre de la vacante:</label>
+                <input type="text" class="form-control" id="nombreVacante" placeholder="Ingrese el nombre de la vacante:" required>
+            </div>
+        </div>
         
-            <label class="fw-semibold" for="descripcionVacante">Descripción de la vacante:</label>
-            <textarea id="descripcionVacante" class="form-control input-formU" required><?php echo isset($_POST["descripcionVacante"]) ? $_POST["descripcionVacante"] : ''; ?></textarea>
-            
-            <label for="disponibilidad" class="form-label text-black">Disponibilidad:</label>
-                <select class="form-control form-select border-0  input-color" name="Disponibilidad" required>
+        <!-- Descripción de la vacante -->
+        <div class="row mb-3">
+            <div class="col-12">
+                <label for="descripcionVacante" class="form-label">Descripción</label>
+                <textarea class="form-control" id="descripcionVacante" rows="10" placeholder="Ingrese la descripción de la vacante: (Descripción, requisitos y qué ofrece)" required></textarea>
+            </div>
+        </div>
+        
+        <!-- Disponibilidad -->
+        <div class="row mb-3">
+            <div class="col-12">
+                <label for="disponibilidadVacante" class="form-label">Disponibilidad</label>
+                <select class="form-select" id="disponibilidadVacante" required>
+                    <option selected disabled>Seleccione la disponibilidad</option>
                     <option value="Disponible">Disponible</option>
                     <option value="No Disponible">No Disponible</option>
                 </select>
-
-            <input type="submit" class="form-control btn-color fw-bold" onclick="registrarVacante()" >
+            </div>
+        </div>
+        
+        <!-- Botón de submit -->
+        <div class="row">
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">Agregar vacante</button>
+            </div>
         </div>
     </form>
 </div>
