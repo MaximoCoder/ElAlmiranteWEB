@@ -1,16 +1,20 @@
 <?php
 
 namespace Includes\Config;
-class Encryption {
+
+class Encryption
+{
     private $key;
     private $cipher;
 
-    public function __construct($key) {
+    public function __construct($key)
+    {
         $this->key = $key;
         $this->cipher = "aes-128-cbc"; // Choose your cipher
     }
 
-    public function encrypt($data) {
+    public function encrypt($data)
+    {
         // Generate a random Initialization Vector (IV)
         $ivLength = openssl_cipher_iv_length($this->cipher);
         $iv = openssl_random_pseudo_bytes($ivLength);
@@ -22,7 +26,8 @@ class Encryption {
         return base64_encode($iv . $encryptedData); // Combine IV and encrypted data for later use
     }
 
-    public function decrypt($data) {
+    public function decrypt($data)
+    {
         // Decode the base64 encoded data
         $data = base64_decode($data);
 

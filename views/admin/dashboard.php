@@ -1,1 +1,126 @@
-<h1>Resumen</h1>
+<!-- CONTENT -->
+	<!-- NAVBAR -->
+	<nav>
+		<i class='bx bx-menu'></i>
+		<a href="#" class="nav-link">Categories</a>
+		<form action="#">
+			<div class="form-input">
+				<input type="search" placeholder="Search...">
+				<button type="submit" class="search-btn"><i class='bx bx-search'></i></button>
+			</div>
+		</form>
+		<input type="checkbox" id="switch-mode" hidden>
+		<label for="switch-mode" class="switch-mode"></label>
+		
+	</nav>
+	<!-- NAVBAR -->
+
+	<!-- MAIN -->
+	<main>
+		<div class="head-title">
+			<div class="left">
+				<h1>Dashboard</h1>
+				<ul class="breadcrumb">
+					<li>
+						<a href="#">Dashboard</a>
+					</li>
+					<li><i class='bx bx-chevron-right'></i></li>
+					<li>
+						<a class="active" href="#">Home</a>
+					</li>
+				</ul>
+			</div>
+			<a href="#" class="btn-download">
+				<i class='bx bxs-cloud-download'></i>
+				<span class="text">Download PDF</span>
+			</a>
+		</div>
+
+		<ul class="box-info">
+			<li>
+				<i class='bx bxs-calendar-check'></i>
+				<span class="text">
+					<h3>1020</h3>
+					<p>New Order</p>
+				</span>
+			</li>
+			<li>
+				<i class='bx bxs-group'></i>
+				<span class="text">
+					<h3>2834</h3>
+					<p>Visitors</p>
+				</span>
+			</li>
+			<li>
+				<i class='bx bxs-dollar-circle'></i>
+				<span class="text">
+					<h3>$2543</h3>
+					<p>Total Sales</p>
+				</span>
+			</li>
+		</ul>
+
+
+		<div class="table-data">
+			<div class="order">
+				<div class="head">
+					<h3>Recent Orders</h3>
+					<i class='bx bx-search'></i>
+					<i class='bx bx-filter'></i>
+				</div>
+				<table>
+					<thead>
+						<tr>
+							<th>User</th>
+							<th>Date Order</th>
+							<th>Status</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>
+								
+								<p>John Doe</p>
+							</td>
+							<td>01-10-2021</td>
+							<td><span class="status completed">Completada</span></td>
+						</tr>
+						<tr>
+							<td>
+								
+								<p>John Doe</p>
+							</td>
+							<td>01-10-2021</td>
+							<td><span class="status pending">Pendiente</span></td>
+						</tr>
+						<tr>
+							<td>
+								
+								<p>John Doe</p>
+							</td>
+							<td>01-10-2021</td>
+							<td><span class="status process">En proceso</span></td>
+						</tr>
+						<tr>
+							<td>
+								
+								<p>John Doe</p>
+							</td>
+							<td>01-10-2021</td>
+							<td><span class="status pending">Pendiente</span></td>
+						</tr>
+						<tr>
+							<td>
+								
+								<p>John Doe</p>
+							</td>
+							<td>01-10-2021</td>
+							<td><span class="status completed">Completado</span></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</main>
+	<!-- MAIN -->
+	<!-- CONTENT -->

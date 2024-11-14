@@ -323,3 +323,26 @@ function handleChangePassword() {
         });
     });
 }
+
+
+// PROFILE PAGE
+$(document).ready(function() {
+    // Manejar el clic en los enlaces del menú
+    $('.list-group-item').click(function(e) {
+        e.preventDefault();
+
+        // Remover la clase active de todos los enlaces
+        $('.list-group-item').removeClass('active');
+        // Agregar la clase active al enlace clickeado
+        $(this).addClass('active');
+
+        // Obtener la sección a mostrar
+        const sectionToShow = $(this).data('section');
+
+        // Ocultar todas las secciones
+        $('.content-section').removeClass('active');
+
+        // Mostrar la sección seleccionada
+        $(`#${sectionToShow}-section`).addClass('active');
+    });
+});

@@ -4,6 +4,29 @@
 namespace Controllers;
 
 use MVC\Router;
+
+use Model\ProductModel;
+use PDOException;
+
+class CategoriasController
+{
+    public static function renderAdminView(Router $router)
+    {
+        $ProductModel = new ProductModel();
+        $categorias = $ProductModel->getAllCategories();
+
+        // Renderiza la vista de categorías con los datos obtenidos
+        $router->render('admin/categorias', [
+            'categorias' => $categorias
+        ], 'layoutAdmin');
+    }
+
+    
+    public static function agregarCategoria(Router $router)
+    {
+        header('Content-Type: application/json');
+
+
 use Model\AdminModel;
 
 class CategoriasController {
@@ -17,78 +40,102 @@ class CategoriasController {
     public static function agregarCategoria(Router $router) {
         $error = null;
         
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $nombreCategoria = $_POST['nombreCategoria'] ?? '';
-
             if (empty($nombreCategoria)) {
-                $error = "El nombre de la categoría no puede estar vacío.";
-            } else {
-                try {
-                    $db = connectDB();
-                    $stmt = $db->prepare("INSERT INTO categoria (NombreCategoría, FechaCreación) VALUES (?, NOW())");
-                    $stmt->execute([$nombreCategoria]);
-                    header("Location: /admin/categorias");
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'El nombre de la categoría no puede estar vacío.'
+                ]);
+                return;
+            }
+
+            $ProductModel = new ProductModel();
+
+            try {
+                $ProductModel->insertCategory($nombreCategoria);
+                echo json_encode([
+                    'success' => true,
+                    'message' => 'Categoría agregada correctamente'
+                ]);
+                header("Location: /admin/Categorias");
                     exit;
-                } catch (PDOException $e) {
-                    $error = "Error al insertar la categoría: " . $e->getMessage();
-                }
+            } catch (PDOException $e) {
+                echo json_encode([
+                    'success' => false,
+                    'message' => "Error al insertar la categoría: " . $e->getMessage()
+                ]);
             }
         }
-
         $router->render('admin/Categorias', [
             'error' => $error
         ], 'layoutAdmin');
+    
     }
 
-    public static function eliminarCategoria(Router $router) {
-    if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
-        require_once __DIR__ . '/../includes/config/database.php';
+    public static function eliminarCategoria()
+    {
+        header('Content-Type: application/json');
 
-        $id = $_GET['id'] ?? '';
+        if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
+            $id = $_GET['id'] ?? '';
 
-        try {
-            $db = connectDB();
-            $stmt = $db->prepare("DELETE FROM categoria WHERE IdCategoría = ?");
-            $stmt->execute([$id]);
-
-            echo json_encode(['success' => true]);
-        } catch (PDOException $e) {
-            echo json_encode(['success' => false, 'error' => $e->getMessage()]);
-        }
-        exit;
-    }
-}
-
-
-    public static function editarCategoria(Router $router) {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            require_once __DIR__ . '/../includes/config/database.php';
-
-            $id = $_POST['categoriaId'] ?? '';
-            $nombreCategoria = $_POST['nombreCategoriaEditar'] ?? '';
-
-            if (empty($nombreCategoria)) {
-                echo json_encode(['success' => false, 'error' => 'El nombre no puede estar vacío.']);
-                exit;
+            if (empty($id)) {
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'El ID de la categoría no puede estar vacío.'
+                ]);
+                return;
             }
 
-            try {
-                $db = connectDB();
-                $stmt = $db->prepare("UPDATE categoria SET NombreCategoría = ? WHERE IdCategoría = ?");
-                $stmt->execute([$nombreCategoria, $id]);
+            $ProductModel = new ProductModel();
 
+            try {
+                $ProductModel->deleteCategory($id);
                 echo json_encode([
                     'success' => true,
-                    'id' => $id,
-                    'nombre' => $nombreCategoria
+                    'message' => 'Categoría eliminada correctamente'
                 ]);
             } catch (PDOException $e) {
                 echo json_encode([
                     'success' => false,
-                    'error' => $e->getMessage()
+                    'message' => "Error al eliminar la categoría: " . $e->getMessage()
                 ]);
             }
-            exit;
+        }
+    }
+
+    public static function editarCategoria()
+    {
+        header('Content-Type: application/json');
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = $_POST['categoriaId'] ?? '';
+            $nombreCategoria = $_POST['nombreCategoriaEditar'] ?? '';
+
+            if (empty($id) || empty($nombreCategoria)) {
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'El ID y el nombre de la categoría no pueden estar vacíos.'
+                ]);
+                return;
+            }
+
+            $ProductModel = new ProductModel();
+
+            try {
+                $ProductModel->updateCategory($id, $nombreCategoria);
+                echo json_encode([
+                    'success' => true,
+                    'message' => 'Categoría actualizada correctamente'
+                ]);
+            } catch (PDOException $e) {
+                echo json_encode([
+                    'success' => false,
+                    'message' => "Error al actualizar la categoría: " . $e->getMessage()
+                ]);
+            }
         }
     }*/
 }

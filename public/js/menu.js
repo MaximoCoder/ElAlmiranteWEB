@@ -54,7 +54,7 @@ $(document).ready(function () {
                     var productId = $(this).data('id');
                     var productName = $(this).data('name');
                     var productPrice = $(this).data('price');
-
+            
                     // Encriptar y enviar los datos del producto
                     submitEncryptedForm(productId, productName, productPrice);
                 });
@@ -68,13 +68,14 @@ $(document).ready(function () {
 
     // Función para crear y enviar el formulario encriptado
     function submitEncryptedForm(productId, productName, productPrice) {
+        //console.log(productId, productName, productPrice);
         $.ajax({
             url: '/encrypt-data',  // Endpoint PHP para cifrar los datos
             method: 'POST',
             data: {
                 id: productId,
                 name: productName,
-                price: productPrice,
+                price: productPrice
             },
             success: function (encryptedData) {
                 // Enviar los datos cifrados al servidor sin redireccionar
@@ -85,6 +86,7 @@ $(document).ready(function () {
                         encrypted_data: encryptedData
                     },
                     success: function (response) {
+                        console.log(response);
                         // Mostrar mensaje de éxito
                         Swal.fire({
                             position: "top-end",
@@ -97,7 +99,9 @@ $(document).ready(function () {
                         });
                         // Aquí puedes actualizar el carrito dinámicamente si lo deseas
                     },
-                    error: function () {
+                    error: function (xhr) {
+                        // Mostrar mensaje de error
+                        console.log("Error al agregar el producto al carrito: " + xhr.responseText);
                         Swal.fire({
                             position: "top-end",
                             toast: true,
@@ -110,12 +114,14 @@ $(document).ready(function () {
                     }
                 });
             },
-            error: function () {
+            error: function (xhr) {
+                // Mostrar mensaje de error
+                //console.log("Error al cifrar los datos: " + xhr.responseText);
                 Swal.fire({
                     position: "top-end",
                     toast: true,
                     title: "Error",
-                    text: "Error al cifrar los datos.",
+                    text: "Error al cifrar los datos." + xhr.responseText,
                     icon: "error",
                     showConfirmButton: false,
                     timer: 1500
