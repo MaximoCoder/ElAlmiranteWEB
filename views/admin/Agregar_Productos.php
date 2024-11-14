@@ -7,6 +7,7 @@
                     <div class="m-0 text-dark text-center text-lg">
                         <h1><i class="fas fa-utensils"></i>&nbsp;&nbsp;Registro de Platillos</h1>
 
+
 <div class="container mt-4 card-add-product  ">
     <div class="text-white  ">
         <form  id="platillo-form">
@@ -61,6 +62,7 @@
                 <div class="col-md-12 mb-3">
                     <div class="d-flex justify-content-center align-items-center" style="height: 200px; ">
                         <img src="#" id="previewImagen" style="max-width: 100%; max-height: 100%; display: none;" alt="Vista previa">
+
 
                     </div>
                 </div>
@@ -184,5 +186,6 @@
         previewImagen.style.display = 'none';
         this.style.display = 'none';
     };
+
 
 </script>
