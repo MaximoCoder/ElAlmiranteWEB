@@ -5,8 +5,8 @@
             <label for="" class="mt-4 fw-semibold">Nombre de la vacante:</label>
             <input type="text" id="nombreVacante" class="form-control input-formU" value="<?php echo isset($_POST["nombreVacante"]) ? $_POST["nombreVacante"] : ''; ?>" required>
         
-            <label class=" fw-semibold" for="">Descripción de la vacante:</label>
-            <input type="email" id="descripcionVacante" class="form-control input-formU" value="<?php echo isset($_POST["descripcionVacante"]) ? $_POST["descripcionVacante"] : ''; ?>" required>
+            <label class="fw-semibold" for="descripcionVacante">Descripción de la vacante:</label>
+            <textarea id="descripcionVacante" class="form-control input-formU" required><?php echo isset($_POST["descripcionVacante"]) ? $_POST["descripcionVacante"] : ''; ?></textarea>
             
             <label for="disponibilidad" class="form-label text-black">Disponibilidad:</label>
                 <select class="form-control form-select border-0  input-color" name="Disponibilidad" required>
@@ -20,7 +20,13 @@
 </div>
 
 <script>
-    // Function para manejar el registro de vacante usando jQuery/Ajax
+//Añade evento submit al formulario y previene que se envie recargando la página    
+    document.getElementById("registrarVacante").addEventListener("submit", function(event) {
+        event.preventDefault();
+        handleRegisterForm();
+    });
+
+// Function para manejar el registro de vacante usando jQuery/Ajax
 function handleRegisterForm() {
     const registrarVacante = document.getElementById("registrarVacante");
     event.preventDefault();
