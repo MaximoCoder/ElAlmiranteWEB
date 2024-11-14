@@ -1,27 +1,63 @@
-<div class="container mt-5">
-    <h2 class="mb-4">Registro de Nueva Vacante</h2>
+<div class="container">
+    <form class="form-group register-form" id="registrarVacante">
+        <div class="mb-3 bg-form text-white p-5 rounded">
+            <h2 class="text-center">Registrar Vacante</h2>
+            <label for="" class="mt-4 fw-semibold">Nombre de la vacante:</label>
+            <input type="text" id="nombreVacante" class="form-control input-formU" value="<?php echo isset($_POST["nombreVacante"]) ? $_POST["nombreVacante"] : ''; ?>" required>
+        
+            <label class=" fw-semibold" for="">Descripción de la vacante:</label>
+            <input type="email" id="descripcionVacante" class="form-control input-formU" value="<?php echo isset($_POST["descripcionVacante"]) ? $_POST["descripcionVacante"] : ''; ?>" required>
+            
+            <label for="disponibilidad" class="form-label text-black">Disponibilidad:</label>
+                <select class="form-control form-select border-0  input-color" name="Disponibilidad" required>
+                    <option value="Disponible">Disponible</option>
+                    <option value="No Disponible">No Disponible</option>
+                </select>
 
-    <!-- Contenedor del formulario, haciendo uso de la rejilla de Bootstrap para ser responsivo -->
-    <div class="row justify-content-center">
-        <div class="col-md-8 col-lg-6">
-            <form id="vacanteForm">
-                <!-- Campo para el nombre de la vacante -->
-                <div class="mb-3">
-                    <label for="nombreVacante" class="form-label">Nombre de la Vacante</label>
-                    <input type="text" class="form-control" id="nombreVacante" required>
-                </div>
-
-                <!-- Campo para la descripción del puesto -->
-                <div class="mb-3">
-                    <label for="descripcion" class="form-label">Descripción del Puesto</label>
-                    <textarea class="form-control" id="descripcion" rows="3" required></textarea>
-                </div>
-
-                <!-- Botón para enviar el formulario -->
-                <button type="submit" class="btn btn-primary w-100">
-                    <i class="lni lni-pencil-alt"></i> Crear Vacante
-                </button>
-            </form>
+            <input type="submit" class="form-control btn-color fw-bold" onclick="registrarVacante()" >
         </div>
-    </div>
+    </form>
 </div>
+
+<script>
+    // Function para manejar el registro de vacante usando jQuery/Ajax
+function handleRegisterForm() {
+    const registrarVacante = document.getElementById("registrarVacante");
+    event.preventDefault();
+
+    const nombreVacante = document.getElementById('nombreVacante').value;
+    const descripcionVacante = document.getElementById('descripcionVacante').value;
+
+    $.ajax({
+        url: '/admin/Agregar_Vacante',
+        method: 'POST',
+        contentType: 'application/json',
+        dataType: 'json',
+        data: JSON.stringify({
+            nombreVacante: nombreVacante,
+            descripcionVacante: descripcionVacante
+        }),
+        success: function (response) {
+            if (response.status === 'success') {
+                registrarVacante.reset();
+            } else {
+                // Muestra el mensaje de error que proviene del servidor
+                Swal.fire({
+                    title: "Oops...",
+                    text: response.message || "Hubo un problema al registrar.",
+                    icon: "error"
+                });
+            }
+        },
+        error: function (xhr, status, error) {
+            //console.log("Respuesta completa del servidor: ", xhr.responseText); // Mostrar la respuesta en la consola
+            Swal.fire({
+                title: "Oops...",
+                text: "Error en la solicitud: " + error,
+                icon: "error"
+            });
+        }
+    });
+});
+}
+</script>
