@@ -17,6 +17,7 @@ use Controllers\UserController;
 use Controllers\AdminController;
 use Controllers\CategoriasController;
 use Controllers\ProductController;
+use Controllers\vacanteController;
 use Controllers\EditarProductosController;
 use Controllers\VentasController;
 use Controllers\PedidosController;
@@ -153,6 +154,12 @@ $router->get('/admin/Categorias', function($router) {
         'categorias' => $categorias
     ]);
 });
+
+// Registro de vacantes
+$router->get('/admin/Agregar_Vacante', function($router) {
+    vacanteController::renderVacanteView($router, 'Agregar_Vacante'); // Formulario de registro
+});
+$router->post('/admin/Agregar_Vacante', [vacanteController::class, 'registroVacante']); // API: registrar usuario
 
 // Control Agregar Categorias
 
