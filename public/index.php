@@ -157,7 +157,7 @@ $router->get('/admin/Categorias', function($router) {
 // Control Agregar Categorias
 
 // Agregar Categoría
-$router->post('/categorias/agregar', [Controllers\CategoriasController::class, 'agregarCategoria']);
+$router->post('/admin/Categorias-add', [CategoriasController::class, 'agregarCategoria']);
 $router->post('/categorias/editar',  [CategoriasController::class, 'editarCategoria']);
 $router->delete('/admin/categorias/eliminar', [CategoriasController::class, 'eliminarCategoria']); 
 

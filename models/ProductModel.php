@@ -98,14 +98,19 @@ class ProductModel
     }
 
     // Insertar un nuevo platillo
-    public function insertProduct($nombrePlatillo, $descripcionPlatillo, $precioPlatillo, $disponibilidad, $categoriaId, $img)
+    public function insertProduct($data, $table)
     {
         try {
-            $query = "INSERT INTO platillo (NombrePlatillo, DescripciónPlatillo, PrecioPlatillo, Disponibilidad, IdCategoría, img) VALUES (?, ?, ?, ?, ?, ?)";
+            $columns = implode(',', array_keys($data));
+            $placeholders = implode(',', array_fill(0, count($data), '?'));
+
+            $query = "INSERT INTO $table ($columns) VALUES ($placeholders)";
             $stmt = $this->db->prepare($query);
-            $stmt->execute([$nombrePlatillo, $descripcionPlatillo, $precioPlatillo, $disponibilidad, $categoriaId, $img]);
-        } catch (PDOException $e) {
-            echo "Error al insertar el platillo: " . $e->getMessage();
+            $stmt->execute(array_values($data));
+
+            return $stmt->rowCount();
+        } catch (\PDOException $e) {
+            throw $e;
         }
     }
     // Eliminar un platillo por su ID
