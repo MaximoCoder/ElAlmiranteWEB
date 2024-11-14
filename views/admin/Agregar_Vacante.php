@@ -1,41 +1,49 @@
-<div class="container mt-5">
-    <h2 class="mb-4">Registrar vacante</h2>
-    <form id="registrarVacante">
-        <!-- Nombre de la vacante -->
-        <div class="row mb-3">
-            <div class="col-12">
-                <label for="nombreVacante" class="form-label">Nombre de la vacante:</label>
-                <input type="text" class="form-control" id="nombreVacante" placeholder="Ingrese el nombre de la vacante:" required>
+<div class="content-wrapper">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-md-12 text-center">
+                    <h1><i class="fas fa-briefcase"></i>&nbsp;&nbsp;Registro de vacantes</h1>
+                </div>
             </div>
         </div>
-        
-        <!-- Descripción de la vacante -->
-        <div class="row mb-3">
-            <div class="col-12">
-                <label for="descripcionVacante" class="form-label">Descripción</label>
-                <textarea class="form-control" id="descripcionVacante" rows="10" placeholder="Ingrese la descripción de la vacante: (Descripción, requisitos y qué ofrece)" required></textarea>
-            </div>
+    </div>
+    
+    <div class="container mt-4 card-add-product">
+        <div class="card p-4">
+            <form id="registrarVacante">
+                <h3 class="text-center">Agregar vacante</h3>
+                
+                <div class="row mb-3">
+                    <div class="col-lg-8">
+                        <label for="nombreVacante" class="form-label">Nombre de la vacante:</label>
+                        <input type="text" class="form-control border-0 input-color" id="nombreVacante" placeholder="Ingrese el nombre de la vacante" required>
+                    </div>
+                    <div class="col-lg-4">
+                        <label for="disponibilidadVacante" class="form-label">Disponibilidad:</label>
+                        <select class="form-control border-0 input-color" id="disponibilidadVacante" required>
+                            <option value="" disabled selected>Seleccione la disponibilidad</option>
+                            <option value="Disponible">Disponible</option>
+                            <option value="No Disponible">No Disponible</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-lg-12">
+                        <label for="descripcionVacante" class="form-label">Descripción:</label>
+                        <textarea class="form-control border-0 input-color" id="descripcionVacante" rows="7" placeholder="Ingrese la descripción de la vacante: (Descripción, requisitos y qué ofrece)" required></textarea>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="submit" class="btn btn-primary w-100">Guardar vacante</button>
+                    </div>
+                </div>
+            </form>
         </div>
-        
-        <!-- Disponibilidad -->
-        <div class="row mb-3">
-            <div class="col-12">
-                <label for="disponibilidadVacante" class="form-label">Disponibilidad</label>
-                <select class="form-select" id="disponibilidadVacante" required>
-                    <option selected disabled>Seleccione la disponibilidad</option>
-                    <option value="Disponible">Disponible</option>
-                    <option value="No Disponible">No Disponible</option>
-                </select>
-            </div>
-        </div>
-        
-        <!-- Botón de submit -->
-        <div class="row">
-            <div class="col-12">
-                <button type="submit" class="btn btn-primary">Agregar vacante</button>
-            </div>
-        </div>
-    </form>
+    </div>
 </div>
 
 <script>

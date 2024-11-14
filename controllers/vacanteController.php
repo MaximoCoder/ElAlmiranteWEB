@@ -7,13 +7,7 @@ use MVC\Router;
 
 // Funcion para registrar una nueva vacante
 class vacanteController{
-    public static function renderVacanteView(Router $router, $viewName)
-    {
-        $error = ''; // Inicializar variable de error
-        $router->render('admin/' . $viewName, [
-            'error' => $error
-        ]);
-    }
+    
     public static function registroVacante()
     {
         header('Content-Type: application/json');

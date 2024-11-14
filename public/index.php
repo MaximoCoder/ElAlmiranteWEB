@@ -155,9 +155,9 @@ $router->get('/admin/Categorias', function($router) {
     ]);
 });
 
-// Registro de vacantes
+// Control Agregar vacante
 $router->get('/admin/Agregar_Vacante', function($router) {
-    vacanteController::renderVacanteView($router, 'Agregar_Vacante'); // Formulario de registro
+    AdminController::renderAdminView($router, 'Agregar_Vacante', 'layoutAdmin'); // Formulario de registro
 });
 $router->post('/admin/Agregar_Vacante', [vacanteController::class, 'registroVacante']); // API: registrar usuario
 
