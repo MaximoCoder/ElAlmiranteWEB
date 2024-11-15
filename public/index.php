@@ -161,11 +161,12 @@ $router->post('/admin/Categorias-add', [CategoriasController::class, 'agregarCat
 $router->post('/categorias/editar',  [CategoriasController::class, 'editarCategoria']);
 $router->delete('/admin/categorias/eliminar', [CategoriasController::class, 'eliminarCategoria']); 
 
-
+/* Corregir aquí :
 // Control Editar Productos
 $router->get('/admin/Editar_Productos', function($router) {
     EditarProductosController::renderAdminView($router, 'Editar_Productos');
 });
+*/ 
 
 // Control Ventas
 $router->get('/admin/Ventas', function($router) {
