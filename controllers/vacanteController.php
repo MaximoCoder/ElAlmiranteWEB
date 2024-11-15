@@ -2,11 +2,11 @@
 
 namespace Controllers;
 
-use Model\vacanteModel;
+use Model\VacanteModel;
 use MVC\Router;
 
 // Funcion para registrar una nueva vacante
-class vacanteController{
+class VacanteController{
     
     public static function registroVacante()
     {
@@ -22,19 +22,29 @@ class vacanteController{
 
             $nombreVacante = $data['nombreVacante'];
             $descripcionVacante = $data['descripcionVacante'];
+            $disponibilidadVacante = $data['disponibilidadVacante'];
+
+            // Validar la disponibilidad
+            if ($disponibilidadVacante == 'Disponible') {
+                $activa = 1;
+            } else {
+                $activa = 0;
+            }
 
             // Crear instancia del modelo
             $vacanteModel = new vacanteModel();
 
             // Crear la vacante
-            $vacanteCreate = $vacanteModel->createVacante($nombreVacante, $descripcionVacante);
+            $vacanteCreate = $vacanteModel->createVacante($nombreVacante, $descripcionVacante, $activa);
 
             // Redirigir a la vista de vacante o mostrar un error
-            echo json_encode(
-                $vacanteCreate
-                    ? ['status' => 'success', 'message' => 'Vacante creada correctamente.']
-                    : ['status' => 'error', 'message' => 'Error al crear la vacante.']
-            );
+            if($vacanteCreate){
+                echo json_encode(['status' => 'success', 'message' => 'Vacante creada correctamente.']);
+            }else {
+                echo json_encode(['status' => 'error', 'message' => 'Error al crear la vacante.']);
+            }
+
+            // Redirigir a la vista de vacante o mostrar un error
         } else {
             echo json_encode(['status' => 'error', 'message' => 'Método no permitido.']);
             return;

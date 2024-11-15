@@ -13,14 +13,14 @@
 
     <div class="container mt-4 card-add-product">
         <div class="text-white">
-            <form id="platillo-form">
+            <form id="vacante-form">
                 <h3 class="text-center text-black">Agregar vacante</h3>
                 
                 <!-- Nombre de la vacante -->
                 <div class="row">
                     <div class="col-lg-10 mb-3"> 
                         <label for="nombreVacante" class="form-label text-black">Nombre de la vacante:</label>
-                        <input type="text" class="form-control border-0 input-color" name="nombreVacante" required>
+                        <input type="text" class="form-control border-0 input-color" id="nombreVacante" required>
                     </div>
                 </div>
 
@@ -37,7 +37,6 @@
                     <div class="col-md-12 mb-3">
                         <label for="disponibilidadVacante" class="form-label text-black">Disponibilidad:</label>
                         <select class="form-control form-select border-0 input-color w-100" id="disponibilidadVacante" required>
-                            <option value="" disabled selected>Seleccione la disponibilidad</option>
                             <option value="Disponible">Disponible</option>
                             <option value="No Disponible">No Disponible</option>
                         </select>
@@ -46,7 +45,7 @@
 
                 <!-- Botón de guardar vacante -->
                 <div class="col-6 text-right">
-                    <button type="submit" class="btn btn-success">Guardar vacante</button>
+                    <input type="submit" onclick="handleRegisterForm()" class="btn btn-success">Guardar vacante</input>
                 </div>
             </form>
         </div>
@@ -54,17 +53,14 @@
 </div>
 
 <script>
-//Añade evento submit al formulario y previene que se envie recargando la página    
-    document.getElementById("registrarVacante").addEventListener("submit", function(event) {
-        event.preventDefault();
-        handleRegisterForm();
-    });
-
 // Function para manejar el registro de vacante usando jQuery/Ajax
 function handleRegisterForm() {
-    const registrarVacante = document.getElementById("registrarVacante");
+    event.preventDefault();
+
+    const registrarVacante = document.getElementById("vacante-form");
     const nombreVacante = document.getElementById('nombreVacante').value;
     const descripcionVacante = document.getElementById('descripcionVacante').value;
+    const disponibilidadVacante = document.getElementById('disponibilidadVacante').value;
 
     $.ajax({
         url: '/admin/Agregar_Vacante',
@@ -73,11 +69,19 @@ function handleRegisterForm() {
         dataType: 'json',
         data: JSON.stringify({
             nombreVacante: nombreVacante,
-            descripcionVacante: descripcionVacante
+            descripcionVacante: descripcionVacante,
+            disponibilidadVacante: disponibilidadVacante
         }),
         success: function (response) {
             if (response.status === 'success') {
                 registrarVacante.reset();
+                Swal.fire({
+                    title: "Listo!",
+                    text: response.message || "Vacante registrada exitosamente.",
+                    icon: "success", 
+                    showConfirmButton: false,
+                    timer: 1500
+                });
             } else {
                 // Muestra el mensaje de error que proviene del servidor
                 Swal.fire({
@@ -88,7 +92,7 @@ function handleRegisterForm() {
             }
         },
         error: function (xhr, status, error) {
-            //console.log("Respuesta completa del servidor: ", xhr.responseText); // Mostrar la respuesta en la consola
+            console.log("Respuesta completa del servidor: ", xhr.responseText); // Mostrar la respuesta en la consola
             Swal.fire({
                 title: "Oops...",
                 text: "Error en la solicitud: " + error,
@@ -96,6 +100,5 @@ function handleRegisterForm() {
             });
         }
     });
-});
 }
 </script>

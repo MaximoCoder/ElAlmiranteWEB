@@ -12,14 +12,15 @@ class vacanteModel
     }
 
     // Función para crear un nueva vacante
-    public function create($nombreVacante, $descripcionVacante)
+    public function createVacante($nombreVacante, $descripcionVacante, $activa)
     {
         try {
-            $query = "INSERT INTO vacante (nombreVacante, descripcionVacante) 
-                      VALUES (:nombreVacante, :descripcionVacante)";
+            $query = "INSERT INTO vacante (nombreVacante, descripcionVacante, Activa) 
+                      VALUES (:nombreVacante, :descripcionVacante, :Activa)";
             $stmt = $this->db->prepare($query);
             $stmt->bindParam(':nombreVacante', $nombreVacante);
             $stmt->bindParam(':descripcionVacante', $descripcionVacante);
+            $stmt->bindParam(':Activa', $activa);
             return $stmt->execute();
         } catch (\PDOException $e) {
             // Manejar el error usando la funcion handleError
