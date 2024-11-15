@@ -29,11 +29,15 @@ class CategoriasController
         return $adminModel->getData('categoria');
     }
 
-    public static function agregarCategoria(Router $router) {
-        $error = null;
+    public static function agregarCategoria()
+    {
+        header('Content-Type: application/json');
         
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $nombreCategoria = $_POST['nombreCategoria'] ?? '';
+            $data = json_decode(file_get_contents('php://input'), true);
+            $nombreCategoria = $data['nombreCategoria'] ?? '';
+            $estadoCategoria = $data['estadoCategoria'] ?? 'Activo';
+    
             if (empty($nombreCategoria)) {
                 echo json_encode([
                     'success' => false,
@@ -41,17 +45,18 @@ class CategoriasController
                 ]);
                 return;
             }
-
+    
             $ProductModel = new ProductModel();
-
+            
             try {
-                $ProductModel->insertCategory($nombreCategoria);
+                // Insertar categoría
+                $id = $ProductModel->insertCategory($nombreCategoria, $estadoCategoria);
+                
                 echo json_encode([
                     'success' => true,
-                    'message' => 'Categoría agregada correctamente'
+                    'message' => 'Categoría agregada correctamente',
+                    'id' => $id  // Devolver el ID de la nueva categoría
                 ]);
-                
-                    exit;
             } catch (PDOException $e) {
                 echo json_encode([
                     'success' => false,
@@ -59,11 +64,8 @@ class CategoriasController
                 ]);
             }
         }
-        $router->render('admin/Categorias-add', [
-            'error' => $error
-        ], 'layoutAdmin');
-    
     }
+    
 
     public static function eliminarCategoria()
     {
@@ -100,23 +102,24 @@ class CategoriasController
     public static function editarCategoria()
     {
         header('Content-Type: application/json');
-
+    
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id = $_POST['categoriaId'] ?? '';
             $nombreCategoria = $_POST['nombreCategoriaEditar'] ?? '';
-
-            if (empty($id) || empty($nombreCategoria)) {
+            $estado = $_POST['estadoCategoriaEditar'] ?? '';
+    
+            if (empty($id) || empty($nombreCategoria) || empty($estado)) {
                 echo json_encode([
                     'success' => false,
-                    'message' => 'El ID y el nombre de la categoría no pueden estar vacíos.'
+                    'message' => 'El ID, el nombre y el estado de la categoría no pueden estar vacíos.'
                 ]);
                 return;
             }
-
+    
             $ProductModel = new ProductModel();
-
+    
             try {
-                $ProductModel->updateCategory($id, $nombreCategoria);
+                $ProductModel->updateCategory($id, $nombreCategoria, $estado);
                 echo json_encode([
                     'success' => true,
                     'message' => 'Categoría actualizada correctamente'
@@ -129,5 +132,7 @@ class CategoriasController
             }
         }
     }
+    
+    
     
 }
