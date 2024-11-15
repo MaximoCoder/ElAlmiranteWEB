@@ -67,8 +67,8 @@
                    </thead>
                    <tbody>
                        <tr>
-                           <td>Rompe colas</td>
-                           <td>Romper colas dia y noche sin parar</td>
+                           <td>Prueba puesto</td>
+                           <td>Requisitos ejemplo</td>
                            <td>Disponible</td>
                            <td>
                                <a href="#" class="btn btn-warning">Editar</a>
@@ -76,8 +76,8 @@
                            </td>
                        </tr>
                        <tr>
-                           <td>Rompe colas</td>
-                           <td>Romper colas dia y noche sin parar</td>
+                           <td>Prueba puesto</td>
+                           <td>Prueba puesto dia y noche sin parar</td>
                            <td>Disponible</td>
                            <td>
                                <a href="#" class="btn btn-warning">Editar</a>
