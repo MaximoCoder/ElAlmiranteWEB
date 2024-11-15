@@ -70,12 +70,6 @@
         </a>
       </li>
       <li>
-        <a href="../admin/Editar_Vacante">
-          <i class='bx bxs-pencil'></i>
-          <span class="text">Editar vacante</span>
-        </a>
-      </li>
-      <li>
         <a href="../admin/Gestion_Usuarios">
           <i class='bx bxs-group'></i>
           <span class="text">Gestion de Usuarios</span>
