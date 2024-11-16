@@ -6,8 +6,15 @@ use Model\VacanteModel;
 use MVC\Router;
 
 // Funcion para registrar una nueva vacante
-class VacanteController{
-    
+class VacanteController
+{
+
+    public static function getAllVacantes()
+    {
+        $vacanteModel = new VacanteModel();
+        return $vacanteModel->getAllVacantes();
+    }
+
     public static function registroVacante()
     {
         header('Content-Type: application/json');
@@ -15,14 +22,14 @@ class VacanteController{
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $data = json_decode(file_get_contents('php://input'), true);
 
-        if (empty($data['nombreVacante']) || empty($data['descripcionVacante'])) {
-            echo json_encode(['status' => 'error', 'message' => 'Todos los campos son obligatorios.']);
-            return;
-        }
+            if (empty($data['nombreVacante']) || empty($data['descripcionVacante'])) {
+                echo json_encode(['status' => 'error', 'message' => 'Todos los campos son obligatorios.']);
+                return;
+            }
 
             $nombreVacante = $data['nombreVacante'];
             $descripcionVacante = $data['descripcionVacante'];
-            $disponibilidadVacante = $data['disponibilidadVacante'];
+            $disponibilidadVacante = $data['Activa'];
 
             // Validar la disponibilidad
             if ($disponibilidadVacante == 'Disponible') {
@@ -38,10 +45,89 @@ class VacanteController{
             $vacanteCreate = $vacanteModel->createVacante($nombreVacante, $descripcionVacante, $activa);
 
             // Redirigir a la vista de vacante o mostrar un error
-            if($vacanteCreate){
+            if ($vacanteCreate) {
                 echo json_encode(['status' => 'success', 'message' => 'Vacante creada correctamente.']);
-            }else {
+            } else {
                 echo json_encode(['status' => 'error', 'message' => 'Error al crear la vacante.']);
+            }
+
+            // Redirigir a la vista de vacante o mostrar un error
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Método no permitido.']);
+            return;
+        }
+    }
+
+    public static function eliminarVacante()
+    {
+        header('Content-Type: application/json');
+
+        try {
+            // Verificar el método HTTP
+            if ($_SERVER['REQUEST_METHOD'] !== 'DELETE') {
+                throw new Exception('Método no permitido');
+            }
+
+            // Obtener el cuerpo de la solicitud
+            $input = file_get_contents('php://input');
+            $data = json_decode($input, true);
+
+            if (!isset($data['idVacante'])) {
+                throw new Exception('El ID de la vacante es requerido');
+            }
+
+            $idVacante = $data['idVacante'];
+
+            // Instanciar el modelo de vacante
+            $vacanteModel = new vacanteModel();
+            $vacanteDelete = $vacanteModel->deleteVacante($idVacante);
+
+            if ($vacanteDelete) {
+                echo json_encode([
+                    'status' => 'success',
+                    'message' => 'Vacante eliminada correctamente'
+                ]);
+            } else {
+                throw new Exception('Error al eliminar la vacante');
+            }
+        } catch (Exception $e) {
+            echo json_encode([
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ]);
+        }
+        exit;
+    }
+
+    public static function editarVacante()
+    {
+        header('Content-Type: application/json');
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $data = json_decode(file_get_contents('php://input'), true);
+            $idVacante = $data['idVacante'];
+            $nombreVacante = $data['nombreVacante'];
+            $descripcionVacante = $data['descripcionVacante'];
+            $disponibilidadVacante = $data['disponibilidadVacante'];
+
+            // Validar la disponibilidad
+            if ($disponibilidadVacante == 'Disponible') {
+                $activa = 1;
+            } else {
+                $activa = 0;
+            }
+
+            // Crear instancia del modelo
+            $vacanteModel = new vacanteModel();
+
+            // Editar la vacante
+            $vacanteEdit = $vacanteModel->updateVacante($idVacante, $nombreVacante, $descripcionVacante, $disponibilidadVacante);
+
+            // Redirigir a la vista de vacante o mostrar un error
+            if ($vacanteEdit) {
+                echo json_encode(['status' => 'success', 'message' => 'Vacante editada correctamente.']);
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'Error al editar la vacante.']);
             }
 
             // Redirigir a la vista de vacante o mostrar un error

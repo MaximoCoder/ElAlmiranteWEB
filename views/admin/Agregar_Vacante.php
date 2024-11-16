@@ -25,8 +25,8 @@
                    <!-- Disponibilidad -->
 
                    <div class="col-lg-4 mb-3">
-                       <label for="disponibilidadVacante" class="form-label text-black">Disponibilidad:</label>
-                       <select class="form-control form-select border-0 input-color w-100" id="disponibilidadVacante" required>
+                       <label for="Activa" class="form-label text-black">Disponibilidad:</label>
+                       <select class="form-control form-select border-0 input-color w-100" id="Activa" required>
                            <option value="Disponible">Disponible</option>
                            <option value="No Disponible">No Disponible</option>
                        </select>
@@ -44,7 +44,7 @@
 
                <!-- Botón de guardar vacante -->
                <div class="col-6 text-right">
-                   <input type="submit" onclick="handleRegisterForm()" class="btn-reuse" value="Guardar vacante"></input>
+                   <input type="submit" class="btn-reuse" value="Guardar vacante">
                </div>
            </form>
        </div>
@@ -66,38 +66,71 @@
                        </tr>
                    </thead>
                    <tbody>
-                       <tr>
-                           <td>Prueba puesto</td>
-                           <td>Requisitos ejemplo</td>
-                           <td>Disponible</td>
-                           <td>
-                               <a href="#" class="btn btn-warning">Editar</a>
-                               <a href="#" class="btn btn-danger">Eliminar</a>
-                           </td>
-                       </tr>
-                       <tr>
-                           <td>Prueba puesto</td>
-                           <td>Prueba puesto dia y noche sin parar</td>
-                           <td>Disponible</td>
-                           <td>
-                               <a href="#" class="btn btn-warning">Editar</a>
-                               <a href="#" class="btn btn-danger">Eliminar</a>
-                           </td>
-                       </tr>
+                       <?php if (!empty($vacantes)): ?>
+                           <?php foreach ($vacantes as $vacante): ?>
+                               <tr data-id="<?= htmlspecialchars($vacante['IdVacante']); ?>">
+                                   <td><?= htmlspecialchars($vacante['nombreVacante']); ?></td>
+                                   <td><?= htmlspecialchars($vacante['descripcionVacante']); ?></td>
+                                   <td><?= htmlspecialchars($vacante['Activa']); ?></td>
+                                   <td>
+                                       <a href="#" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editarVacanteModal">Editar</a>
+                                       <a href="#" class="btn btn-danger" onclick="eliminarVacante(<?= htmlspecialchars($vacante['IdVacante']); ?>)">Eliminar</a>
+                                   </td>
+                               </tr>
+                           <?php endforeach; ?>
+                       <?php else: ?>
+                           <tr>
+                               <td colspan="4">No hay vacantes registradas</td>
+                           </tr>
+                       <?php endif; ?>
                    </tbody>
                </table>
            </div>
        </div>
    </main>
+
+   <div class="modal fade" id="editarVacanteModal" tabindex="-1" aria-labelledby="editarVacanteModalLabel" aria-hidden="true">
+       <div class="modal-dialog">
+           <div class="modal-content">
+               <form id="form-editar-vacante" onsubmit="event.preventDefault(); editarVacante();">
+                   <div class="modal-header">
+                       <h5 class="modal-title" id="editarVacanteModalLabel">Editar Vacante</h5>
+                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                   </div>
+                   <div class="modal-body">
+                       <input type="hidden" name="vacanteId" id="vacanteId">
+                       <div class="mb-3">
+                           <label for="nombreVacanteEditar" class="form-label">Nombre de la vacante</label>
+                           <input type="text" name="nombreVacanteEditar" id="nombreVacanteEditar" class="form-control" required>
+
+                           <label for="descripcionVacanteEditar" class="form-label mt-3">Descripción de la vacante</label>
+                           <textarea name="descripcionVacanteEditar" id="descripcionVacanteEditar" class="form-control" required></textarea>
+
+                           <label for="disponibilidadVacanteEditar" class="form-label mt-3">Disponibilidad</label>
+                           <select name="disponibilidadVacanteEditar" id="disponibilidadVacanteEditar" class="form-control" required>
+                               <option value="Disponible">Disponible</option>
+                               <option value="No Disponible">No Disponible</option>
+                           </select>
+                       </div>
+                   </div>
+                   <div class="modal-footer">
+                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                       <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                   </div>
+               </form>
+           </div>
+       </div>
+   </div>
+
    <script>
        // Function para manejar el registro de vacante usando jQuery/Ajax
-       function handleRegisterForm() {
+       function handleRegisterForm(event) {
            event.preventDefault();
 
            const registrarVacante = document.getElementById("vacante-form");
            const nombreVacante = document.getElementById('nombreVacante').value;
            const descripcionVacante = document.getElementById('descripcionVacante').value;
-           const disponibilidadVacante = document.getElementById('disponibilidadVacante').value;
+           const Activa = document.getElementById('Activa').value;
 
            $.ajax({
                url: '/admin/Agregar_Vacante',
@@ -107,7 +140,7 @@
                data: JSON.stringify({
                    nombreVacante: nombreVacante,
                    descripcionVacante: descripcionVacante,
-                   disponibilidadVacante: disponibilidadVacante
+                   Activa: Activa
                }),
                success: function(response) {
                    if (response.status === 'success') {
@@ -138,4 +171,104 @@
                }
            });
        }
+
+       function eliminarVacante(idVacante) {
+           Swal.fire({
+               title: '¿Estás seguro?',
+               text: "No podrás revertir esta acción",
+               icon: 'warning',
+               showCancelButton: true,
+               confirmButtonColor: '#3085d6',
+               cancelButtonColor: '#d33',
+               confirmButtonText: 'Si, eliminar',
+               cancelButtonText: 'Cancelar'
+           }).then((result) => {
+               if (result.isConfirmed) {
+                   fetch(`/admin/Agregar_Vacante/eliminar`, {
+                           method: 'DELETE',
+                           headers: {
+                               'Content-Type': 'application/json'
+                           },
+                           body: JSON.stringify({
+                               idVacante: idVacante
+                           })
+                       })
+                       .then(response => {
+                           if (!response.ok) {
+                               throw new Error('Error en la respuesta del servidor');
+                           }
+                           return response.json();
+                       })
+                       .then(data => {
+                           if (data.status === 'success') {
+                               Swal.fire({
+                                   title: "Eliminado",
+                                   text: data.message,
+                                   icon: "success",
+                                showConfirmButton: 'false'
+                               }).then(() => {
+                                   location.reload();
+                               });
+                           } else {
+                               throw new Error(data.message || 'Error al eliminar la vacante');
+                           }
+                       })
+                       .catch(error => {
+                           console.error("Error:", error);
+                           Swal.fire({
+                               title: "Error",
+                               text: error.message,
+                               icon: "error"
+                           });
+                       });
+               }
+           });
+       }
+
+       function abrirModalEditarVacante(id, nombre, estado) {
+           document.getElementById('vacanteId').value = id;
+           document.getElementById('nombreVacanteEditar').value = nombre;
+           document.getElementById('estadoVacanteEditar').value = estado;
+       }
+
+       function editarVacante() {
+           const form = document.getElementById('form-editar-vacante');
+           const formData = new FormData(form);
+
+           fetch('/vacantes/editar', {
+                   method: 'POST',
+                   body: formData,
+               })
+               .then(response => response.json())
+               .then(data => {
+                   if (data.success) {
+                       Swal.fire({
+                           title: "Éxito",
+                           text: "Vacante modificada exitosamente.",
+                           icon: "success",
+                           confirmButtonColor: '#3085d6'
+                       }).then(() => {
+                           location.reload();
+                       });
+                   } else {
+                       Swal.fire({
+                           title: "Error",
+                           text: data.message || "Hubo un problema al editar la vacante.",
+                           icon: "error"
+                       });
+                   }
+               })
+               .catch(error => {
+                   console.error("Error:", error);
+                   Swal.fire({
+                       title: "Oops...",
+                       text: "Se produjo un error: " + error.message,
+                       icon: "error"
+                   });
+               });
+       }
+
+       document.addEventListener("DOMContentLoaded", function() {
+           document.getElementById("vacante-form").addEventListener("submit", handleRegisterForm);
+       });
    </script>
