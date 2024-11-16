@@ -3,6 +3,9 @@
 $sessionController = new \Controllers\SessionController();
 $sessionController->startSession(); // Asegúrate de que la sesión esté iniciada
 $user = $sessionController->getUser();
+
+// Obtener la cantidad de productos en el carrito
+$cartCount = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -68,9 +71,9 @@ $user = $sessionController->getUser();
                         <a class="nav-link fw-bold" href="../pages/cart">
                             <i class="bi bi-cart heading fw-bold">
                                 <!-- Cantidad de elementos en el carrito -->
-                                <span class="position-absolute start-80 translate-middle badge rounded-pill bg-danger" id="cart-count">
-
-                                </span>
+                                <?php if ($cartCount > 0): ?>
+                                    <span class="cart-count"><?php echo $cartCount; ?></span>
+                                <?php endif; ?>
                             </i>
                         </a>
                     </li>
