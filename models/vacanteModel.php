@@ -87,7 +87,7 @@ class vacanteModel
             return $stmt->execute();
         } catch (\PDOException $e) {
             // Manejar el error usando la funcion handleError
-            return $this->handleError($e);
+            return $e;
         }
     }
 

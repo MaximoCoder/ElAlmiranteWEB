@@ -23,6 +23,7 @@ use Controllers\VentasController;
 use Controllers\PedidosController;
 use Controllers\ConfiguracionAdminController;
 use Controllers\DashboardController;
+use Controllers\VacanteController as ControllersVacanteController;
 
 $router = new Router();
 /* ---------------------------------------------
@@ -166,9 +167,16 @@ $router->get('/admin/Categorias', function($router) {
 
 // Control Agregar vacante
 $router->get('/admin/Agregar_Vacante', function($router) {
-    AdminController::renderAdminView($router, 'Agregar_Vacante', 'layoutAdmin'); // Formulario de registro
+    // Obtenemos los datos de las vacantes
+    $vacantes = VacanteController::getAllVacantes(); 
+    AdminController::renderAdminView($router, 'Agregar_Vacante', 'layoutAdmin',[
+        'vacantes' => $vacantes
+    ]); // Formulario de registro
 });
-$router->post('/admin/Agregar_Vacante', [vacanteController::class, 'registroVacante']); // API: registrar usuario
+
+$router->post('/admin/Agregar_Vacante', [VacanteController::class, 'registroVacante']);
+$router->post('/admin/Agregar_Vacante/editar', [VacanteController::class, 'editarVacante']);
+$router->delete('/admin/Agregar_Vacante/eliminar', [VacanteController::class, 'eliminarVacante']);
 
 // Control Agregar Categorias
 
@@ -177,7 +185,7 @@ $router->post('/admin/Categorias-add', [CategoriasController::class, 'agregarCat
 $router->post('/categorias/editar',  [CategoriasController::class, 'editarCategoria']);
 $router->delete('/admin/categorias/eliminar', [CategoriasController::class, 'eliminarCategoria']); 
 
-
+/*
 // Control Editar Productos
 $router->post('/admin/platillos/editar', function() use ($db) {
     $controller = new EditarProductosController($db);
@@ -229,6 +237,6 @@ $router->get('/admin/Config', function($router) {
     ConfiguracionAdminController::renderAdminView($router, 'Config');
 });
 
-
+*/
 // Manejar la solicitud
 $router->checkRoutes();
