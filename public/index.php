@@ -246,7 +246,7 @@ $router->get('/admin/ventas/generarTopPlatillosPdf', function() {
 
 $router->get('/admin/ventas/generarTopPlatillosMenosVendidosPdf', function() {
     Controllers\VentasController::generarTopPlatillosMenosVendidosPdf();
-}
+});
 $router->get('/admin/Ventas', [VentasController::class, 'listarPlatillos']);
 // Cambia esto
 $router->get('/admin/Ventas/reporte', [VentasController::class, 'reporteVentas']);

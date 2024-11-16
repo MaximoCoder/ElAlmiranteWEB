@@ -5,10 +5,6 @@ use PDO;
 use PDOException;
 
 class VentaModel 
-
-class VentaModel
-
-
 {
     private $db;
 
@@ -284,8 +280,4 @@ class VentaModel
 }
 
 
-
-
-    
-}
 
