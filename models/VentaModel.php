@@ -1,13 +1,16 @@
 <?php
 // models/VentaModel.php
 namespace Model;
+use PDO;
+use PDOException;
+class VentaModel 
 
-class VentaModel
 {
     private $db;
+
     public function __construct()
     {
-        $this->db = connectDB(); // Conectar a la base de datos
+        $this->db = connectDB(); 
     }
 
     // Funcion para crear una venta
@@ -159,4 +162,122 @@ class VentaModel
             throw $e;
         }
     }
+
+    //Gestion de Ventas 
+
+    public function getAllProducts()
+    {
+        try {
+            $query = "SELECT * FROM platillo";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo "Error al obtener los platillos: " . $e->getMessage();
+            return null;
+        }
+    }
+    public function getAllDetalleVenta()
+    {
+        try {
+            $query = "SELECT * FROM detalleventa";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo "Error al obtener los detalle de venta: " . $e->getMessage();
+            return null;
+        }
+    }
+    // Función para obtener detalles de venta por IdPlatillo
+    public function getVentaByPlatillo($idPlatillo)
+    {
+        try {
+            // Obtén la venta asociada al IdPlatillo
+            $query = "SELECT * FROM Venta 
+                    WHERE IdVenta IN (SELECT IdVenta FROM detalleventa WHERE IdPlatillo = :idPlatillo)";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([':idPlatillo' => $idPlatillo]);
+            return $stmt->fetch(\PDO::FETCH_ASSOC);
+        } catch (\PDOException $e) {
+            // Manejar el error usando la funcion handleError
+            echo $e->getMessage();
+        }
+    }
+    // Función para obtener detalles de venta por IdPlatillo
+    public function getDetalleVentaByPlatillo($idPlatillo)
+    {
+        try {
+            // Obtén los detalles de la venta asociada al IdPlatillo
+            $query = "SELECT platillo.NombrePlatillo AS nombre_producto, detalleventa.Cantidad, 
+                            detalleventa.PrecioUnitario, detalleventa.Subtotal
+                    FROM detalleventa
+                    JOIN platillo ON detalleventa.IdPlatillo = platillo.IdPlatillo
+                    WHERE detalleventa.IdPlatillo = :idPlatillo";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([':idPlatillo' => $idPlatillo]);
+            $detalles = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+            return $detalles;
+        } catch (\PDOException $e) {
+            // Manejar el error usando la funcion handleError
+            echo $e->getMessage();
+        }
+    }
+
+    public function getAllDetalleVentas() {
+        $query = "SELECT p.NombrePlatillo, p.PrecioPlatillo, SUM(d.Cantidad) as Ventas
+                FROM detalleventa d
+                JOIN platillo p ON d.IdPlatillo = p.IdPlatillo
+                GROUP BY d.IdPlatillo
+                ORDER BY Ventas DESC";
+        
+        $stmt = self::$db->prepare($query);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // VentaModel.php
+
+    public function getTopPlatillosVendidos()
+    {
+        $query = "
+            SELECT 
+                p.NombrePlatillo,
+                p.PrecioPlatillo,
+                SUM(dv.Cantidad) as Ventas,
+                SUM(dv.Cantidad * dv.PrecioUnitario) as TotalGenerado
+            FROM detalleventa dv
+            INNER JOIN platillo p ON dv.IdPlatillo = p.IdPlatillo
+            GROUP BY p.IdPlatillo
+            ORDER BY Ventas DESC
+            LIMIT 10;
+        ";
+
+        $stmt = $this->db->query($query);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public function getTopPlatillosMenosVendidos()
+    {
+        $query = "
+            SELECT 
+                p.NombrePlatillo,
+                p.PrecioPlatillo,
+                SUM(dv.Cantidad) as Ventas,
+                SUM(dv.Cantidad * dv.PrecioUnitario) as TotalGenerado
+            FROM detalleventa dv
+            INNER JOIN platillo p ON dv.IdPlatillo = p.IdPlatillo
+            GROUP BY p.IdPlatillo
+            ORDER BY Ventas ASC
+            LIMIT 10;
+        ";
+
+        $stmt = $this->db->query($query);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }
+
+
+
+
