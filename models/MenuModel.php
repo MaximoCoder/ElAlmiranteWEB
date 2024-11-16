@@ -16,7 +16,7 @@ class MenuModel
     public function getCategories()
     {
         try {
-            $query = "SELECT * FROM categoria";
+            $query = "SELECT * FROM categoria WHERE Estado = 'Activa'";
             $stmt = $this->db->prepare($query);
             $stmt->execute();
             return $stmt->fetchAll(\PDO::FETCH_ASSOC);
