@@ -28,19 +28,20 @@ class ProductModel
         }
     }
 
-    public function insertCategory($nombreCategoria)
+    public function insertCategory($nombreCategoria, $estadoCategoria)
     {
         try {
             $db = connectDB();
-            $stmt = $db->prepare("INSERT INTO categoria (NombreCategoría, FechaCreación) VALUES (?, NOW())");
-            $stmt->execute([$nombreCategoria]);
-            header("Location: /admin/categorias");
-            exit;
+            $stmt = $db->prepare("INSERT INTO categoria (NombreCategoría, Estado, FechaCreación) VALUES (?, ?, NOW())");
+            $stmt->execute([$nombreCategoria, $estadoCategoria]);
+            
+            // Obtener el ID de la última categoría insertada
+            return $db->lastInsertId();
         } catch (PDOException $e) {
-            $error = "Error al insertar la categoría: " . $e->getMessage();
+            throw new PDOException("Error al insertar la categoría: " . $e->getMessage());
         }
-        
     }
+    
 
     // Elimina una categoría por su ID
     public function deleteCategory($id)
@@ -61,17 +62,21 @@ class ProductModel
     
 
     // Actualiza el nombre de una categoría por su ID
-    public function updateCategory($id, $nombreCategoria)
+    public function updateCategory($id, $nombreCategoria, $Estado)
     {
         try {
             $db = connectDB();
-            $stmt = $db->prepare("UPDATE categoria SET NombreCategoría = ? WHERE IdCategoría = ?");
-            $stmt->execute([$nombreCategoria, $id]);
-
+            // Corregir la consulta SQL, agregando una coma entre las columnas.
+            $stmt = $db->prepare("UPDATE categoria SET NombreCategoría = ?, Estado = ? WHERE IdCategoría = ?");
+            
+            // Asegurarse de que los parámetros estén en el orden correcto.
+            $stmt->execute([$nombreCategoria, $Estado, $id]);
+    
             echo json_encode([
                 'success' => true,
                 'id' => $id,
-                'nombre' => $nombreCategoria
+                'nombre' => $nombreCategoria,
+                'estado' => $Estado
             ]);
         } catch (PDOException $e) {
             echo json_encode([
@@ -81,6 +86,7 @@ class ProductModel
         }
         exit;
     }
+    
 
 //Product Controller
     // Obtiene todos los platillos
@@ -133,7 +139,7 @@ class ProductModel
     public function updateProduct($id, $nombrePlatillo, $descripcionPlatillo, $precioPlatillo, $disponibilidad, $categoriaId)
     {
         try {
-            $query = "UPDATE platillo SET NombrePlatillo = ?, DescripciónPlatillo = ?, PrecioPlatillo = ?, Disponibilidad = ?, IdCategoría = ? WHERE IdPlatillo = ?";
+            $query = "UPDATE platillo SET NombrePlatillo = ?, DescripcionPlatillo = ?, PrecioPlatillo = ?, Disponibilidad = ?, IdCategoría = ? WHERE IdPlatillo = ?";
             $stmt = $this->db->prepare($query);
             $stmt->execute([$nombrePlatillo, $descripcionPlatillo, $precioPlatillo, $disponibilidad, $categoriaId, $id]);
         } catch (PDOException $e) {
@@ -157,14 +163,14 @@ class ProductModel
 
     //Editarproductos
     public function getPlatillos() {
-        $sql = "SELECT IdPlatillo, NombrePlatillo, PrecioPlatillo, DescripciónPlatillo, Disponibilidad, IdCategoría, img FROM platillo";
+        $sql = "SELECT IdPlatillo, NombrePlatillo, PrecioPlatillo, DescripcionPlatillo, Disponibilidad, IdCategoría, img FROM platillo";
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function getPlatilloById($id) {
-        $sql = "SELECT IdPlatillo, NombrePlatillo, PrecioPlatillo, DescripciónPlatillo, Disponibilidad, IdCategoría, img 
+        $sql = "SELECT IdPlatillo, NombrePlatillo, PrecioPlatillo, DescripcionPlatillo, Disponibilidad, IdCategoría, img 
                 FROM platillo WHERE IdPlatillo = :id";
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
@@ -180,7 +186,7 @@ class ProductModel
     }
 
     public function updatePlatillo($data) {
-        if(empty($data['NombrePlatillo']) || empty($data['PrecioPlatillo']) || empty($data['DescripciónPlatillo']) || 
+        if(empty($data['NombrePlatillo']) || empty($data['PrecioPlatillo']) || empty($data['DescripcionPlatillo']) || 
            empty($data['Disponibilidad']) || empty($data['IdCategoría'])) {
             return "Error: Todos los campos deben estar completos.";
         }
@@ -205,7 +211,7 @@ class ProductModel
         $sql = "UPDATE platillo SET 
                     NombrePlatillo = :nombre, 
                     PrecioPlatillo = :precio, 
-                    DescripciónPlatillo = :descripcion, 
+                    DescripcionPlatillo = :descripcion, 
                     Disponibilidad = :disponibilidad, 
                     IdCategoría = :IdCategoría, 
                     img = :imagen
@@ -214,7 +220,7 @@ class ProductModel
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(':nombre', $data['NombrePlatillo']);
         $stmt->bindParam(':precio', $data['PrecioPlatillo']);
-        $stmt->bindParam(':descripcion', $data['DescripciónPlatillo']);
+        $stmt->bindParam(':descripcion', $data['DescripcionPlatillo']);
         $stmt->bindParam(':disponibilidad', $data['Disponibilidad']);
         $stmt->bindParam(':IdCategoría', $data['IdCategoría']);
         $stmt->bindParam(':imagen', $img);
@@ -228,7 +234,11 @@ class ProductModel
         }
     }
     
+    public function renderAdminView($router, $view, $layout, $data = []) {
+        $data['controller'] = $this; 
 
+        $router->render($view, $data, $layout);
+    }
     public function eliminarPlatillo($id) {
         try {
             $db = connectDB();
@@ -244,7 +254,7 @@ class ProductModel
     public function editarPlatillo($platilloId, $nombrePlatillo, $categoriaId, $disponibilidadPlatillo, $descripcionPlatillo, $precioPlatillo, $imgNombre) {
         try {
             $db = connectDB();
-            $stmt = $db->prepare("UPDATE platillo SET NombrePlatillo = ?, IdCategoría = ?, Disponibilidad = ?, DescripciónPlatillo = ?, PrecioPlatillo = ?, img = ? WHERE IdPlatillo = ?");
+            $stmt = $db->prepare("UPDATE platillo SET NombrePlatillo = ?, IdCategoría = ?, Disponibilidad = ?, DescripcionPlatillo = ?, PrecioPlatillo = ?, img = ? WHERE IdPlatillo = ?");
             $stmt->execute([$nombrePlatillo, $categoriaId, $disponibilidadPlatillo, $descripcionPlatillo, $precioPlatillo, $imgNombre, $platilloId]);
             return [
                 'success' => true,
