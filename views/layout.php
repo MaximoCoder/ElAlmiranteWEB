@@ -70,7 +70,7 @@ $cartCount = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
                     <li class="nav-item mr-3 ">
                         <a class="nav-link fw-bold" href="../pages/cart">
                             <i class="bi bi-cart heading fw-bold">
-                                <!-- Cantidad de elementos en el carrito -->
+                                <!-- Cantidad de elementos en el carrito, si es mayor a 0 -->
                                 <?php if ($cartCount > 0): ?>
                                     <span class="cart-count"><?php echo $cartCount; ?></span>
                                 <?php endif; ?>

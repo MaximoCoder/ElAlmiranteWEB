@@ -100,7 +100,7 @@ $(document).ready(function () {
                         // Actualizar dinámicamente el contador del carrito
                         var cartCountElement = document.getElementsByClassName('cart-count')[0]; // Seleccionar el primer elemento
                         var currentCount = parseInt(cartCountElement.textContent) || 0; // Si está vacío, se considera como 0
-                        cartCountElement.textContent = currentCount + 1; // Actualizar el contador
+                        cartCountElement.textContent = currentCount + 1; // Actualizar el contador DINAMICAMENTE
                     },
                     error: function (xhr) {
                         // Mostrar mensaje de error
