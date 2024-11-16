@@ -6,8 +6,12 @@ namespace Controllers;
 use MVC\Router;
 use Model\VentaModel;
 use PDOException;
+
 use Dompdf\Dompdf;
 use Dompdf\Options;
+
+use TCPDF;
+
 
 
 class VentasController {
@@ -26,6 +30,7 @@ class VentasController {
     {
         $adminModel = new AdminModel();
         $platillos = $adminModel->getData('platillo');
+
     
         var_dump($platillos); // Esto te permitirá ver si los datos están siendo recuperados correctamente
         return $platillos;
@@ -200,6 +205,36 @@ class VentasController {
         }
     }
     
+    
+        // Depuración: Verifica los datos
+        var_dump($platillos); // Esto te permitirá ver si los datos están siendo recuperados correctamente
+        return $platillos;
+    }
+    
+    public static function listarPlatillos(Router $router)
+    {
+        $ventaModel = new VentaModel();
+        $platillos = $ventaModel->getAllProducts();
+
+        $router->render('admin/Ventas', [
+            'platillos' => $platillos,
+            
+        ], 'layoutAdmin');
+    }
+
+    public static function getDetalleVenta(Router $router)
+    {
+        $ventaModel = new VentaModel();
+        $platillos = $ventaModel->getAllDetalleVenta();
+
+        $router->render('admin/Ventas', [
+            'platillos' => $platillos,
+            
+        ], 'layoutAdmin');
+    }
+
+
+
 }
     
     

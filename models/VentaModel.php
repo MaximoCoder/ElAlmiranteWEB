@@ -3,7 +3,11 @@
 namespace Model;
 use PDO;
 use PDOException;
+
 class VentaModel 
+
+class VentaModel
+
 
 {
     private $db;
@@ -189,6 +193,7 @@ class VentaModel
             return null;
         }
     }
+
     // Función para obtener detalles de venta por IdPlatillo
     public function getVentaByPlatillo($idPlatillo)
     {
@@ -280,4 +285,7 @@ class VentaModel
 
 
 
+
+    
+}
 

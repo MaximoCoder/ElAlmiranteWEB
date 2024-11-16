@@ -17,25 +17,21 @@
     <div class="container-fluid">
         <h1>Categorias</h1>
         <div class="">
-            <form class="box-reusable" >
-                <div class="mb-3 bg-form text-white p-5 rounded" >
-                    <?php if (!empty($error)): ?>
-                        <div class="alert alert-danger">
-                            <?= htmlspecialchars($error); ?>
-                        </div>
-                    <?php endif; ?>
+        <form id="form-agregar-categoria" class="box-reusable" onsubmit="event.preventDefault(); agregarCategoria();">
+            <div class="mb-3 bg-form text-white p-5 rounded">
+                <label class="text-black" for="nombreCategoria">Nombre de Categoría:</label>
+                <input type="text" id="nombreCategoria" name="nombreCategoria" class="form-control input-formU nueva-clase" required>
 
-                    <?php if (!empty($success)): ?>
-                        <div id="success-message" class="alert alert-success">
-                            <?= htmlspecialchars($success); ?>
-                        </div>
-                    <?php endif; ?>
+                <label class="text-black mt-3" for="estadoCategoria">Estado:</label>
+                <select id="estadoCategoria" name="estadoCategoria" class="form-control nueva-clase" required>
+                    <option value="Activa">Activa</option>
+                    <option value="Inactiva">Inactiva</option>
+                </select>
 
-                    <label class="text-black" for="nombreCategoria">Nombre de Categoría:</label>
-                    <input type="text" name="nombreCategoria" class="form-control input-formU nueva-clase" required>
-                    <input type="submit" value="Agregar Categoría" class="btn-reuse mt-3">
-                </div>
-            </form>
+                <input type="submit" value="Agregar Categoría" class="btn-reuse mt-3">
+            </div>
+        </form>
+
 
             <div class="table-data">
                 <div class="order">
@@ -57,25 +53,25 @@
                             <?php foreach ($categorias as $categoria): ?>
                                 <tr data-id="<?= $categoria['IdCategoría']; ?>">
                                     <td><?= $categoria['IdCategoría']; ?></td>
-                                    <td ><?= htmlspecialchars($categoria['NombreCategoría']); ?></td>
-                                    <td><?= $categoria['Estado']; ?></td>
+                                    <td><?= htmlspecialchars($categoria['NombreCategoría']); ?></td>
+                                    <td><?= htmlspecialchars($categoria['Estado']); ?></td>
                                     <td>
                                         <a href="#" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editarCategoriaModal"
-                                            onclick="abrirModalEditar(<?= $categoria['IdCategoría']; ?>, '<?= htmlspecialchars($categoria['NombreCategoría']); ?>')">
-                                            Editar
+                                        onclick="abrirModalEditar(<?= $categoria['IdCategoría']; ?>, '<?= htmlspecialchars($categoria['NombreCategoría']); ?>', '<?= htmlspecialchars($categoria['Estado']); ?>')">
+                                        Editar
                                         </a>
                                         <a href="#" class="btn btn-danger" onclick="eliminarCategoria(<?= $categoria['IdCategoría']; ?>)">Eliminar</a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
+
                     </table>
                 </div>
             </div>
         </div>
     </div>
 </main>
-
 
 <div class="modal fade" id="editarCategoriaModal" tabindex="-1" aria-labelledby="editarCategoriaLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -91,8 +87,11 @@
                         <label for="nombreCategoriaEditar" class="form-label">Nombre de Categoría</label>
                         <input type="text" name="nombreCategoriaEditar" id="nombreCategoriaEditar" class="form-control" required>
 
-                        <label for="nombreCategoriaEditar" class="form-label">Estado de la categoria Ej.(Activa/Inactiva)</label>
-                        <input type="text" name="nombreCategoriaEditar" id="nombreCategoriaEditar" class="form-control" required>
+                        <label for="estadoCategoriaEditar" class="form-label mt-3">Estado</label>
+                        <select name="estadoCategoriaEditar" id="estadoCategoriaEditar" class="form-control" required>
+                            <option value="Activa">Activa</option>
+                            <option value="Inactiva">Inactiva</option>
+                        </select>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -103,7 +102,65 @@
         </div>
     </div>
 </div>
+
 <script>
+    function agregarCategoria() {
+    const nombreCategoria = document.getElementById('nombreCategoria').value;
+    const estadoCategoria = document.getElementById('estadoCategoria').value;
+
+    const datos = {
+        nombreCategoria: nombreCategoria,
+        estadoCategoria: estadoCategoria
+    };
+
+    fetch('/admin/Categorias-add', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(datos)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            Swal.fire({
+                title: "Éxito",
+                text: data.message,
+                icon: "success",
+                confirmButtonColor: '#3085d6'
+            }).then(() => {
+                // Agregar la nueva categoría a la tabla
+                const nuevaCategoria = document.createElement('tr');
+                nuevaCategoria.innerHTML = `
+                    <td>${data.id}</td>
+                    <td>${nombreCategoria}</td>
+                    <td>${estadoCategoria}</td>
+                    <td>
+                        <a href="#" class="btn btn-warning" onclick="editarCategoria(${data.id}, '${nombreCategoria}', '${estadoCategoria}')">Editar</a>
+                        <a href="#" class="btn btn-danger" onclick="eliminarCategoria(${data.id})">Eliminar</a>
+                    </td>
+                `;
+                document.querySelector('table tbody').appendChild(nuevaCategoria);
+                document.getElementById('nombreCategoria').value = ''; // Limpiar campo
+            });
+        } else {
+            Swal.fire({
+                title: "Error",
+                text: data.message,
+                icon: "error"
+            });
+        }
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        Swal.fire({
+            title: "Oops...",
+            text: "Se produjo un error: " + error.message,
+            icon: "error"
+        });
+    });
+}
+
     function eliminarCategoria(id) {
         Swal.fire({
             title: '¿Estás seguro?',
@@ -150,45 +207,48 @@
         });
     }
 
-    function abrirModalEditar(id, nombre) {
-        document.getElementById('categoriaId').value = id;
-        document.getElementById('nombreCategoriaEditar').value = nombre;
-    }
+    function abrirModalEditar(id, nombre, estado) {
+    document.getElementById('categoriaId').value = id;
+    document.getElementById('nombreCategoriaEditar').value = nombre;
+    document.getElementById('estadoCategoriaEditar').value = estado;
+}
 
-    function editarCategoria() {
-        const form = document.getElementById('form-editar-categoria');
-        const formData = new FormData(form);
 
-        fetch('/categorias/editar', {
-                method: 'POST',
-                body: formData,
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    Swal.fire({
-                        title: "Éxito",
-                        text: "Categoría modificada exitosamente.",
-                        icon: "success",
-                        confirmButtonColor: '#3085d6'
-                    }).then(() => {
-                        location.reload();
-                    });
-                } else {
-                    Swal.fire({
-                        title: "Oops...",
-                        text: "Error al modificar la categoría: " + data.error,
-                        icon: "error"
-                    });
-                }
-            })
-            .catch(error => {
-                console.error("Error:", error);
-                Swal.fire({
-                    title: "Oops...",
-                    text: "Se produjo un error: " + error.message,
-                    icon: "error"
-                });
+function editarCategoria() {
+    const form = document.getElementById('form-editar-categoria');
+    const formData = new FormData(form);
+
+    fetch('/categorias/editar', {
+        method: 'POST',
+        body: formData,
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            Swal.fire({
+                title: "Éxito",
+                text: "Categoría modificada exitosamente.",
+                icon: "success",
+                confirmButtonColor: '#3085d6'
+            }).then(() => {
+                location.reload();
             });
-    }
+        } else {
+            Swal.fire({
+                title: "Error",
+                text: data.message || "Hubo un problema al editar la categoría.",
+                icon: "error"
+            });
+        }
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        Swal.fire({
+            title: "Oops...",
+            text: "Se produjo un error: " + error.message,
+            icon: "error"
+        });
+    });
+}
+
 </script>

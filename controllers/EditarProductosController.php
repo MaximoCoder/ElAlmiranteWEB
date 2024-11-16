@@ -13,19 +13,25 @@ class EditarProductosController {
         $platillos = $ProductModel->getPlatillos();
         $categorias = $ProductModel->getCategories();
 
-        $router->render('admin/editar_productos', [
+        $router->render('admin/Editar_Productos', [
             'platillos' => $platillos,
             'categorias' => $categorias
         ], 'layoutAdmin');
     }
 
     // Obtener lista de productos
-    public function getPlatillos() {
-        return $this->model->getPlatillos();
+
+
+    public static function getCategories()
+    {
+        $adminModel = new AdminModel();
+        return $adminModel->getData('categoria');
     }
 
-    public function getCategories() {
-        return $this->model->getCategories();
+    public static function getPlatillos()
+    {
+        $adminModel = new AdminModel();
+        return $adminModel->getData('platillo');
     }
 
     public static function eliminarPlatillo(Router $router) {

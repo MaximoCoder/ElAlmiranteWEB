@@ -17,10 +17,12 @@ use Controllers\UserController;
 use Controllers\AdminController;
 use Controllers\CategoriasController;
 use Controllers\ProductController;
+use Controllers\vacanteController;
 use Controllers\EditarProductosController;
 use Controllers\VentasController;
 use Controllers\PedidosController;
 use Controllers\ConfiguracionAdminController;
+use Controllers\DashboardController;
 
 $router = new Router();
 /* ---------------------------------------------
@@ -129,9 +131,17 @@ $router->post('/auth/change-Password', [UserController::class, 'changePassword']
 // ---------------- Controles de Administrador ----------------
 // Control RESUMEN
 $router->get('/admin/dashboard', function($router) {
-    AdminController::renderAdminView($router, 'dashboard', 'layoutAdmin');
+    $ordenes = DashboardController::getOrders();
+    $newOrdenes = DashboardController::getTodayOrders();
+    $visitantesActivos = DashboardController::getVisitors();
+    $Totalventas = DashboardController::getTotalSales();
+    AdminController::renderAdminView($router, 'dashboard', 'layoutAdmin', [
+        'ordenes' => $ordenes,
+        'newOrdenes' => $newOrdenes,
+        'visitantesActivos' => $visitantesActivos,
+        'Totalventas' => $Totalventas
+    ]);
 });
-
 // Controles de Productos
 $router->get('/admin/Agregar_Productos', function($router) {
     //Obtenemos los datos de las categorías
@@ -153,6 +163,12 @@ $router->get('/admin/Categorias', function($router) {
         'categorias' => $categorias
     ]);
 });
+
+// Control Agregar vacante
+$router->get('/admin/Agregar_Vacante', function($router) {
+    AdminController::renderAdminView($router, 'Agregar_Vacante', 'layoutAdmin'); // Formulario de registro
+});
+$router->post('/admin/Agregar_Vacante', [vacanteController::class, 'registroVacante']); // API: registrar usuario
 
 // Control Agregar Categorias
 
@@ -188,10 +204,18 @@ $router->get('/admin/Editar_Productos', [ProductController::class, 'listarProduc
 
 
 
+// Rutas para obtener platillos
+$router->get('/admin/obtenerPlatillos', [ProductController::class, 'obtenerPlatillos']);
+
+$router->post('/admin/platillos/editar', [EditarProductosController::class, 'editarPlatillo']);
+$router->delete('/admin/platillos/eliminar', [EditarProductosController::class, 'eliminarPlatillo']);
+$router->get('/admin/Editar_Productos', [ProductController::class, 'listarProductos']);
+
 // Control Ventas
 $router->get('/admin/Ventas', function($router) {
     AdminController::renderAdminView($router, 'Ventas', 'layoutAdmin');
 });
+
 
 // Ruta para mostrar la vista principal de ventas
 $router->get('/admin/Ventas', [VentasController::class, 'listarPlatillos']);
@@ -215,7 +239,19 @@ $router->get('/admin/ventas/generarTopPlatillosPdf', function() {
 
 $router->get('/admin/ventas/generarTopPlatillosMenosVendidosPdf', function() {
     Controllers\VentasController::generarTopPlatillosMenosVendidosPdf();
+}
+$router->get('/admin/Ventas', [VentasController::class, 'listarPlatillos']);
+// Cambia esto
+$router->get('/admin/Ventas/reporte', [VentasController::class, 'reporteVentas']);
+
+// A esto
+$router->get('/admin/Ventas/reporte', function($router) {
+    $controller = new VentasController();
+    $controller->reporteVentas($router);
 });
+
+
+
 
 // Control Pedidos
 $router->get('/admin/Pedidos', function($router) {
