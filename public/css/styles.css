@@ -26,7 +26,41 @@ body {
     background-color: var(--bg-secondary);
 }
 
-/* Slider */
+/* HOME */
+/* Estilos para hacer que el carrusel tome todo el ancho */
+.carousel {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+
+.carousel-item img {
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+
+.btn-menu {
+    background-color: #dc3545;
+    color: white;
+    padding: 0.8rem 2rem;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+.btn-menu:hover {
+    background-color: #c82333;
+    color: white;
+    transform: translateY(-2px);
+}
 .carousel-control-prev,
 .carousel-control-next {
     background-color: rgba(0, 0, 0, 0.6);
@@ -34,7 +68,77 @@ body {
     height: 70px;
     margin: auto;
 }
+.seafood-section {
+    background-color: var(--bg-secondary);
+    color: white;
+    padding: 4rem 0;
+}
 
+.img-container {
+    padding: 2rem;
+    border-radius: 8px;
+}
+
+.cta-button {
+    background-color: white;
+    color: var(--bg-primary);
+    padding: 0.8rem 2.5rem;
+    border-radius: 4px;
+    text-decoration: none;
+    display: inline-block;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.cta-button:hover {
+    background-color: #f8f9fa;
+    color: var(--bg-primary);
+    transform: translateY(-2px);
+}
+
+.testimonials-section {
+    padding: 4rem 0;
+    background-color: #fff;
+}
+
+.testimonials-title {
+    color: var(--bg-primary);
+    text-align: center;
+    margin-bottom: 3rem;
+    font-weight: bold;
+}
+
+.testimonial-card {
+    background-color: var(--bg-primary);
+    color: white;
+    padding: 2rem;
+    border-radius: 8px;
+    height: 100%;
+    min-height: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.testimonial-text {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.testimonial-author {
+    text-align: center;
+    font-weight: 500;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    width: 5%;
+}
+
+.carousel-item {
+    padding: 0 3rem;
+}
 /* Menu */
 .name-Product a{
     color: var(--bg-secondary);
