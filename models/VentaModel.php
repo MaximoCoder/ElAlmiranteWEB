@@ -1,13 +1,16 @@
 <?php
 // models/VentaModel.php
 namespace Model;
-
+use PDO;
+use PDOException;
 class VentaModel
+
 {
     private $db;
+
     public function __construct()
     {
-        $this->db = connectDB(); // Conectar a la base de datos
+        $this->db = connectDB(); 
     }
 
     // Funcion para crear una venta
@@ -159,4 +162,32 @@ class VentaModel
             throw $e;
         }
     }
+
+    //Gestion de Ventas 
+
+    public function getAllProducts()
+    {
+        try {
+            $query = "SELECT * FROM platillo";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo "Error al obtener los platillos: " . $e->getMessage();
+            return null;
+        }
+    }
+    public function getAllDetalleVenta()
+    {
+        try {
+            $query = "SELECT * FROM detalleventa";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo "Error al obtener los detalle de venta: " . $e->getMessage();
+            return null;
+        }
+    }
+    
 }

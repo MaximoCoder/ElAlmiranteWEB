@@ -4,21 +4,56 @@
 namespace Controllers;
 
 use MVC\Router;
+use Model\VentaModel;
+use PDOException;
+use TCPDF;
+
 
 class VentasController {
-    // Método para renderizar vistas de administración
+
     public static function renderAdminView(Router $router, $viewName)
     {
-        $sessionController = new \Controllers\SessionController();
-        $sessionController->startSession(); 
-        $user = $sessionController->getUser();
-    
-        if ($user === null) {
-            // Manejar el caso cuando no hay usuario
-            echo "Usuario no identificado";
-            return;
-        }
-    
-        $router->render('admin/' . $viewName, ['user' => $user], 'layoutAdmin');
+        $VentaModel = new VentaModel();
+        $platillos = $VentaModel->getAllProducts();
+
+        $router->render('admin/Ventas', [
+            'platillos' => $platillos,
+        ], 'layoutAdmin');
     }
+
+    public static function getPlatillos()
+    {
+        $adminModel = new AdminModel();
+        $platillos = $adminModel->getData('platillo');
+    
+        // Depuración: Verifica los datos
+        var_dump($platillos); // Esto te permitirá ver si los datos están siendo recuperados correctamente
+        return $platillos;
+    }
+    
+    public static function listarPlatillos(Router $router)
+    {
+        $ventaModel = new VentaModel();
+        $platillos = $ventaModel->getAllProducts();
+
+        $router->render('admin/Ventas', [
+            'platillos' => $platillos,
+            
+        ], 'layoutAdmin');
+    }
+
+    public static function getDetalleVenta(Router $router)
+    {
+        $ventaModel = new VentaModel();
+        $platillos = $ventaModel->getAllDetalleVenta();
+
+        $router->render('admin/Ventas', [
+            'platillos' => $platillos,
+            
+        ], 'layoutAdmin');
+    }
+
+
 }
+    
+    

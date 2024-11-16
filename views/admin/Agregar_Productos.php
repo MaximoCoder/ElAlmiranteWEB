@@ -47,7 +47,7 @@
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="categoria" class="form-label text-black">Categoría:</label>
-                    <select class="form-control form-select border-0 input-color" name="IdCategoria" id="IdCategoria" required>
+                    <select class="form-control form-select border-0 input-color" name="IdCategoría" id="IdCategoría" required>
                         <?php foreach ($categorias as $categoria) : ?>
                             <option value="<?= $categoria['IdCategoría'] ?>"><?= $categoria['NombreCategoría'] ?></option>
                         <?php endforeach; ?>
