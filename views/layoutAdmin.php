@@ -70,15 +70,15 @@
         </a>
       </li>
       <li>
-        <a href="../">
-          <i class='bx bx-show'></i>
-          <span class="text">Ver sitio</span>
-        </a>
-      </li>
-      <li>
         <a href="../admin/Reportes">
           <i class='bx bxs-pie-chart-alt-2'></i>
           <span class="text">Reportes</span>
+        </a>
+      </li>
+      <li>
+        <a href="../">
+          <i class='bx bx-show'></i>
+          <span class="text">Ver sitio</span>
         </a>
       </li>
     </ul>
@@ -110,9 +110,8 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous"></script>
-  
-  <script src="../js/scriptdash.js"></script>
 
+  <script src="../js/scriptdash.js"></script>
 
 </body>
 

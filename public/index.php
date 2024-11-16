@@ -22,6 +22,7 @@ use Controllers\VentasController;
 use Controllers\PedidosController;
 use Controllers\ConfiguracionAdminController;
 use Controllers\DashboardController;
+use Controllers\ReportController;
 
 $router = new Router();
 /* ---------------------------------------------
@@ -185,6 +186,21 @@ $router->get('/admin/Ventas', function($router) {
 // Control Pedidos
 $router->get('/admin/Pedidos', function($router) {
     PedidosController::renderAdminView($router, 'Pedidos');
+});
+// RUTA A REPORTES (BASATE EN LA RUTA DE DASHBOARD)
+$router->get('/admin/Reportes', function($router) {
+    $categoria = ReportController::getSalesByCategory();
+    $diarias = ReportController::getDailySales();
+    $platillos = ReportController::getTopSellingDishes();
+    $mensuales = ReportController::getMonthlyIncome();
+    $top = ReportController::getTopOrderedCategories();
+    AdminController::renderAdminView($router, 'Reportes', 'layoutAdmin', [
+        'categoria' => $categoria,
+        'diarias' => $diarias,
+        'platillos' => $platillos,
+        'mensuales' => $mensuales,
+        'top' => $top
+    ]);
 });
 // Control Configuracion de Pagina
 $router->get('/admin/Config', function($router) {
