@@ -21,6 +21,7 @@ use Controllers\EditarProductosController;
 use Controllers\VentasController;
 use Controllers\PedidosController;
 use Controllers\ConfiguracionAdminController;
+use Controllers\DashboardController;
 
 $router = new Router();
 /* ---------------------------------------------
@@ -129,9 +130,17 @@ $router->post('/auth/change-Password', [UserController::class, 'changePassword']
 // ---------------- Controles de Administrador ----------------
 // Control RESUMEN
 $router->get('/admin/dashboard', function($router) {
-    AdminController::renderAdminView($router, 'dashboard', 'layoutAdmin');
+    $ordenes = DashboardController::getOrders();
+    $newOrdenes = DashboardController::getTodayOrders();
+    $visitantesActivos = DashboardController::getVisitors();
+    $Totalventas = DashboardController::getTotalSales();
+    AdminController::renderAdminView($router, 'dashboard', 'layoutAdmin', [
+        'ordenes' => $ordenes,
+        'newOrdenes' => $newOrdenes,
+        'visitantesActivos' => $visitantesActivos,
+        'Totalventas' => $Totalventas
+    ]);
 });
-
 // Controles de Productos
 $router->get('/admin/Agregar_Productos', function($router) {
     //Obtenemos los datos de las categorías
