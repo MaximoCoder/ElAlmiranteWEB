@@ -169,15 +169,49 @@ $router->post('/categorias/editar',  [CategoriasController::class, 'editarCatego
 $router->delete('/admin/categorias/eliminar', [CategoriasController::class, 'eliminarCategoria']); 
 
 
+
 // Control Editar Productos
-$router->get('/admin/Editar_Productos', function($router) {
-    EditarProductosController::renderAdminView($router, 'Editar_Productos');
+$router->post('/admin/platillos/editar', function() use ($db) {
+    $controller = new EditarProductosController($db);
+    $data = $_POST;
+    $result = $controller->updatePlatillo($data);
+    if ($result) {
+        echo "Producto actualizado con éxito";
+    } else {
+        echo "Error al actualizar producto";
+    }
 });
+
+
+$router->get('/admin/Editar_Productos', function($router) {
+    AdminController::renderAdminView($router, 'Editar_Productos', 'layoutAdmin');
+});
+// Rutas para obtener platillos
+$router->get('/admin/obtenerPlatillos', [ProductController::class, 'obtenerPlatillos']);
+
+$router->post('/admin/platillos/editar', [EditarProductosController::class, 'editarPlatillo']);
+$router->delete('/admin/platillos/eliminar', [EditarProductosController::class, 'eliminarPlatillo']);
+$router->get('/admin/Editar_Productos', [ProductController::class, 'listarProductos']);
+
+
 
 // Control Ventas
 $router->get('/admin/Ventas', function($router) {
-    VentasController::renderAdminView($router, 'Ventas');
+    AdminController::renderAdminView($router, 'Ventas', 'layoutAdmin');
 });
+
+$router->get('/admin/Ventas', [VentasController::class, 'listarPlatillos']);
+// Cambia esto
+$router->get('/admin/Ventas/reporte', [VentasController::class, 'reporteVentas']);
+
+// A esto
+$router->get('/admin/Ventas/reporte', function($router) {
+    $controller = new VentasController();
+    $controller->reporteVentas($router);
+});
+
+
+
 
 // Control Pedidos
 $router->get('/admin/Pedidos', function($router) {
