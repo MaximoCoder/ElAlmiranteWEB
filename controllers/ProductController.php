@@ -27,7 +27,7 @@ class ProductController
             $descripcionPlatillo = $_POST['DescripcionPlatillo'] ?? null;
             $precioPlatillo = $_POST['PrecioPlatillo'] ?? null;
             $disponibilidad = $_POST['Disponibilidad'] ?? null;
-            $categoriaId = $_POST['IdCategoria'] ?? null;
+            $categoriaId = $_POST['IdCategoría'] ?? null;
 
             // Manejar la subida de la imagen
             if (isset($_FILES['imagenProducto']) && $_FILES['imagenProducto']['error'] === UPLOAD_ERR_OK) {
@@ -55,7 +55,7 @@ class ProductController
                     'DescripcionPlatillo' => $descripcionPlatillo,
                     'PrecioPlatillo' => $precioPlatillo,
                     'Disponibilidad' => $disponibilidad,
-                    'IdCategoria' => $categoriaId,
+                    'IdCategoría' => $categoriaId,
                     'img' => $imgNombre
                 ], 'platillo');
 
@@ -105,11 +105,14 @@ class ProductController
     public static function listarProductos(Router $router)
     {
         $productModel = new ProductModel();
-        $productos = $productModel->getAllProducts();
+        $platillos = $productModel->getAllProducts();
+        $categorias = $productModel->getAllCategories();
 
         // Renderiza la vista de productos con los datos obtenidos
         $router->render('admin/Editar_Productos', [
-            'productos' => $productos
+            'platillos' => $platillos,
+            'categorias' => $categorias
+            
         ], 'layoutAdmin');
     }
 }

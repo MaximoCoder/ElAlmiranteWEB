@@ -64,6 +64,12 @@
         </a>
       </li>
       <li>
+        <a href="../admin/Agregar_Vacante">
+          <i class='bx bxs-briefcase'></i>
+          <span class="text">Agregar vacante</span>
+        </a>
+      </li>
+      <li>
         <a href="../admin/Gestion_Usuarios">
           <i class='bx bxs-group'></i>
           <span class="text">Gestion de Usuarios</span>

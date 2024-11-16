@@ -17,12 +17,15 @@ use Controllers\UserController;
 use Controllers\AdminController;
 use Controllers\CategoriasController;
 use Controllers\ProductController;
+use Controllers\vacanteController;
 use Controllers\EditarProductosController;
 use Controllers\VentasController;
 use Controllers\PedidosController;
 use Controllers\ConfiguracionAdminController;
 use Controllers\DashboardController;
 use Controllers\ReportController;
+use Controllers\VacanteController as ControllersVacanteController;
+
 
 $router = new Router();
 /* ---------------------------------------------
@@ -164,6 +167,19 @@ $router->get('/admin/Categorias', function($router) {
     ]);
 });
 
+// Control Agregar vacante
+$router->get('/admin/Agregar_Vacante', function($router) {
+    // Obtenemos los datos de las vacantes
+    $vacantes = VacanteController::getAllVacantes(); 
+    AdminController::renderAdminView($router, 'Agregar_Vacante', 'layoutAdmin',[
+        'vacantes' => $vacantes
+    ]); // Formulario de registro
+});
+
+$router->post('/admin/Agregar_Vacante', [VacanteController::class, 'registroVacante']);
+$router->post('/admin/Agregar_Vacante/editar', [VacanteController::class, 'editarVacante']);
+$router->delete('/admin/Agregar_Vacante/eliminar', [VacanteController::class, 'eliminarVacante']);
+
 // Control Agregar Categorias
 
 // Agregar Categoría
@@ -171,17 +187,80 @@ $router->post('/admin/Categorias-add', [CategoriasController::class, 'agregarCat
 $router->post('/categorias/editar',  [CategoriasController::class, 'editarCategoria']);
 $router->delete('/admin/categorias/eliminar', [CategoriasController::class, 'eliminarCategoria']); 
 
-/* Corregir aquí :
+
 // Control Editar Productos
-$router->get('/admin/Editar_Productos', function($router) {
-    EditarProductosController::renderAdminView($router, 'Editar_Productos');
+$router->post('/admin/platillos/editar', function() use ($db) {
+    $controller = new EditarProductosController($db);
+    $data = $_POST;
+    $result = $controller->updatePlatillo($data);
+    if ($result) {
+        echo "Producto actualizado con éxito";
+    } else {
+        echo "Error al actualizar producto";
+    }
 });
-*/ 
+
+
+$router->get('/admin/Editar_Productos', function($router) {
+    AdminController::renderAdminView($router, 'Editar_Productos', 'layoutAdmin');
+});
+// Rutas para obtener platillos
+$router->get('/admin/obtenerPlatillos', [ProductController::class, 'obtenerPlatillos']);
+
+$router->post('/admin/platillos/editar', [EditarProductosController::class, 'editarPlatillo']);
+$router->delete('/admin/platillos/eliminar', [EditarProductosController::class, 'eliminarPlatillo']);
+$router->get('/admin/Editar_Productos', [ProductController::class, 'listarProductos']);
+
+
+
+// Rutas para obtener platillos
+$router->get('/admin/obtenerPlatillos', [ProductController::class, 'obtenerPlatillos']);
+
+$router->post('/admin/platillos/editar', [EditarProductosController::class, 'editarPlatillo']);
+$router->delete('/admin/platillos/eliminar', [EditarProductosController::class, 'eliminarPlatillo']);
+$router->get('/admin/Editar_Productos', [ProductController::class, 'listarProductos']);
 
 // Control Ventas
 $router->get('/admin/Ventas', function($router) {
-    VentasController::renderAdminView($router, 'Ventas');
+    AdminController::renderAdminView($router, 'Ventas', 'layoutAdmin');
 });
+
+
+// Ruta para mostrar la vista principal de ventas
+$router->get('/admin/Ventas', [VentasController::class, 'listarPlatillos']);
+
+// Ruta para generar el reporte de ventas generales
+$router->get('/admin/Ventas/reporte', function($router) {
+    $controller = new VentasController();
+    $controller->reporteVentas($router);
+});
+
+// Ruta para generar el PDF de detalle de una venta específica
+$router->get('/admin/VentaController/generarDetalleVentaPdf', function($router) {
+    $platilloId = $_GET['platilloId'] ?? null;
+    VentasController::generarDetalleVentaPdf(['platilloId' => $platilloId]);
+});
+
+$router->get('/admin/ventas/generarTopPlatillosPdf', function() {
+    Controllers\VentasController::generarTopPlatillosPdf();
+});
+
+
+$router->get('/admin/ventas/generarTopPlatillosMenosVendidosPdf', function() {
+    Controllers\VentasController::generarTopPlatillosMenosVendidosPdf();
+});
+$router->get('/admin/Ventas', [VentasController::class, 'listarPlatillos']);
+// Cambia esto
+$router->get('/admin/Ventas/reporte', [VentasController::class, 'reporteVentas']);
+
+// A esto
+$router->get('/admin/Ventas/reporte', function($router) {
+    $controller = new VentasController();
+    $controller->reporteVentas($router);
+});
+
+
+
 
 // Control Pedidos
 $router->get('/admin/Pedidos', function($router) {
