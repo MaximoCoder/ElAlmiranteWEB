@@ -349,6 +349,17 @@ LOADER
 
 
 /* CART PAGE */
+.cart-count {
+    color: white;
+    background-color: red;
+    border-radius: 50%;
+    padding: 0.2rem 0.6rem;
+    font-size: 0.7rem;
+    font-weight: bold;
+    position: relative;
+    top: -10px;
+    left: -9px;
+}
 .card-Cart {
     padding: 0 110px;
     box-shadow: 0 4px 15px rgb(0 0 0 / 20%);
