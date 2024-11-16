@@ -22,6 +22,7 @@ use Controllers\EditarProductosController;
 use Controllers\VentasController;
 use Controllers\PedidosController;
 use Controllers\ConfiguracionAdminController;
+use Controllers\DashboardController;
 
 $router = new Router();
 /* ---------------------------------------------
@@ -130,9 +131,17 @@ $router->post('/auth/change-Password', [UserController::class, 'changePassword']
 // ---------------- Controles de Administrador ----------------
 // Control RESUMEN
 $router->get('/admin/dashboard', function($router) {
-    AdminController::renderAdminView($router, 'dashboard', 'layoutAdmin');
+    $ordenes = DashboardController::getOrders();
+    $newOrdenes = DashboardController::getTodayOrders();
+    $visitantesActivos = DashboardController::getVisitors();
+    $Totalventas = DashboardController::getTotalSales();
+    AdminController::renderAdminView($router, 'dashboard', 'layoutAdmin', [
+        'ordenes' => $ordenes,
+        'newOrdenes' => $newOrdenes,
+        'visitantesActivos' => $visitantesActivos,
+        'Totalventas' => $Totalventas
+    ]);
 });
-
 // Controles de Productos
 $router->get('/admin/Agregar_Productos', function($router) {
     //Obtenemos los datos de las categorías
@@ -169,7 +178,6 @@ $router->post('/categorias/editar',  [CategoriasController::class, 'editarCatego
 $router->delete('/admin/categorias/eliminar', [CategoriasController::class, 'eliminarCategoria']); 
 
 
-
 // Control Editar Productos
 $router->post('/admin/platillos/editar', function() use ($db) {
     $controller = new EditarProductosController($db);
@@ -186,14 +194,13 @@ $router->post('/admin/platillos/editar', function() use ($db) {
 $router->get('/admin/Editar_Productos', function($router) {
     AdminController::renderAdminView($router, 'Editar_Productos', 'layoutAdmin');
 });
+
 // Rutas para obtener platillos
 $router->get('/admin/obtenerPlatillos', [ProductController::class, 'obtenerPlatillos']);
 
 $router->post('/admin/platillos/editar', [EditarProductosController::class, 'editarPlatillo']);
 $router->delete('/admin/platillos/eliminar', [EditarProductosController::class, 'eliminarPlatillo']);
 $router->get('/admin/Editar_Productos', [ProductController::class, 'listarProductos']);
-
-
 
 // Control Ventas
 $router->get('/admin/Ventas', function($router) {
