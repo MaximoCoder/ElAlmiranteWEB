@@ -92,7 +92,7 @@
    <div class="modal fade" id="editarVacanteModal" tabindex="-1" aria-labelledby="editarVacanteModalLabel" aria-hidden="true">
        <div class="modal-dialog">
            <div class="modal-content">
-               <form id="form-editar-vacante" onsubmit="event.preventDefault(); editarVacante();">
+               <form id="form-editar-vacante" onsubmit="editarVacante(event)">
                    <div class="modal-header">
                        <h5 class="modal-title" id="editarVacanteModalLabel">Editar Vacante</h5>
                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -152,8 +152,8 @@
                            showConfirmButton: false,
                            timer: 1500
                        }).then(() => {
-                                   location.reload();
-                               });
+                           location.reload();
+                       });
                    } else {
                        // Muestra el mensaje de error que proviene del servidor
                        Swal.fire({
@@ -207,7 +207,7 @@
                                    title: "Eliminado",
                                    text: data.message,
                                    icon: "success",
-                                showConfirmButton: 'false'
+                                   showConfirmButton: 'false'
                                }).then(() => {
                                    location.reload();
                                });
@@ -234,7 +234,7 @@
            document.getElementById('disponibilidadVacanteEditar').value = estado;
        }
 
-       function editarVacante() {
+       function editarVacante(event) {
            const idVacante = document.getElementById('vacanteId').value;
            const nombreVacante = document.getElementById('nombreVacanteEditar').value;
            const descripcionVacante = document.getElementById('descripcionVacanteEditar').value;
@@ -247,7 +247,7 @@
                Activa: estadoVacante
            };
 
-           $.ajax ({
+           $.ajax({
                url: '/admin/Agregar_Vacante/editar',
                method: 'PUT',
                contentType: 'application/json',
@@ -255,18 +255,26 @@
                data: JSON.stringify(data),
                success: function(response) {
                    if (response.status === 'success') {
+                       //Actualizar la tabla sin recargar la página
+                       const row = document.querySelector(`tr[data-id="${idVacante}"]`);
+                       if (row) {
+                           row.querySelector('td:nth-child(1)').textContent = nombreVacante;
+                           row.querySelector('td:nth-child(2)').textContent = descripcionVacante;
+                           row.querySelector('td:nth-child(3)').textContent = estadoVacante;
+                       }
+                       $('#editarVacanteModal').modal('hide');
                        Swal.fire({
-                           title: "Éxito",
-                           text: response.message || "Vacante modificada exitosamente.",
+                           title: "Listo!",
+                           text: response.message || "Vacante editada exitosamente.",
                            icon: "success",
-                           confirmButtonColor: '#3085d6'
-                       }).then(() => {
-                           location.reload();
-                       });
+                           showConfirmButton: false,
+                           timer: 1500
+                       })
                    } else {
+                       // Muestra el mensaje de error que proviene del servidor
                        Swal.fire({
-                           title: "Error",
-                           text: response.message || "Hubo un problema al editar la vacante.",
+                           title: "Oops...",
+                           text: response.message || "Hubo un problema al editar.",
                            icon: "error"
                        });
                    }
@@ -279,10 +287,22 @@
                        icon: "error"
                    });
                }
-           })
+           });
        }
 
        document.addEventListener("DOMContentLoaded", function() {
            document.getElementById("vacante-form").addEventListener("submit", handleRegisterForm);
+           document.getElementById("form-editar-vacante").addEventListener("submit", editarVacante);
+
+           document.querySelectorAll('.btn-warning').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const tr = this.closest('tr');
+            const id = tr.dataset.id;
+            const nombre = tr.querySelector('td:nth-child(1)').textContent;
+            const descripcion = tr.querySelector('td:nth-child(2)').textContent;
+            const estado = tr.querySelector('td:nth-child(3)').textContent;
+            abrirModalEditarVacante(id, nombre, descripcion, estado);
+        });
+    });
        });
    </script>
