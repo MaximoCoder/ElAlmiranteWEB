@@ -35,7 +35,9 @@
                         <div class="card-title">Unidades Vendidas por Cliente</div>
                     </div>
                     <div class="card-body">
-
+                      
+                    <div class="row">
+                        <div class="col-md-8">
                     <div class="row">
                         <div class="col-md-8">
 
@@ -52,7 +54,6 @@
                                     <option disabled>No hay platillos disponibles</option>
                                 <?php endif; ?>
                             </select>
-
                         </div>
                         <div class="col-md-4 d-flex align-items-center justify-content-end">
                             <button id="btn-rpt-unidades-vendidas-cliente" class="btn btn-block btn-success">
@@ -64,8 +65,6 @@
 
                     </div>
                 </div>
-
-
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
@@ -97,7 +96,7 @@
                         <div class="card-title">Top Productos</div>
                     </div>
                     <div class="card-body">
-
+                      
                         <h5>
                             <div class="row mb-2 text-center">
                                 <label>Haga clic sobre uno de los siguientes botones para obtener un reporte en PDF</label>
@@ -120,6 +119,8 @@
 
                             <div class="col-md-5 mb-2">
 
+                            <div class="col-md-5 mb-2">
+
                             <div class="col-md-3"></div>
                         </div>
                         <div class="row mb-2">
@@ -130,6 +131,9 @@
                                     <i class="fa fa-file-alt fa-1x"></i>&nbsp;&nbsp;Top 20 de Productos menos vendidos
                                 </button>
                             </div>
+                        </div>
+                    </div>
+                </div>
 
                         </div>
                     </div>
@@ -139,8 +143,6 @@
                         </div>
                     </div>
                 </div>
- 
-
             </div>
         </div>
     </div>
@@ -148,7 +150,6 @@
 
 <!-- Dentro de la vista admin/Ventas.php -->
 <script>
-
 document.getElementById('btn-rpt-unidades-vendidas-cliente').addEventListener('click', function () {
     const platilloId = document.getElementById('IdPlatillo').value;
     if (platilloId) {
@@ -166,7 +167,6 @@ document.getElementById('btn-rpt-top-menos-vendido').addEventListener('click', f
     window.open('/admin/ventas/generarTopPlatillosMenosVendidosPdf', '_blank');
 });
 
-
 $(document).on("click", "#btn-rpt-unidades-vendidas-cliente", function(){
     window.open("../../models/PdfModel");
 });
@@ -178,6 +178,5 @@ $(document).on("click", "#btn-rpt-unidades-vendidas-cliente", function(){
     document.getElementById('btn-rpt-top-menos-vendido').addEventListener('click', function() {
         window.location.href = '/admin/Ventas/reporte?mode=2';
     });
-
 </script>
 

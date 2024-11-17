@@ -6,13 +6,14 @@ namespace Controllers;
 use MVC\Router;
 use Model\VentaModel;
 use PDOException;
+use Dompdf\Dompdf;
+use Dompdf\Options;
+
 
 use Dompdf\Dompdf;
 use Dompdf\Options;
 
 use TCPDF;
-
-
 
 class VentasController {
 
@@ -30,7 +31,6 @@ class VentasController {
     {
         $adminModel = new AdminModel();
         $platillos = $adminModel->getData('platillo');
-
     
         var_dump($platillos); // Esto te permitirá ver si los datos están siendo recuperados correctamente
         return $platillos;
@@ -109,6 +109,43 @@ class VentasController {
     {
         $ordenId = $params['ordenId'] ?? null;
     
+            try {
+                // Configurar opciones para Dompdf
+                $options = new Options();
+                $options->set('isHtml5ParserEnabled', true);
+                $options->set('isRemoteEnabled', true);
+    
+                $dompdf = new Dompdf($options);
+                
+                // Generar contenido HTML del PDF
+                ob_start();
+                include __DIR__ . '/../views/templates_detalleVentas/detalleVentaTemplate.php';
+                $html = ob_get_clean();
+    
+                $dompdf->loadHtml($html);
+                $dompdf->setPaper('A4', 'portrait');
+                $dompdf->render();
+    
+                // Descargar PDF
+                $dompdf->stream('Detalle_Venta_' . $platilloId . '.pdf', ['Attachment' => true]);
+    
+            } catch (\Exception $e) {
+                echo json_encode([
+                    'status' => 'error',
+                    'message' => 'Error al generar el PDF: ' . $e->getMessage()
+                ]);
+            }
+        } else {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'No se pudo encontrar la venta.'
+            ]);
+        }
+    }
+    
+    public static function generarDetalleOrdenPdf($params)
+    {
+        $ordenId = $params['ordenId'] ?? null;
         if ($ordenId) {
             // Lógica para generar el PDF
         } else {
@@ -204,8 +241,6 @@ class VentasController {
             ]);
         }
     }
-    
-    
         // Depuración: Verifica los datos
         var_dump($platillos); // Esto te permitirá ver si los datos están siendo recuperados correctamente
         return $platillos;
@@ -232,9 +267,6 @@ class VentasController {
             
         ], 'layoutAdmin');
     }
-
-
-
 }
     
     
