@@ -600,7 +600,10 @@ canvas {
     outline-offset: 2px; 
 }
 
-
+.preformatted {
+	text-align: left !important;
+	white-space: pre-wrap;
+}
 
 /* MAIN */
 /* CONTENT */
