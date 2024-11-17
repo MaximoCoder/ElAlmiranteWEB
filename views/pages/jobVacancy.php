@@ -22,7 +22,7 @@
                         <p class="card-text text-muted preformatted">Requisitos y beneficios:
                             <br><?= htmlspecialchars($vacante['descripcionVacante']); ?>
                         </p>
-                        <a href="#" class="btn btn-dark mt-2">Postularme ahora</a>
+                        <a href="../pages/formVacante" class="btn btn-dark mt-2">Postularme ahora</a>
                     </div>
                 </div>
             </div>
