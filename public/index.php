@@ -177,7 +177,7 @@ $router->get('/admin/Agregar_Vacante', function($router) {
 });
 
 $router->post('/admin/Agregar_Vacante', [VacanteController::class, 'registroVacante']);
-$router->post('/admin/Agregar_Vacante/editar', [VacanteController::class, 'editarVacante']);
+$router->put('/admin/Agregar_Vacante/editar', [VacanteController::class, 'editarVacante']);
 $router->delete('/admin/Agregar_Vacante/eliminar', [VacanteController::class, 'eliminarVacante']);
 
 // Control Agregar Categorias
