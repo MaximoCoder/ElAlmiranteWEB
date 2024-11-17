@@ -1,14 +1,16 @@
 <?php
 // controllers/JobController.php
 namespace Controllers;
-use MVC\Router;
+
+use Model\VacanteModel;
+
 class JobController
 {
-    public static function index(Router $router)
+    // Obtenemos las vacantes
+    public static function getVacantes()
     {
-        $router->render('pages/jobVacancy',[
-            
-        ]);
+        // Instanciamos el modelo
+        $model = new VacanteModel();
+        return $model->getVacantes();
     }
-
 }

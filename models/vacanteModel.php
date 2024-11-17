@@ -91,4 +91,15 @@ class vacanteModel
         }
     }
 
+    // Con esta funcion nos vamos a traer todos los datos de las vacantes.
+    public function getVacantes(){
+        try{
+            $query = $this->db->query("SELECT * FROM vacante WHERE Activa = 1");
+            return $query->fetchAll(); 
+        }catch (\PDOException $e) {
+            // Manejar el error usando la funcion handleError
+            return $e;
+        }
+    }
+
 }

@@ -2,7 +2,7 @@
 
 namespace Controllers;
 
-use Model\vacanteModel;
+use Model\VacanteModel;
 use MVC\Router;
 
 // Funcion para registrar una nueva vacante
@@ -11,8 +11,8 @@ class VacanteController
 
     public static function getAllVacantes()
     {
-        $vacanteModel = new vacanteModel();
-        return $vacanteModel->getAllVacantes();
+        $VacanteModel = new VacanteModel();
+        return $VacanteModel->getAllVacantes();
     }
 
     public static function registroVacante()
@@ -39,10 +39,10 @@ class VacanteController
             }
 
             // Crear instancia del modelo
-            $vacanteModel = new vacanteModel();
+            $VacanteModel = new VacanteModel();
 
             // Crear la vacante
-            $vacanteCreate = $vacanteModel->createVacante($nombreVacante, $descripcionVacante, $activa);
+            $vacanteCreate = $VacanteModel->createVacante($nombreVacante, $descripcionVacante, $activa);
 
             // Redirigir a la vista de vacante o mostrar un error
             if ($vacanteCreate) {
@@ -79,8 +79,8 @@ class VacanteController
             $idVacante = $data['idVacante'];
 
             // Instanciar el modelo de vacante
-            $vacanteModel = new vacanteModel();
-            $vacanteDelete = $vacanteModel->deleteVacante($idVacante);
+            $VacanteModel = new VacanteModel();
+            $vacanteDelete = $VacanteModel->deleteVacante($idVacante);
 
             if ($vacanteDelete) {
                 echo json_encode([
@@ -122,8 +122,8 @@ class VacanteController
             $activa = $data['Activa'] === 'Disponible' ? 1 : 0;
     
             // Instanciar el modelo de vacante
-            $vacanteModel = new vacanteModel();
-            $vacanteUpdate = $vacanteModel->updateVacante($idVacante, $nombreVacante, $descripcionVacante, $activa);
+            $VacanteModel = new VacanteModel();
+            $vacanteUpdate = $VacanteModel->updateVacante($idVacante, $nombreVacante, $descripcionVacante, $activa);
     
             if ($vacanteUpdate) {
                 echo json_encode([
