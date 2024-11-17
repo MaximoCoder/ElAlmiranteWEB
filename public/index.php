@@ -87,7 +87,12 @@ $router->get('/pages/platillo-{IdPlatillo}', function($router, $params) {
 });
 
 // JobController
-$router->get('/pages/jobVacancy', [JobController::class, 'index']); // Página de vacantes de trabajo
+$router->get('/pages/jobVacancy', function($router){
+    // llamamos a la funcion del controller para obtener los datos
+    $data = JobController::getVacantes();
+    // Renderizamos con pagesController
+    PagesController::vacante($router, $data);
+}); // Página de vacantes de trabajo
 
 // PROFILE PAGE
 $router->get('/pages/profile', function($router) {
