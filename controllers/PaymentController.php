@@ -286,7 +286,7 @@ class PaymentController
                 $dompdf->setPaper('A5');
                 $dompdf->render();
                 // Guardar el ticket en el servidor
-                $uploadDir = __DIR__ . '/../uploads/tickets';
+                $uploadDir = __DIR__ . '/../public/uploads/tickets';
                 if (!file_exists($uploadDir)) {
                     mkdir($uploadDir, 0777, true);
                 }

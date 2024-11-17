@@ -54,7 +54,7 @@ $(document).ready(function () {
                     var productId = $(this).data('id');
                     var productName = $(this).data('name');
                     var productPrice = $(this).data('price');
-            
+
                     // Encriptar y enviar los datos del producto
                     submitEncryptedForm(productId, productName, productPrice);
                 });
@@ -86,7 +86,7 @@ $(document).ready(function () {
                         encrypted_data: encryptedData
                     },
                     success: function (response) {
-                        console.log(response);
+                        //console.log(response);
                         // Mostrar mensaje de éxito
                         Swal.fire({
                             position: "top-end",
@@ -97,11 +97,14 @@ $(document).ready(function () {
                             showConfirmButton: false,
                             timer: 1500
                         });
-                        // Aquí puedes actualizar el carrito dinámicamente si lo deseas
+                        // Actualizar dinámicamente el contador del carrito
+                        var cartCountElement = document.getElementsByClassName('cart-count')[0]; // Seleccionar el primer elemento
+                        var currentCount = parseInt(cartCountElement.textContent) || 0; // Si está vacío, se considera como 0
+                        cartCountElement.textContent = currentCount + 1; // Actualizar el contador DINAMICAMENTE
                     },
                     error: function (xhr) {
                         // Mostrar mensaje de error
-                        console.log("Error al agregar el producto al carrito: " + xhr.responseText);
+                        //console.log("Error al agregar el producto al carrito: " + xhr.responseText);
                         Swal.fire({
                             position: "top-end",
                             toast: true,
