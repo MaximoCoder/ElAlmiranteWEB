@@ -2,7 +2,7 @@
 
 namespace Controllers;
 
-use Model\VacanteModel;
+use Model\vacanteModel;
 use MVC\Router;
 
 // Funcion para registrar una nueva vacante
@@ -11,7 +11,7 @@ class VacanteController
 
     public static function getAllVacantes()
     {
-        $vacanteModel = new VacanteModel();
+        $vacanteModel = new vacanteModel();
         return $vacanteModel->getAllVacantes();
     }
 
@@ -65,7 +65,7 @@ class VacanteController
         try {
             // Verificar el método HTTP
             if ($_SERVER['REQUEST_METHOD'] !== 'DELETE') {
-                throw new Exception('Método no permitido');
+                throw new \Exception('Método no permitido');
             }
 
             // Obtener el cuerpo de la solicitud
@@ -73,7 +73,7 @@ class VacanteController
             $data = json_decode($input, true);
 
             if (!isset($data['idVacante'])) {
-                throw new Exception('El ID de la vacante es requerido');
+                throw new \Exception('El ID de la vacante es requerido');
             }
 
             $idVacante = $data['idVacante'];
@@ -88,9 +88,9 @@ class VacanteController
                     'message' => 'Vacante eliminada correctamente'
                 ]);
             } else {
-                throw new Exception('Error al eliminar la vacante');
+                throw new \Exception('Error al eliminar la vacante');
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             echo json_encode([
                 'status' => 'error',
                 'message' => $e->getMessage()
@@ -102,38 +102,42 @@ class VacanteController
     public static function editarVacante()
     {
         header('Content-Type: application/json');
-
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        
+        try {
+            // Verificar el método HTTP
+            if ($_SERVER['REQUEST_METHOD'] !== 'PUT') {
+                throw new \Exception('Método no permitido');
+            }
+    
+            // Obtener el cuerpo de la solicitud
             $data = json_decode(file_get_contents('php://input'), true);
+    
+            if (!isset($data['idVacante'])) {
+                throw new \Exception('El ID de la vacante es requerido');
+            }
+    
             $idVacante = $data['idVacante'];
             $nombreVacante = $data['nombreVacante'];
             $descripcionVacante = $data['descripcionVacante'];
-            $disponibilidadVacante = $data['disponibilidadVacante'];
-
-            // Validar la disponibilidad
-            if ($disponibilidadVacante == 'Disponible') {
-                $activa = 1;
-            } else {
-                $activa = 0;
-            }
-
-            // Crear instancia del modelo
+            $activa = $data['Activa'] === 'Disponible' ? 1 : 0;
+    
+            // Instanciar el modelo de vacante
             $vacanteModel = new vacanteModel();
-
-            // Editar la vacante
-            $vacanteEdit = $vacanteModel->updateVacante($idVacante, $nombreVacante, $descripcionVacante, $disponibilidadVacante);
-
-            // Redirigir a la vista de vacante o mostrar un error
-            if ($vacanteEdit) {
-                echo json_encode(['status' => 'success', 'message' => 'Vacante editada correctamente.']);
+            $vacanteUpdate = $vacanteModel->updateVacante($idVacante, $nombreVacante, $descripcionVacante, $activa);
+    
+            if ($vacanteUpdate) {
+                echo json_encode([
+                    'status' => 'success',
+                    'message' => 'Vacante actualizada correctamente'
+                ]);
             } else {
-                echo json_encode(['status' => 'error', 'message' => 'Error al editar la vacante.']);
+                throw new \Exception('Error al actualizar la vacante');
             }
-
-            // Redirigir a la vista de vacante o mostrar un error
-        } else {
-            echo json_encode(['status' => 'error', 'message' => 'Método no permitido.']);
-            return;
+        } catch (\Exception $e) {
+            echo json_encode([
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ]);
         }
     }
 }

@@ -151,7 +151,9 @@
                            icon: "success",
                            showConfirmButton: false,
                            timer: 1500
-                       });
+                       }).then(() => {
+                                   location.reload();
+                               });
                    } else {
                        // Muestra el mensaje de error que proviene del servidor
                        Swal.fire({
@@ -225,26 +227,37 @@
            });
        }
 
-       function abrirModalEditarVacante(id, nombre, estado) {
+       function abrirModalEditarVacante(id, nombre, descripcion, estado) {
            document.getElementById('vacanteId').value = id;
            document.getElementById('nombreVacanteEditar').value = nombre;
-           document.getElementById('estadoVacanteEditar').value = estado;
+           document.getElementById('descripcionVacanteEditar').value = descripcion;
+           document.getElementById('disponibilidadVacanteEditar').value = estado;
        }
 
        function editarVacante() {
-           const form = document.getElementById('form-editar-vacante');
-           const formData = new FormData(form);
+           const idVacante = document.getElementById('vacanteId').value;
+           const nombreVacante = document.getElementById('nombreVacanteEditar').value;
+           const descripcionVacante = document.getElementById('descripcionVacanteEditar').value;
+           const estadoVacante = document.getElementById('disponibilidadVacanteEditar').value;
 
-           fetch('/vacantes/editar', {
-                   method: 'POST',
-                   body: formData,
-               })
-               .then(response => response.json())
-               .then(data => {
-                   if (data.success) {
+           const data = {
+               idVacante: idVacante,
+               nombreVacante: nombreVacante,
+               descripcionVacante: descripcionVacante,
+               Activa: estadoVacante
+           };
+
+           $.ajax ({
+               url: '/admin/Agregar_Vacante/editar',
+               method: 'PUT',
+               contentType: 'application/json',
+               dataType: 'json',
+               data: JSON.stringify(data),
+               success: function(response) {
+                   if (response.status === 'success') {
                        Swal.fire({
                            title: "Éxito",
-                           text: "Vacante modificada exitosamente.",
+                           text: response.message || "Vacante modificada exitosamente.",
                            icon: "success",
                            confirmButtonColor: '#3085d6'
                        }).then(() => {
@@ -253,19 +266,20 @@
                    } else {
                        Swal.fire({
                            title: "Error",
-                           text: data.message || "Hubo un problema al editar la vacante.",
+                           text: response.message || "Hubo un problema al editar la vacante.",
                            icon: "error"
                        });
                    }
-               })
-               .catch(error => {
-                   console.error("Error:", error);
+               },
+               error: function(xhr, status, error) {
+                   console.log("Respuesta completa del servidor: ", xhr.responseText); // Mostrar la respuesta en la consola
                    Swal.fire({
                        title: "Oops...",
-                       text: "Se produjo un error: " + error.message,
+                       text: "Error en la solicitud: " + error,
                        icon: "error"
                    });
-               });
+               }
+           })
        }
 
        document.addEventListener("DOMContentLoaded", function() {
