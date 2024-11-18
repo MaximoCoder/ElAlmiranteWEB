@@ -18,6 +18,7 @@ use Controllers\AdminController;
 use Controllers\CategoriasController;
 use Controllers\ProductController;
 use Controllers\vacanteController;
+use Controllers\UserMgmtController;
 use Controllers\EditarProductosController;
 use Controllers\VentasController;
 use Controllers\PedidosController;
