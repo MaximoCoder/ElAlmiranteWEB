@@ -73,8 +73,8 @@
                                    <td class="preformatted"><?= htmlspecialchars($vacante['descripcionVacante']); ?></td>
                                    <td><?= htmlspecialchars($vacante['Activa']); ?></td>
                                    <td>
-                                       <a href="#" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editarVacanteModal">Editar</a>
-                                       <a href="#" class="btn btn-danger" onclick="eliminarVacante(<?= htmlspecialchars($vacante['IdVacante']); ?>)">Eliminar</a>
+                                       <a href="#" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editarVacanteModal"><i class='bx bxs-edit'></i></a>
+                                       <a href="#" class="btn btn-danger" onclick="eliminarVacante(<?= htmlspecialchars($vacante['IdVacante']); ?>)"><i class='bx bxs-trash'></i></a>
                                    </td>
                                </tr>
                            <?php endforeach; ?>

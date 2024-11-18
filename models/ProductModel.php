@@ -134,19 +134,6 @@ class ProductModel
         exit;
     }
     
-
-    // Actualizar los datos de un platillo por su ID
-    public function updateProduct($id, $nombrePlatillo, $descripcionPlatillo, $precioPlatillo, $disponibilidad, $categoriaId)
-    {
-        try {
-            $query = "UPDATE platillo SET NombrePlatillo = ?, DescripcionPlatillo = ?, PrecioPlatillo = ?, Disponibilidad = ?, IdCategoría = ? WHERE IdPlatillo = ?";
-            $stmt = $this->db->prepare($query);
-            $stmt->execute([$nombrePlatillo, $descripcionPlatillo, $precioPlatillo, $disponibilidad, $categoriaId, $id]);
-        } catch (PDOException $e) {
-            echo "Error al actualizar el platillo: " . $e->getMessage();
-        }
-    }
-
     // Obtener un platillo por su ID
     public function getProductById($id)
     {
@@ -185,60 +172,7 @@ class ProductModel
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function updatePlatillo($data) {
-        if(empty($data['NombrePlatillo']) || empty($data['PrecioPlatillo']) || empty($data['DescripcionPlatillo']) || 
-           empty($data['Disponibilidad']) || empty($data['IdCategoría'])) {
-            return "Error: Todos los campos deben estar completos.";
-        }
-    
-        $img = $data['img'];
-        if (isset($_FILES['img']) && $_FILES['img']['error'] === UPLOAD_ERR_OK) {
-            $imageTmpPath = $_FILES['img']['tmp_name'];
-            $imageName = $_FILES['img']['name'];
-            $destPath = 'uploads/' . $imageName;
-    
-            if(!is_dir('uploads')) {
-                mkdir('uploads', 0777, true); 
-            }
-    
-            if(move_uploaded_file($imageTmpPath, $destPath)) {
-                $img = $destPath; 
-            } else {
-                return "Error: No se pudo mover el archivo de imagen.";
-            }
-        }
-    
-        $sql = "UPDATE platillo SET 
-                    NombrePlatillo = :nombre, 
-                    PrecioPlatillo = :precio, 
-                    DescripcionPlatillo = :descripcion, 
-                    Disponibilidad = :disponibilidad, 
-                    IdCategoría = :IdCategoría, 
-                    img = :imagen
-                WHERE IdPlatillo = :id";
-    
-        $stmt = $this->db->prepare($sql);
-        $stmt->bindParam(':nombre', $data['NombrePlatillo']);
-        $stmt->bindParam(':precio', $data['PrecioPlatillo']);
-        $stmt->bindParam(':descripcion', $data['DescripcionPlatillo']);
-        $stmt->bindParam(':disponibilidad', $data['Disponibilidad']);
-        $stmt->bindParam(':IdCategoría', $data['IdCategoría']);
-        $stmt->bindParam(':imagen', $img);
-        $stmt->bindParam(':id', $data['IdPlatillo'], PDO::PARAM_INT);
-        
-        if($stmt->execute()) {
-            return "Platillo actualizado con éxito.";
-        } else {
-            $errorInfo = $stmt->errorInfo();
-            return "Error al actualizar el platillo: " . implode(", ", $errorInfo);
-        }
-    }
-    
-    public function renderAdminView($router, $view, $layout, $data = []) {
-        $data['controller'] = $this; 
 
-        $router->render($view, $data, $layout);
-    }
     public function eliminarPlatillo($id) {
         try {
             $db = connectDB();
@@ -254,7 +188,7 @@ class ProductModel
     public function editarPlatillo($platilloId, $nombrePlatillo, $categoriaId, $disponibilidadPlatillo, $descripcionPlatillo, $precioPlatillo, $imgNombre) {
         try {
             $db = connectDB();
-            $stmt = $db->prepare("UPDATE platillo SET NombrePlatillo = ?, IdCategoría = ?, Disponibilidad = ?, DescripcionPlatillo = ?, PrecioPlatillo = ?, img = ? WHERE IdPlatillo = ?");
+            $stmt = $db->prepare("UPDATE platillo SET NombrePlatillo = ?, IdCategoria = ?, Disponibilidad = ?, DescripcionPlatillo = ?, PrecioPlatillo = ?, img = ? WHERE IdPlatillo = ?");
             $stmt->execute([$nombrePlatillo, $categoriaId, $disponibilidadPlatillo, $descripcionPlatillo, $precioPlatillo, $imgNombre, $platilloId]);
             return [
                 'success' => true,

@@ -55,7 +55,7 @@ class ProductController
                     'DescripcionPlatillo' => $descripcionPlatillo,
                     'PrecioPlatillo' => $precioPlatillo,
                     'Disponibilidad' => $disponibilidad,
-                    'IdCategoría' => $categoriaId,
+                    'IdCategoria' => $categoriaId,
                     'img' => $imgNombre
                 ], 'platillo');
 
