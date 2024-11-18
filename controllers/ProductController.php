@@ -6,6 +6,7 @@ namespace Controllers;
 use MVC\Router;
 use Model\ProductModel;
 use PDOException;
+use Controllers\SessionController;
 
 class ProductController
 {
@@ -104,6 +105,8 @@ class ProductController
     // Lista todos los productos
     public static function listarProductos(Router $router)
     {
+        // Validar que el usuario es administrador
+        SessionController::requireAdmin();
         $productModel = new ProductModel();
         $platillos = $productModel->getAllProducts();
         $categorias = $productModel->getAllCategories();

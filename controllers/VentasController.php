@@ -8,22 +8,14 @@ use Model\VentaModel;
 use PDOException;
 use Dompdf\Dompdf;
 use Dompdf\Options;
-
+use Controllers\SessionController;
 
 class VentasController {
-
-    public static function renderAdminView(Router $router, $viewName)
-    {
-        $VentaModel = new VentaModel();
-        $platillos = $VentaModel->getAllProducts();
-
-        $router->render('admin/Ventas', [
-            'platillos' => $platillos,
-        ], 'layoutAdmin');
-    }
-
     public static function listarPlatillos(Router $router)
     {
+        // Validar que el usuario es administrador
+        SessionController::requireAdmin();
+
         $ventaModel = new VentaModel();
         $platillos = $ventaModel->getAllProducts();
     

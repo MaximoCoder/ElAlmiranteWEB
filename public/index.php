@@ -189,10 +189,6 @@ $router->get('/admin/Reportes', function ($router) {
         'top' => $top
     ]);
 });
-// Control Configuracion de Pagina
-$router->get('/admin/Config', function ($router) {
-    ConfiguracionAdminController::renderAdminView($router, 'Config');
-});
 
 //Agregar Productos
 $router->get('/admin/Agregar_Productos', function($router) {
@@ -203,38 +199,22 @@ $router->get('/admin/Agregar_Productos', function($router) {
 });
 $router->post('/admin/Agregar_Productos' ,[ProductController::class, 'addProduct']);
 
-//Editar Productos
-$router->post('/admin/platillos/editar', function() use ($db) {
-    $controller = new EditarProductosController($db);
-    $data = $_POST;
-    $result = $controller->editarPlatillo($data);
-    if ($result) {
-        echo "Producto actualizado con éxito";
-    } else {
-        echo "Error al actualizar producto";
-    }
-});
-
-$router->get('/admin/Editar_Productos', function($router) {
-    AdminController::renderAdminView($router, 'Editar_Productos', 'layoutAdmin');
-});
-$router->get('/admin/obtenerPlatillos', [ProductController::class, 'obtenerPlatillos']);
+// Editar productos
+$router->get('/admin/Editar_Productos', [ProductController::class, 'listarProductos']);
 $router->post('/admin/platillos/editar', [EditarProductosController::class, 'editarPlatillo']);
 $router->delete('/admin/platillos/eliminar', [EditarProductosController::class, 'eliminarPlatillo']);
-$router->get('/admin/Editar_Productos', [ProductController::class, 'listarProductos']);
 
 
 //Categorias
-$router->post('/admin/Categorias-add', [CategoriasController::class, 'agregarCategoria']);
-$router->post('/categorias/editar',  [CategoriasController::class, 'editarCategoria']);
-$router->delete('/admin/categorias/eliminar', [CategoriasController::class, 'eliminarCategoria']); 
-
 $router->get('/admin/Categorias', function($router) {
     $categorias = CategoriasController::getCategories();
     AdminController::renderAdminView($router, 'Categorias', 'layoutAdmin', [
         'categorias' => $categorias
     ]);
 });
+$router->post('/admin/Categorias-add', [CategoriasController::class, 'agregarCategoria']);
+$router->post('/categorias/editar',  [CategoriasController::class, 'editarCategoria']);
+$router->delete('/admin/categorias/eliminar', [CategoriasController::class, 'eliminarCategoria']); 
 
 
 //Gestion de Ventas
