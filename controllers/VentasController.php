@@ -22,15 +22,6 @@ class VentasController {
         ], 'layoutAdmin');
     }
 
-    public static function getPlatillos()
-    {
-        $adminModel = new AdminModel();
-        $platillos = $adminModel->getData('platillo');
-    
-        var_dump($platillos); // Esto te permitirá ver si los datos están siendo recuperados correctamente
-        return $platillos;
-    }
-    
     public static function listarPlatillos(Router $router)
     {
         $ventaModel = new VentaModel();

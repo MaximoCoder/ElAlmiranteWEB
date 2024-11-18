@@ -19,20 +19,6 @@ class EditarProductosController {
         ], 'layoutAdmin');
     }
 
-    // Obtener lista de productos
-
-
-    public static function getCategories()
-    {
-        $adminModel = new AdminModel();
-        return $adminModel->getData('categoria');
-    }
-
-    public static function getPlatillos()
-    {
-        $adminModel = new AdminModel();
-        return $adminModel->getData('platillo');
-    }
 
     public static function eliminarPlatillo(Router $router) {
         if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
@@ -45,7 +31,7 @@ class EditarProductosController {
         }
     }
 
-    public static function editarPlatillo(Router $router) {
+    public static function editarPlatillo() {
         header('Content-Type: application/json');
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $platilloId = $_POST['platilloId'] ?? null;

@@ -207,7 +207,7 @@ $router->post('/admin/Agregar_Productos' ,[ProductController::class, 'addProduct
 $router->post('/admin/platillos/editar', function() use ($db) {
     $controller = new EditarProductosController($db);
     $data = $_POST;
-    $result = $controller->updatePlatillo($data);
+    $result = $controller->editarPlatillo($data);
     if ($result) {
         echo "Producto actualizado con éxito";
     } else {
@@ -239,12 +239,6 @@ $router->get('/admin/Categorias', function($router) {
 
 //Gestion de Ventas
 $router->get('/admin/Ventas', [VentasController::class, 'listarPlatillos']);
-
-// Ruta para generar el reporte de ventas generales
-$router->get('/admin/Ventas/reporte', function($router) {
-    $controller = new VentasController();
-    $controller->reporteVentas($router);
-});
 
 $router->get('/admin/VentaController/generarDetalleVentaPdf', function($router) {
     $platilloId = $_GET['platilloId'] ?? null;
