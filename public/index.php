@@ -18,6 +18,7 @@ use Controllers\AdminController;
 use Controllers\CategoriasController;
 use Controllers\ProductController;
 use Controllers\vacanteController;
+use Controllers\UserMgmtController;
 use Controllers\EditarProductosController;
 use Controllers\VentasController;
 use Controllers\PedidosController;
@@ -238,6 +239,24 @@ $router->get('/admin/Editar_Productos', [ProductController::class, 'listarProduc
 $router->get('/admin/Ventas', function ($router) {
     AdminController::renderAdminView($router, 'Ventas', 'layoutAdmin');
 });
+
+// Control de gestión de usuarios
+$router->get('/admin/Gestion_Usuarios', function ($router) {
+    $usuarios = UserMgmtController::getAllUsers();
+    AdminController::renderAdminView($router, 'Gestion_Usuarios', 'layoutAdmin', [
+        'usuarios' => $usuarios
+    ]);
+})
+
+//Gestion de usuarios
+$router->delete('/admin/Gestion_Usuarios', [UserMgmtController::class, 'eliminarUsuario']);
+$router->put('/admin/Gestion_Usuarios', [UserMgmtController::class, 'editarUsuario']);
+
+// Control de gestión de roles
+$router->post('/admin/Gestion_Usuarios', [UserMgmtController::class, 'agregarRol']);
+$router->delete('/admin/Gestion_Usuarios', [UserMgmtController::class, 'eliminarRol']);
+$router->put('/admin/Gestion_Usuarios', [UserMgmtController::class, 'editarRol']);
+
 
 
 // Ruta para mostrar la vista principal de ventas
