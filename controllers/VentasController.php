@@ -199,7 +199,44 @@ class VentasController {
             ]);
         }
     }
+    public function showTopSellingDishesChart()
+{
+    $model = new VentaModel();
+    $data = $model->getTopSellingDishes();
     
+    echo json_encode($data);
+}
+// VentaController.php
+public function showMonthlyIncomeChart()
+{
+    header('Content-Type: application/json');
+
+    try {
+        $model = new VentaModel(); // Crear instancia del modelo
+        $datos = $model->getMonthlyIncome();
+
+        // Verificamos si los datos fueron obtenidos correctamente
+        if ($datos) {
+            // Creamos los arrays para etiquetas y valores
+            $labels = array_column($datos, 'Mes');
+            $values = array_column($datos, 'TotalIngresos');
+
+            echo json_encode([
+                'labels' => $labels,
+                'values' => $values
+            ]);
+        } else {
+            echo json_encode([
+                'labels' => [],
+                'values' => []
+            ]);
+        }
+    } catch (\Exception $e) {
+        echo json_encode(['error' => $e->getMessage()]);
+    }
+}
+
+
 }
     
     
