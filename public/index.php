@@ -174,6 +174,27 @@ $router->post('/admin/Agregar_Vacante', [VacanteController::class, 'registroVaca
 $router->put('/admin/Agregar_Vacante/editar', [VacanteController::class, 'editarVacante']);
 $router->delete('/admin/Agregar_Vacante/eliminar', [VacanteController::class, 'eliminarVacante']);
 
+// Control Gestión de usuarios
+$router->get('/admin/Gestion_Usuarios', function ($router) {
+    // Obtenemos los datos de los usuarios
+    $usuarios = UserMgmtController::getAllUsers();
+    // Obtenemos los datos de los roles
+    $roles = UserMgmtController::getAllRoles();
+    AdminController::renderAdminView($router, 'Gestion_Usuarios', 'layoutAdmin', [
+        'usuarios' => $usuarios,
+        'roles' => $roles
+    ]);
+});
+
+$router->delete('/admin/Gestion_Usuarios/eliminarUsuario', [UserMgmtController::class, 'eliminarUsuario']);
+$router->put('/admin/Gestion_Usuarios/editarUsuario', [UserMgmtController::class, 'editarUsuario']);
+
+//Control Gestión de roles
+$router->post('/admin/Gestion_Usuarios/crearRol', [UserMgmtController::class, 'registrarRol']);
+$router->delete('/admin/Gestion_Usuarios/eliminarRol',[UserMgmtController::class, 'eliminarRol']);
+$router->put('/admin/Gestion_Usuarios/editarRol', [UserMgmtController::class, 'editarRol']);
+$router->post('/admin/Gestion_Usuarios/asignarRol', [UserMgmtController::class, 'asignarRol']);
+
 // Control Pedidos
 $router->get('/admin/Pedidos', function ($router) {
     PedidosController::renderAdminView($router, 'Pedidos');
@@ -239,7 +260,6 @@ $router->get('/admin/Categorias', function($router) {
         'categorias' => $categorias
     ]);
 });
-
 
 //Gestion de Ventas
 $router->get('/admin/Ventas', [VentasController::class, 'listarPlatillos']);
