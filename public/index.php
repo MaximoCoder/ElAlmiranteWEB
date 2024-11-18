@@ -182,14 +182,10 @@ $router->get('/admin/Pedidos', function ($router) {
 $router->get('/admin/Reportes', function ($router) {
     $categoria = ReportController::getSalesByCategory();
     $diarias = ReportController::getDailySales();
-    $platillos = ReportController::getTopSellingDishes();
-    $mensuales = ReportController::getMonthlyIncome();
     $top = ReportController::getTopOrderedCategories();
     AdminController::renderAdminView($router, 'Reportes', 'layoutAdmin', [
         'categoria' => $categoria,
         'diarias' => $diarias,
-        'platillos' => $platillos,
-        'mensuales' => $mensuales,
         'top' => $top
     ]);
 });

@@ -90,12 +90,6 @@
     </ul>
     <ul class="side-menu">
       <li>
-        <a href="../admin/Config">
-          <i class='bx bxs-cog'></i>
-          <span class="text">Configuración de Pagina</span>
-        </a>
-      </li>
-      <li>
         <a href="../auth/logout" class="logout">
           <i class='bx bxs-log-out-circle'></i>
           <span class="text">Logout</span>
