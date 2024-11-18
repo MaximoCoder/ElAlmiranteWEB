@@ -14,19 +14,9 @@
 </nav>
     <div class="content">
         <div class="container-fluid">
-            <div class="card card-primary mt-1">
-                <div class="card-header">
-                    Platillos
-                </div>
-                <div class="card-body">
-                    <div class="btn-group mb-3" role="group">
-                        <a href="../admin/Agregar_Productos" class="btn btn-success">Agregar Platillo</a>
-                    </div>
+    <div class="container-fluid">
+        <h1>Editar Platillos</h1>
 
-                    <!-- Buscador -->
-                    <div class="mb-3">
-                        <input type="text" id="search-input" class="form-control" placeholder="Buscar platillos...">
-                    </div>
 
                     <div class="table-responsive">
                         <table id="table-platillos" class="table table-bordered table-hover" style="width: 100%">
