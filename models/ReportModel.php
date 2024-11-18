@@ -1,4 +1,5 @@
 <?php
+
 namespace Model;
 
 
@@ -33,7 +34,6 @@ class ReportModel
         } catch (\Exception $e) {
             echo $e->getMessage();
         }
-
     }
 
     // 2. Ventas por día
@@ -50,81 +50,8 @@ class ReportModel
             GROUP BY 
                 DATE(v.FechaVenta)
             ORDER BY 
-                Fecha DESC
+                Fecha ASC
             ");
-            return $sql->fetchAll();
-        } catch (\Exception $e) {
-            echo $e->getMessage();
-        }
-
-    }
-
-    // 3. Platillos más vendidos
-    public function getTopSellingDishes()
-    {
-        try {
-            $sql = $this->db->prepare("
-                SELECT 
-                    p.NombrePlatillo, 
-                    SUM(dv.Cantidad) AS TotalVendidos, 
-                    SUM(dv.Subtotal) AS TotalGanancias
-                FROM 
-                    platillo p
-                INNER JOIN 
-                    detalleventa dv ON p.IdPlatillo = dv.IdPlatillo
-                GROUP BY 
-                    p.IdPlatillo, p.NombrePlatillo
-                ORDER BY 
-                    TotalVendidos DESC
-                LIMIT 10");
-
-            return $sql->fetchAll();
-        } catch (\Exception $e) {
-            echo $e->getMessage();
-        }
-    }
-
-    // 4. Órdenes pendientes por cliente
-    public function getPendingOrdersByClient()
-    {
-        try {
-
-            $sql = $this->db->prepare("
-             SELECT 
-            o.IdCliente, 
-            c.Nombre AS NombreCliente, 
-            COUNT(o.IdOrden) AS OrdenesPendientes, 
-            SUM(o.MontoOrden) AS MontoTotalPendiente
-        FROM 
-            orden o
-        INNER JOIN 
-            usuario c ON o.IdCliente = c.IdUsuario
-        WHERE 
-            o.EstadoOrden = 'Pendiente'
-        GROUP BY 
-            o.IdCliente, c.Nombre
-        ");
-            return $sql->fetchAll();
-        } catch (\Exception $e) {
-            echo $e->getMessage();
-        }
-    }
-
-    // 5. Ingresos por mes
-    public function getMonthlyIncome()
-    {
-        try {
-            $sql = $this->db->prepare("
-            SELECT 
-                DATE_FORMAT(v.FechaVenta, '%Y-%m') AS Mes, 
-                SUM(v.MontoTotal) AS TotalIngresos
-            FROM 
-                venta v
-            GROUP BY 
-                DATE_FORMAT(v.FechaVenta, '%Y-%m')
-            ORDER BY 
-                Mes DESC
-        ");
             return $sql->fetchAll();
         } catch (\Exception $e) {
             echo $e->getMessage();
@@ -132,10 +59,10 @@ class ReportModel
     }
 
     // 6. Categorías con más pedidos
-    public function getTopOrderedCategories($limit = 5)
+    public function getTopOrderedCategories()
     {
         try {
-            $sql = $this->db->prepare("
+            $sql = $this->db->query("
             SELECT 
                 c.NombreCategoría, 
                 COUNT(dv.IdDetalleVenta) AS TotalPedidos
@@ -149,7 +76,7 @@ class ReportModel
                 c.IdCategoría, c.NombreCategoría
             ORDER BY 
                 TotalPedidos DESC
-            LIMIT 10
+            LIMIT 5
         ");
             return $sql->fetchAll();
         } catch (\Exception $e) {
