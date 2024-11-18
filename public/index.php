@@ -263,7 +263,15 @@ $router->get('/admin/ventas/generarTopPlatillosMenosVendidosPdf', function() {
     Controllers\VentasController::generarTopPlatillosMenosVendidosPdf();
 });
 
+$router->get('/admin/ventas/showTopSellingDishesChart', function() {
+    $controller = new VentasController();
+    $controller->showTopSellingDishesChart();
+});
 
+$router->get('/admin/ventas/showMonthlyIncomeChart', function() {
+    $controller = new VentasController();
+    $controller->showMonthlyIncomeChart();
+});
 
 // Manejar la solicitud
 $router->checkRoutes();
