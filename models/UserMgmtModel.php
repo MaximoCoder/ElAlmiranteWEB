@@ -14,12 +14,14 @@ class UserMgmtModel
     public function getAllUsers()
     {
         try {
-            $query = "SELECT * FROM usuario";
+            // Unir la tabla 'usuario' con la tabla 'asignación' y la tabla 'rol' para mostrar el rol del usuario
+            $query = "SELECT u.*, r.NombreRol FROM usuario u 
+                      LEFT JOIN asignación a ON u.IdUsuario = a.IdUsuario 
+                      LEFT JOIN rol r ON a.IdRol = r.IdRol";
             $stmt = $this->db->prepare($query);
             $stmt->execute();
             return $stmt->fetchAll(\PDO::FETCH_ASSOC);
         } catch (\PDOException $e) {
-            // Manejar el error usando la funcion handleError
             return $this->handleError($e);
         }
     }
@@ -84,13 +86,13 @@ class UserMgmtModel
     }
 
     // Funcion para crear un nuevo rol
-    public function crearRol($NombreRol, $DescripcionRol)
+    public function crearRol($NombreRol, $DescripciónRol)
     {
         try {
-            $query = "INSERT INTO rol (NombreRol, DescripcionRol) VALUES (:NombreRol, :DescripcionRol)";
+            $query = "INSERT INTO rol (NombreRol, DescripciónRol) VALUES (:NombreRol, :DescripciónRol)";
             $stmt = $this->db->prepare($query);
             $stmt->bindParam(':NombreRol', $NombreRol);
-            $stmt->bindParam(':DescripcionRol', $DescripcionRol);
+            $stmt->bindParam(':DescripciónRol', $DescripciónRol);
             return $stmt->execute();
         } catch (\PDOException $e) {
             // Manejar el error usando la funcion handleError
@@ -99,14 +101,14 @@ class UserMgmtModel
     }
 
     // Funcion para actualizar un rol
-    public function editarRol($IdRol, $NombreRol, $DescripcionRol)
+    public function editarRol($IdRol, $NombreRol, $DescripciónRol)
     {
         try {
-            $query = "UPDATE rol SET NombreRol = :NombreRol, DescripcionRol = :DescripcionRol WHERE IdRol = :IdRol";
+            $query = "UPDATE rol SET NombreRol = :NombreRol, DescripciónRol = :DescripciónRol WHERE IdRol = :IdRol";
             $stmt = $this->db->prepare($query);
             $stmt->bindParam(':IdRol', $IdRol);
             $stmt->bindParam(':NombreRol', $NombreRol);
-            $stmt->bindParam(':DescripcionRol', $DescripcionRol);
+            $stmt->bindParam(':DescripciónRol', $DescripciónRol);
             return $stmt->execute();
         } catch (\PDOException $e) {
             // Manejar el error usando la funcion handleError
@@ -125,6 +127,23 @@ class UserMgmtModel
         } catch (\PDOException $e) {
             // Manejar el error usando la funcion handleError
             return $e;
+        }
+    }
+
+    // Función para asignar un rol!!
+    public function asignarRol($IdUsuario, $IdRol)
+    {
+        try {
+            //En caso de que el usuario ya tenga un rol, se actualiza el rol
+            $query = "INSERT INTO asignación (IdUsuario, IdRol) VALUES (:idUsuario, :idRol)
+                  ON DUPLICATE KEY UPDATE IdRol = :idRol";
+            $stmt = $this->db->prepare($query);
+            $stmt->bindParam(':idUsuario', $IdUsuario);
+            $stmt->bindParam(':idRol', $IdRol);
+            return $stmt->execute();
+        } catch (\PDOException $e) {
+            // Manejar el error usando la funcion handleError
+            return $this->handleError($e);
         }
     }
 

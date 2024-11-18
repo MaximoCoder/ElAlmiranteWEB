@@ -60,7 +60,7 @@
                     <?php foreach ($roles as $rol): ?>
                     <tr>
                         <td><?= htmlspecialchars($rol['NombreRol']); ?></td>
-                        <td><?= htmlspecialchars($rol['DescripcionRol']); ?></td>
+                        <td><?= htmlspecialchars($rol['DescripciónRol']); ?></td>
                         <td>
                             <button class="btn btn-sm btn-danger" onclick="eliminarRol(<?= $rol['IdRol']; ?>)">
                                 <i class="bi bi-trash"></i> Eliminar
@@ -94,8 +94,8 @@
                         <input type="text" class="form-control" id="nombreRol" required>
                     </div>
                     <div class="mb-3">
-                        <label for="descripcionRol" class="form-label">Descripción del Rol</label>
-                        <textarea class="form-control" id="descripcionRol" rows="3" required></textarea>
+                        <label for="descripciónRol" class="form-label">Descripción del Rol</label>
+                        <textarea class="form-control" id="descripciónRol" rows="3" required></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">

@@ -13,6 +13,12 @@ class UserMgmtController
         return $userMgmtModel->getAllUsers();
     }
 
+    public static function getAllRoles()
+    {
+        $userMgmtModel = new UserMgmtModel();
+        return $userMgmtModel->getAllRoles();
+    }
+
     // Funcion para eliminar un usuario
     public static function eliminarUsuario($idUsuario)
     {
@@ -104,20 +110,20 @@ class UserMgmtController
 
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             $data = json_decode(file_get_contents('php://input'), true);
-            if (empty($data['NombreRol']) || empty($data['DescripcionRol'])) {
+            if (empty($data['NombreRol']) || empty($data['DescripciónRol'])) {
                 echo json_encode(['status' => 'error', 'message' => 'Todos los campos son obligatorios']);
                 return;
             }
 
             $NombreRol = $data['NombreRol'];
-            $DescripcionRol = $data['DescripcionRol'];
+            $DescripciónRol = $data['DescripciónRol'];
 
             // Instanciar el modelo de usuario
             $userMgmtModel = new UserMgmtModel();
-            $userMgmtModel->crearRol($NombreRol, $DescripcionRol);
+            $userMgmtModel->crearRol($NombreRol, $DescripciónRol);
 
             // Crear el rol
-            $rolCreate = $userMgmtModel->crearRol($NombreRol, $DescripcionRol);
+            $rolCreate = $userMgmtModel->crearRol($NombreRol, $DescripciónRol);
 
             //Redirigir a la vista de Gestion de Usuarios o mostrar un error
             if ($rolCreate) {
@@ -145,7 +151,7 @@ class UserMgmtController
 
             if (!isset($data['IdRol'])) {
                 throw new \Exception('El ID del rol es requerido');
-        }
+            }
 
             $idRol = $data['IdRol'];
 
@@ -191,17 +197,17 @@ class UserMgmtController
 
             $idRol = $data['IdRol'];
             $NombreRol = $data['NombreRol'];
-            $DescripcionRol = $data['DescripcionRol'];
+            $DescripciónRol = $data['DescripciónRol'];
 
             // Instanciar el modelo de usuario
             $userMgmtModel = new UserMgmtModel();
-            $rolUpdate = $userMgmtModel->editarRol($idRol, $NombreRol, $DescripcionRol);
+            $rolUpdate = $userMgmtModel->editarRol($idRol, $NombreRol, $DescripciónRol);
 
             if ($rolUpdate) {
                 echo json_encode([
                     'status' => 'success',
                     'message' => 'Rol actualizado correctamente'
-                ]);    
+                ]);
             } else {
                 throw new \Exception('Error al actualizar rol');
             }
@@ -212,4 +218,42 @@ class UserMgmtController
             ]);
         }
     }
+
+    public static function asignarRol()
+{
+    header('Content-Type: application/json');
+
+    try {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            throw new \Exception('Método no permitido');
+        }
+
+        // Obtener los datos de la solicitud
+        $data = json_decode(file_get_contents('php://input'), true);
+
+        if (empty($data['IdUsuario']) || empty($data['IdRol'])) {
+            throw new \Exception('El ID del usuario y el ID del rol son obligatorios');
+        }
+
+        $idUsuario = $data['IdUsuario'];
+        $idRol = $data['IdRol'];
+
+        $userMgmtModel = new UserMgmtModel();
+        $asignacion = $userMgmtModel->asignarRol($idUsuario, $idRol);
+
+        if ($asignacion) {
+            echo json_encode([
+                'status' => 'success',
+                'message' => 'Rol asignado correctamente'
+            ]);
+        } else {
+            throw new \Exception('Error al asignar el rol');
+        }
+    } catch (\Exception $e) {
+        echo json_encode([
+            'status' => 'error',
+            'message' => $e->getMessage()
+        ]);
+    }
+}
 }
