@@ -13,6 +13,12 @@ class PagesController{
         // Renderizamos la vista pasando solo los datos que sean necesarios
         $router->render('pages/' . $viewName, $data); 
     }
+    // JOB PAGE
+    public static function vacante(Router $router, $data){
+        $router->render('pages/jobVacancy', [
+            'vacantes' => $data
+        ]);
+    }
     //PLATILLO PAGE
     public static function platillo(Router $router, $data)
     {

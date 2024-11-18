@@ -253,6 +253,12 @@ body {
     transition: .3s ease;
 }
 
+/* Bolsa de trabajo */
+.preformatted {
+    white-space: pre-wrap !important;
+    text-align: left;
+}
+
 /* REGISTER FORM */
 .form-control {
     border: none;
@@ -593,5 +599,4 @@ input[type='radio']:checked{
         padding: 0 40px;
         box-shadow:none;
     }
-
 }

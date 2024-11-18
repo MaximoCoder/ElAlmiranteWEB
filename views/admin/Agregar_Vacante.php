@@ -35,7 +35,7 @@
                </div>
 
                <!-- Descripción de la vacante -->
-               <div class="row">
+               <div class="row preformatted">
                    <div class="col-lg-12 mb-4">
                        <label for="descripcionVacante" class="form-label text-black">Descripción:</label>
                        <textarea class="form-control border-0 input-color" id="descripcionVacante" rows="7" placeholder="Ingrese la descripción de la vacante (Descripción, requisitos y qué ofrece)" required></textarea>
@@ -70,7 +70,7 @@
                            <?php foreach ($vacantes as $vacante): ?>
                                <tr data-id="<?= htmlspecialchars($vacante['IdVacante']); ?>">
                                    <td><?= htmlspecialchars($vacante['nombreVacante']); ?></td>
-                                   <td><?= htmlspecialchars($vacante['descripcionVacante']); ?></td>
+                                   <td class="preformatted"><?= htmlspecialchars($vacante['descripcionVacante']); ?></td>
                                    <td><?= htmlspecialchars($vacante['Activa']); ?></td>
                                    <td>
                                        <a href="#" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editarVacanteModal">Editar</a>

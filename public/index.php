@@ -37,8 +37,12 @@ $userController = new UserController(); // Aquí se ejecuta el constructor
 $router->get('/', [HomeController::class, 'index']); // Página de inicio
 
 // PagesController
-$router->get('/pages/location', function($router) { PagesController::renderPagesView($router, 'location');}); // Página de ubicaciones
-$router->get('/pages/contact', function($router) { PagesController::renderPagesView($router, 'contact');});   // Página de contacto
+$router->get('/pages/location', function ($router) {
+    PagesController::renderPagesView($router, 'location');
+}); // Página de ubicaciones
+$router->get('/pages/contact', function ($router) {
+    PagesController::renderPagesView($router, 'contact');
+});   // Página de contacto
 
 // MenuController
 $router->get('/pages/menu', [MenuController::class, 'index']);         // Página de menú
@@ -47,19 +51,19 @@ $router->get('/api/platillos', [MenuController::class, 'getProducts']); // API: 
 // CartController
 $router->get('/pages/cart', [CartController::class, 'index']); // Página del carrito
 $router->post('/agregar-al-carrito', [CartController::class, 'manageCart']);  // Agregar al carrito
-$router->post('/reordenar', function() {
+$router->post('/reordenar', function () {
     $orderId = $_POST['order_id'] ?? null;
     CartController::getOrderById($orderId);
 });
-$router->post('/cart/delete-{id}', function($router, $params) {
+$router->post('/cart/delete-{id}', function ($router, $params) {
     $id = $params[0]; // Captura el ID del producto
     CartController::deleteProduct($router, $id); // Eliminar producto
 });
-$router->post('/cart/increase-{id}', function($router, $params) {
+$router->post('/cart/increase-{id}', function ($router, $params) {
     $id = $params[0]; // Captura el ID del producto
     CartController::increaseQuantity($router, $id); // Aumentar cantidad
 });
-$router->post('/cart/decrease-{id}', function($router, $params) {
+$router->post('/cart/decrease-{id}', function ($router, $params) {
     $id = $params[0]; // Captura el ID del producto
     CartController::decreaseQuantity($router, $id); // Disminuir cantidad
 });
@@ -67,7 +71,7 @@ $router->post('/encrypt-data', function () {
     echo CartController::encryptData();
 }); // Encriptar datos del producto
 // PAYMENTCONTROLLER
-$router->get('/tickets/show-{venta_id}', function($router, $params) {
+$router->get('/tickets/show-{venta_id}', function ($router, $params) {
     // iniciar sesion
     session_start();
     $ventaId = $params[0];
@@ -80,17 +84,27 @@ $router->post('/checkout/paypal', [PaymentController::class, 'checkout']);
 
 
 // Página de platillo individual
-$router->get('/pages/platillo-{IdPlatillo}', function($router, $params) {
+$router->get('/pages/platillo-{IdPlatillo}', function ($router, $params) {
     $IdPlatillo = $params[0];  // Captura el ID del platillo
     $data = PagesController::platilloData($IdPlatillo); // Obtiene los datos del platillo
     PagesController::platillo($router, $data); // Renderiza la vista del platillo
 });
 
 // JobController
-$router->get('/pages/jobVacancy', [JobController::class, 'index']); // Página de vacantes de trabajo
+$router->get('/pages/jobVacancy', function ($router) {
+    // llamamos a la funcion del controller para obtener los datos
+    $data = JobController::getVacantes();
+    // Renderizamos con pagesController
+    PagesController::vacante($router, $data);
+}); // Página de vacantes de trabajo
+
+//Formulario de vacantes
+$router->get('/pages/formVacante', function ($router) {
+    $router->render('pages/formVacante');
+});
 
 // PROFILE PAGE
-$router->get('/pages/profile', function($router) {
+$router->get('/pages/profile', function ($router) {
     PagesController::renderProfileView($router, 'profile');
 });
 
@@ -99,13 +113,13 @@ $router->get('/pages/profile', function($router) {
 ---------------------------------------------- */
 
 // Registro de usuarios
-$router->get('/auth/register', function($router) {
+$router->get('/auth/register', function ($router) {
     UserController::renderAuthView($router, 'register'); // Formulario de registro
 });
 $router->post('/auth/register', [UserController::class, 'apiRegister']); // API: registrar usuario
 
 // Inicio de sesión
-$router->get('/auth/login', function($router) {
+$router->get('/auth/login', function ($router) {
     UserController::renderAuthView($router, 'login'); // Formulario de inicio de sesión
 });
 $router->post('/auth/login', [UserController::class, 'apiLogin']); // API: iniciar sesión
@@ -114,26 +128,26 @@ $router->post('/auth/login', [UserController::class, 'apiLogin']); // API: inici
 $router->get('/auth/logout', [UserController::class, 'logout']); // Cerrar sesión
 
 // Recuperación de contraseña
-$router->get('/auth/forgot-Password', function($router) {
+$router->get('/auth/forgot-Password', function ($router) {
     UserController::renderAuthView($router, 'forgot-Password'); // Formulario de recuperación de contraseña
 });
 $router->post('/auth/forgot-Password', [UserController::class, 'sendMailCode']); // API: enviar código de recuperación
 
 // Verificación de código de recuperación
-$router->get('/auth/verify-Code', function($router) {
+$router->get('/auth/verify-Code', function ($router) {
     UserController::renderAuthView($router, 'verify-Code'); // Formulario de verificación de código
 });
 $router->post('/auth/verify-Code', [UserController::class, 'verifyCode']); // API: verificar código
 
 // Cambio de contraseña
-$router->get('/auth/change-Password', function($router) {
+$router->get('/auth/change-Password', function ($router) {
     UserController::renderAuthView($router, 'change-Password'); // Formulario para cambiar contraseña
 });
 $router->post('/auth/change-Password', [UserController::class, 'changePassword']); // API: cambiar contraseña
 
 // ---------------- Controles de Administrador ----------------
 // Control RESUMEN
-$router->get('/admin/dashboard', function($router) {
+$router->get('/admin/dashboard', function ($router) {
     $ordenes = DashboardController::getOrders();
     $newOrdenes = DashboardController::getTodayOrders();
     $visitantesActivos = DashboardController::getVisitors();
@@ -146,7 +160,7 @@ $router->get('/admin/dashboard', function($router) {
     ]);
 });
 // Controles de Productos
-$router->get('/admin/Agregar_Productos', function($router) {
+$router->get('/admin/Agregar_Productos', function ($router) {
     //Obtenemos los datos de las categorías
     $categorias = ProductController::getCategories();
     // Renderizamos y pasamos las categorías
@@ -155,10 +169,10 @@ $router->get('/admin/Agregar_Productos', function($router) {
     ]);
 });
 // Control para agregar productos
-$router->post('/admin/Agregar_Productos' ,[ProductController::class, 'addProduct']);
- 
+$router->post('/admin/Agregar_Productos', [ProductController::class, 'addProduct']);
+
 // Control Categorias
-$router->get('/admin/Categorias', function($router) {
+$router->get('/admin/Categorias', function ($router) {
     //Obtenemos los datos de las categorías
     $categorias = CategoriasController::getCategories();
     // Renderizamos y pasamos las categorías
@@ -168,10 +182,10 @@ $router->get('/admin/Categorias', function($router) {
 });
 
 // Control Agregar vacante
-$router->get('/admin/Agregar_Vacante', function($router) {
+$router->get('/admin/Agregar_Vacante', function ($router) {
     // Obtenemos los datos de las vacantes
-    $vacantes = VacanteController::getAllVacantes(); 
-    AdminController::renderAdminView($router, 'Agregar_Vacante', 'layoutAdmin',[
+    $vacantes = VacanteController::getAllVacantes();
+    AdminController::renderAdminView($router, 'Agregar_Vacante', 'layoutAdmin', [
         'vacantes' => $vacantes
     ]); // Formulario de registro
 });
@@ -185,11 +199,11 @@ $router->delete('/admin/Agregar_Vacante/eliminar', [VacanteController::class, 'e
 // Agregar Categoría
 $router->post('/admin/Categorias-add', [CategoriasController::class, 'agregarCategoria']);
 $router->post('/categorias/editar',  [CategoriasController::class, 'editarCategoria']);
-$router->delete('/admin/categorias/eliminar', [CategoriasController::class, 'eliminarCategoria']); 
+$router->delete('/admin/categorias/eliminar', [CategoriasController::class, 'eliminarCategoria']);
 
 
 // Control Editar Productos
-$router->post('/admin/platillos/editar', function() use ($db) {
+$router->post('/admin/platillos/editar', function () use ($db) {
     $controller = new EditarProductosController($db);
     $data = $_POST;
     $result = $controller->updatePlatillo($data);
@@ -201,7 +215,7 @@ $router->post('/admin/platillos/editar', function() use ($db) {
 });
 
 
-$router->get('/admin/Editar_Productos', function($router) {
+$router->get('/admin/Editar_Productos', function ($router) {
     AdminController::renderAdminView($router, 'Editar_Productos', 'layoutAdmin');
 });
 // Rutas para obtener platillos
@@ -221,7 +235,7 @@ $router->delete('/admin/platillos/eliminar', [EditarProductosController::class, 
 $router->get('/admin/Editar_Productos', [ProductController::class, 'listarProductos']);
 
 // Control Ventas
-$router->get('/admin/Ventas', function($router) {
+$router->get('/admin/Ventas', function ($router) {
     AdminController::renderAdminView($router, 'Ventas', 'layoutAdmin');
 });
 
@@ -230,23 +244,23 @@ $router->get('/admin/Ventas', function($router) {
 $router->get('/admin/Ventas', [VentasController::class, 'listarPlatillos']);
 
 // Ruta para generar el reporte de ventas generales
-$router->get('/admin/Ventas/reporte', function($router) {
+$router->get('/admin/Ventas/reporte', function ($router) {
     $controller = new VentasController();
     $controller->reporteVentas($router);
 });
 
 // Ruta para generar el PDF de detalle de una venta específica
-$router->get('/admin/VentaController/generarDetalleVentaPdf', function($router) {
+$router->get('/admin/VentaController/generarDetalleVentaPdf', function ($router) {
     $platilloId = $_GET['platilloId'] ?? null;
     VentasController::generarDetalleVentaPdf(['platilloId' => $platilloId]);
 });
 
-$router->get('/admin/ventas/generarTopPlatillosPdf', function() {
+$router->get('/admin/ventas/generarTopPlatillosPdf', function () {
     Controllers\VentasController::generarTopPlatillosPdf();
 });
 
 
-$router->get('/admin/ventas/generarTopPlatillosMenosVendidosPdf', function() {
+$router->get('/admin/ventas/generarTopPlatillosMenosVendidosPdf', function () {
     Controllers\VentasController::generarTopPlatillosMenosVendidosPdf();
 });
 $router->get('/admin/Ventas', [VentasController::class, 'listarPlatillos']);
@@ -254,7 +268,7 @@ $router->get('/admin/Ventas', [VentasController::class, 'listarPlatillos']);
 $router->get('/admin/Ventas/reporte', [VentasController::class, 'reporteVentas']);
 
 // A esto
-$router->get('/admin/Ventas/reporte', function($router) {
+$router->get('/admin/Ventas/reporte', function ($router) {
     $controller = new VentasController();
     $controller->reporteVentas($router);
 });
@@ -263,11 +277,11 @@ $router->get('/admin/Ventas/reporte', function($router) {
 
 
 // Control Pedidos
-$router->get('/admin/Pedidos', function($router) {
+$router->get('/admin/Pedidos', function ($router) {
     PedidosController::renderAdminView($router, 'Pedidos');
 });
 // RUTA A REPORTES (BASATE EN LA RUTA DE DASHBOARD)
-$router->get('/admin/Reportes', function($router) {
+$router->get('/admin/Reportes', function ($router) {
     $categoria = ReportController::getSalesByCategory();
     $diarias = ReportController::getDailySales();
     $platillos = ReportController::getTopSellingDishes();
@@ -282,7 +296,7 @@ $router->get('/admin/Reportes', function($router) {
     ]);
 });
 // Control Configuracion de Pagina
-$router->get('/admin/Config', function($router) {
+$router->get('/admin/Config', function ($router) {
     ConfiguracionAdminController::renderAdminView($router, 'Config');
 });
 

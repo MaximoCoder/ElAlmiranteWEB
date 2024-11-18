@@ -11,79 +11,24 @@
     </div>
 </div>
 
-<div class="container mt-3">
-    <div class="row">
-        <div class="col-12 col-sm-6 col-md-4 mb-4">
-
-            <div class="card">
-                <div class="card-body">
-                    <img src="../../images/almiranteNOBG.png" class="card-img-top" alt="...">
-                    <h5 class="card-title">Cocinero</h5>
-                    <p class="card-text">Requisitos:</p>
-                    <ul>
-                        <li>Edad: 18 a 40 años</li>
-                        <li>Disponibilidad de horario</li>
-                        <li>Experiencia en cocina/preparación de alimentos</li>
-                    </ul>
-                    <p class="card-text">Ofrecemos:</p>
-                    <ul>
-                        <li>Sueldo base semanal: $2,500 MXN</li>
-                        <li>Uniforme y propinas</li>
-                        <li>Fondo de ahorro</li>
-                        <li>Comedor subsidiado</li>
-                        <li>Oportunidad de crecimiento</li>
-                    </ul>
-                    <a href="#" class="btn btn-primary">Postularme ahora</a>
+<div class="container mt-4 mb-5">
+    <div class="row d-flex justify-content-center">
+        <!-- For each para iterar por cada registro -->
+        <?php foreach ($vacantes as $vacante): ?>
+            <div class="col-12 col-md-6 col-lg-4 mb-4 w-75">
+                <div class="card border-0 shadow-lg">
+                    <div class="card-body p-4">
+                        <h5 class="card-title text-danger"><?= htmlspecialchars($vacante['nombreVacante']); ?></h5>
+                        <p class="card-text text-muted preformatted">Requisitos y beneficios:
+                            <br><?= htmlspecialchars($vacante['descripcionVacante']); ?>
+                        </p>
+                        <a href="../pages/formVacante" class="btn btn-dark mt-2">Postularme ahora</a>
+                    </div>
                 </div>
             </div>
-        </div>
-  
-        <div class="col-12 col-sm-6 col-md-4 mb-4">
-            <div class="card">
-                <div class="card-body">
-                    <img src="../../images/almiranteNOBG.png" class="card-img-top" alt="...">
-                    <h5 class="card-title">Lavaloza</h5>
-                    <p class="card-text">Requisitos:</p>
-                    <ul>
-                        <li>Edad: 18 a 35 años</li>
-                        <li>Disponibilidad de horario</li>
-                        <li>Experiencia deseable en lavar loza</li>
-                    </ul>
-                    <p class="card-text">Ofrecemos:</p>
-                    <ul>
-                        <li>Sueldo base semanal: $1,800 MXN</li>
-                        <li>Uniforme</li>
-                        <li>Fondo de ahorro</li>
-                        <li>Comedor subsidiado</li>
-                        <li>Oportunidad de crecimiento</li>
-                    </ul>
-                    <a href="#" class="btn btn-primary">Postularme ahora</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-12 col-sm-6 col-md-4 mb-4">
-            <div class="card">
-                <div class="card-body">
-                    <img src="../../images/almiranteNOBG.png" class="card-img-top" alt="...">
-                    <h5 class="card-title">Ayudante de cocina</h5>
-                    <p class="card-text">Requisitos:</p>
-                    <ul>
-                        <li>Edad: 18 a 35 años</li>
-                        <li>Disponibilidad de horario</li>
-                        <li>Experiencia deseable en cocina</li>
-                    </ul>
-                    <p class="card-text">Ofrecemos:</p>
-                    <ul>
-                        <li>Sueldo base semanal: $1,800 MXN</li>
-                        <li>Uniforme y propinas</li>
-                        <li>Fondo de ahorro</li>
-                        <li>Comedor subsidiado</li>
-                        <li>Oportunidad de crecimiento</li>
-                    </ul>
-                    <a href="#" class="btn btn-primary">Postularme ahora</a>
-                </div>
-            </div>
-        </div>
+        <?php endforeach; ?>
     </div>
 </div>
+</div>
+
+<!-- AQUI VAMOS A LLAMAR A LOS DATOS.-->
