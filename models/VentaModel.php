@@ -290,7 +290,7 @@ public function getMonthlyIncome()
             GROUP BY 
                 DATE_FORMAT(v.FechaVenta, '%Y-%m')
             ORDER BY 
-                Mes DESC
+                Mes ASC
             LIMIT 4;
         ");
 
