@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -59,9 +58,9 @@
 <img src="../../images/almiranteNOBG.png" alt="Almirante" class="top-right-image">
 
 <div class="container">
-    <?php foreach ($detalles as $detalle): ?>
-        <h2>Ventas del Platillo: <?= $detalle['nombre_producto'] ?></h2>
-    <?php endforeach; ?>
+    <?php if (!empty($detalles)): ?>
+        <h2>Ventas del Platillo: <?= $detalles[0]['nombre_producto'] ?></h2>
+    <?php endif; ?>
 
     <table>
         <thead>
@@ -101,3 +100,4 @@
 
 </body>
 </html>
+
