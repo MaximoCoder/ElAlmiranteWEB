@@ -509,6 +509,7 @@ body {
     overflow-x: auto;
 	border-radius: 8px;
 }
+
 .btn-reuse{
 	padding: 12px 24px;
 	border-radius: 8px;
@@ -526,6 +527,8 @@ body {
     flex-direction: column;
     gap: 30px;
 }
+
+
 
 .chart-item {
     background: #fff;
@@ -671,4 +674,12 @@ canvas {
 	#content main .table-data .todo .todo-list {
 		min-width: 420px;
 	}
+	
 }
+/* Modo oscuro global */
+body.dark * {
+    background-color: var(--light) !important;
+    color: var(--dark) !important;
+}
+
+/* Asegúrate de personalizar estilos específicos si es necesario */
