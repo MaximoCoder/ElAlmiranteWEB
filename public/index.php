@@ -193,8 +193,15 @@ $router->post('/admin/Gestion_Usuarios/quitarRol', [UserMgmtController::class, '
 
 // Control Pedidos
 $router->get('/admin/Pedidos', function ($router) {
-    PedidosController::renderAdminView($router, 'Pedidos');
+    $pedidosPendientes = PedidosController::getPedidosPendientes();
+    $pedidosCompletados = PedidosController::getPedidosCompletados();
+    AdminController::renderAdminView($router, 'Pedidos', 'layoutAdmin',[
+        'pendientes' => $pedidosPendientes,
+        "completados" =>  $pedidosCompletados
+    ]);
 });
+$router->put('/admin/Pedidos-pagado',[PedidosController::class, 'updatePaymentStatus']); // Ruta para actualizar el estado del pago
+$router->put('/admin/Pedidos-completado',[PedidosController::class, 'updateOrderStatus']); // Ruta para actualizar el estado del pedido
 // RUTA A REPORTES (BASATE EN LA RUTA DE DASHBOARD)
 $router->get('/admin/Reportes', function ($router) {
     $categoria = ReportController::getSalesByCategory();
