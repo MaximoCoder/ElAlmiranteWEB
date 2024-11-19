@@ -14,14 +14,13 @@ class VentaModel
     }
 
     // Funcion para crear una venta
-    public function createVenta($IdCliente, $FechaVenta, $MontoTotal, $TipoPago, $EstadoPago, $IdPagoPaypal, $EstadoVenta)
+    public function createVenta($IdCliente, $MontoTotal, $TipoPago, $EstadoPago, $IdPagoPaypal, $EstadoVenta)
     {
         try {
-            $query = "INSERT INTO Venta (IdCliente, FechaVenta, MontoTotal, TipoPago, EstadoPago, IdPagoPaypal, EstadoVenta) VALUES (:IdCliente, :FechaVenta, :MontoTotal, :TipoPago, :EstadoPago, :IdPagoPaypal, :EstadoVenta)";
+            $query = "INSERT INTO Venta (IdCliente, FechaVenta, MontoTotal, TipoPago, EstadoPago, IdPagoPaypal, EstadoVenta) VALUES (:IdCliente, NOW(), :MontoTotal, :TipoPago, :EstadoPago, :IdPagoPaypal, :EstadoVenta)";
             $stmt = $this->db->prepare($query);
             $stmt->execute([
                 ':IdCliente' => $IdCliente,
-                ':FechaVenta' => $FechaVenta,
                 ':MontoTotal' => $MontoTotal,
                 ':TipoPago' => $TipoPago,
                 ':EstadoPago' => $EstadoPago,
@@ -36,15 +35,14 @@ class VentaModel
     }
 
     // Crear una nueva orden en la tabla Orden
-    public function createOrden($IdVenta, $IdCliente, $FechaOrden, $MontoOrden, $EstadoOrden, $Observaciones)
+    public function createOrden($IdVenta, $IdCliente, $MontoOrden, $EstadoOrden, $Observaciones)
     {
         try {
-            $query = "INSERT INTO Orden (IdVenta, IdCliente, FechaOrden, MontoOrden, EstadoOrden, Observaciones) VALUES (:IdVenta, :IdCliente, :FechaOrden, :MontoOrden, :EstadoOrden, :Observaciones)";
+            $query = "INSERT INTO Orden (IdVenta, IdCliente, FechaOrden, MontoOrden, EstadoOrden, Observaciones) VALUES (:IdVenta, :IdCliente, NOW(), :MontoOrden, :EstadoOrden, :Observaciones)";
             $stmt = $this->db->prepare($query);
             $stmt->execute([
                 ':IdVenta' => $IdVenta,
                 ':IdCliente' => $IdCliente,
-                ':FechaOrden' => $FechaOrden,
                 ':MontoOrden' => $MontoOrden,
                 ':EstadoOrden' => $EstadoOrden,
                 ':Observaciones' => $Observaciones,
