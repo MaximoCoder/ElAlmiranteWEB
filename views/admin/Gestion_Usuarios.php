@@ -9,34 +9,36 @@
                         <th scope="col">Correo</th>
                         <th scope="col">Fecha de Creación</th>
                         <th scope="col">Estado</th>
+                        <th scope="col">Rol</th>
                         <th scope="col">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach ($usuarios as $usuario): ?>
-                    <tr>
-                        <td><?= htmlspecialchars($usuario['Nombre']); ?></td>
-                        <td><?= htmlspecialchars($usuario['Correo']); ?></td>
-                        <td><?= htmlspecialchars($usuario['FechaCreacion']); ?></td>
-                        <td>
-                            <span class="badge <?= $usuario['Estado'] ? 'bg-success' : 'bg-secondary'; ?>">
-                                <?= $usuario['Estado'] ? 'Activo' : 'Inactivo'; ?>
-                            </span>
-                        </td>
-                        <td>
-                            <div class="d-flex gap-2">
-                                <button class="btn btn-sm btn-warning" onclick="editarUsuario(<?= $usuario['IdUsuario']; ?>)">
-                                    <i class="bi bi-pencil-square"></i> Editar
-                                </button>
-                                <button class="btn btn-sm btn-danger" onclick="eliminarUsuario(<?= $usuario['IdUsuario']; ?>)">
-                                    <i class="bi bi-trash"></i> Eliminar
-                                </button>
-                                <button class="btn btn-sm btn-info" onclick="asignarRol(<?= $usuario['IdUsuario']; ?>)">
-                                    <i class="bi bi-person-plus"></i> Asignar Rol
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
+                        <tr>
+                            <td><?= htmlspecialchars($usuario['Nombre']); ?></td>
+                            <td><?= htmlspecialchars($usuario['Correo']); ?></td>
+                            <td><?= htmlspecialchars($usuario['FechaCreacion']); ?></td>
+                            <td>
+                                <span class="badge <?= $usuario['Estado'] ? 'bg-success' : 'bg-secondary'; ?>">
+                                    <?= $usuario['Estado'] ? 'Activo' : 'Inactivo'; ?>
+                                </span>
+                            </td>
+                            <td><?= $usuario['NombreRol'] ? htmlspecialchars($usuario['NombreRol']) : 'Sin rol'; ?></td>
+                            <td>
+                                <div class="d-flex gap-2">
+                                    <?php if ($usuario['NombreRol']): ?>
+                                        <button class="btn btn-sm btn-warning" onclick="abrirModalQuitarRol(<?= $usuario['IdUsuario']; ?>, '<?= htmlspecialchars($usuario['NombreRol']); ?>')">
+                                            Quitar Rol
+                                        </button>
+                                    <?php else: ?>
+                                        <button class="btn btn-sm btn-info" onclick="abrirModalAsignarRol(<?= $usuario['IdUsuario']; ?>)">
+                                            Asignar Rol
+                                        </button>
+                                    <?php endif ?>
+                                </div>
+                            </td>
+                        </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
@@ -44,64 +46,163 @@
             <p class="text-center text-muted">No hay usuarios registrados.</p>
         <?php endif; ?>
     </div>
-
-    <h2 class="mt-5 mb-3 text-center">Gestión de Roles</h2>
-    <div class="table-responsive">
-        <?php if (!empty($roles)): ?>
-            <table class="table table-bordered table-hover table-striped align-middle">
-                <thead class="table-dark">
-                    <tr>
-                        <th scope="col">Nombre del Rol</th>
-                        <th scope="col">Descripción</th>
-                        <th scope="col">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($roles as $rol): ?>
-                    <tr>
-                        <td><?= htmlspecialchars($rol['NombreRol']); ?></td>
-                        <td><?= htmlspecialchars($rol['DescripcionRol']); ?></td>
-                        <td>
-                            <button class="btn btn-sm btn-danger" onclick="eliminarRol(<?= $rol['IdRol']; ?>)">
-                                <i class="bi bi-trash"></i> Eliminar
-                            </button>
-                        </td>
-                    </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        <?php else: ?>
-            <p class="text-center text-muted">No hay roles disponibles.</p>
-        <?php endif; ?>
-    </div>
-    <button class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#agregarRolModal">
-        <i class="bi bi-plus-circle"></i> Agregar Nuevo Rol
-    </button>
 </div>
 
-<!-- Modal para agregar rol -->
-<div class="modal fade" id="agregarRolModal" tabindex="-1" aria-labelledby="agregarRolLabel" aria-hidden="true">
+<!-- Modal para asignar rol -->
+<div class="modal fade" id="asignarRolModal" tabindex="-1" aria-labelledby="asignarRolLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form id="formAgregarRol">
+            <form id="formAsignarRol" onsubmit="return asignarRol(event)">
+                <input type="hidden" id="idUsuarioAsignar" name="idUsuario">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="agregarRolLabel">Agregar Nuevo Rol</h5>
+                    <h5 class="modal-title" id="asignarRolLabel">Asignar Rol al Usuario</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="nombreRol" class="form-label">Nombre del Rol</label>
-                        <input type="text" class="form-control" id="nombreRol" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="descripcionRol" class="form-label">Descripción del Rol</label>
-                        <textarea class="form-control" id="descripcionRol" rows="3" required></textarea>
+                        <label for="rolAsignar" class="form-label">Seleccionar Rol</label>
+                        <select class="form-select" id="rolAsignar" name="rolAsignar" required>
+                            <option value="">Selecciona un rol...</option>
+                            <?php foreach ($roles as $rol): ?>
+                                <option value="<?= $rol['IdRol']; ?>"><?= htmlspecialchars($rol['NombreRol']); ?></option>
+                            <?php endforeach; ?>
+                        </select>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success"><i class="bi bi-save"></i> Guardar</button>
+                    <button type="submit" class="btn btn-success"><i class="bi bi-check-circle"></i> Asignar Rol</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
+
+<!-- Modal para quitar rol -->
+<div class="modal fade" id="quitarRolModal" tabindex="-1" aria-labelledby="quitarRolLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="quitarRolLabel">Quitar Rol del Usuario</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>¿Estás seguro que deseas quitar el rol <strong id="nombreRolQuitar"></strong> de este usuario?</p>
+                <input type="hidden" id="idUsuarioQuitar">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" onclick="quitarRol()">Quitar Rol</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function asignarRol(event) {
+        event.preventDefault();
+
+        const idUsuario = document.getElementById("idUsuarioAsignar").value;
+        const rolAsignado = document.getElementById("rolAsignar").value;
+
+        $.ajax({
+            url: '/admin/Gestion_Usuarios/asignarRol',
+            method: 'POST',
+            data: JSON.stringify({
+                idUsuario: idUsuario,
+                idRol: rolAsignado
+            }),
+            contentType: 'application/json',
+            success: function(response) {
+                const modal = bootstrap.Modal.getInstance(document.getElementById('asignarRolModal'));
+                modal.hide();
+
+                if (response.status === 'success') {
+                    console.log(response);
+                    Swal.fire({
+                        title: "¡Éxito!",
+                        text: "Rol asignado correctamente.",
+                        icon: "success",
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(() => {
+                        location.reload();
+                    });
+                } else {
+                    Swal.fire({
+                        title: "Error",
+                        text: response.message || "Hubo un error al asignar el rol.",
+                        icon: "error"
+                    });
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error:", error);
+                Swal.fire({
+                    title: "Error",
+                    text: "Hubo un error al procesar la solicitud.",
+                    icon: "error"
+                });
+            }
+        });
+
+        return false;
+    }
+
+    function quitarRol() {
+        const idUsuario = document.getElementById("idUsuarioQuitar").value;
+
+        $.ajax({
+            url: '/admin/Gestion_Usuarios/quitarRol',
+            method: 'POST',
+            data: JSON.stringify({
+                idUsuario: idUsuario
+            }),
+            contentType: 'application/json',
+            success: function(response) {
+                const modal = bootstrap.Modal.getInstance(document.getElementById('quitarRolModal'));
+                modal.hide();
+
+                if (response.status === 'success') {
+                    Swal.fire({
+                        title: "¡Éxito!",
+                        text: "Rol eliminado correctamente.",
+                        icon: "success",
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(() => {
+                        location.reload();
+                    });
+                } else {
+                    Swal.fire({
+                        title: "Error",
+                        text: response.message || "Hubo un error al quitar el rol.",
+                        icon: "error"
+                    });
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error:", error);
+                Swal.fire({
+                    title: "Error",
+                    text: "Hubo un error al procesar la solicitud.",
+                    icon: "error"
+                });
+            }
+        });
+    }
+
+    function abrirModalAsignarRol(idUsuario) {
+        document.getElementById('idUsuarioAsignar').value = idUsuario;
+        document.getElementById('rolAsignar').value = "";
+        const modal = new bootstrap.Modal(document.getElementById('asignarRolModal'));
+        modal.show();
+    }
+
+    function abrirModalQuitarRol(idUsuario, nombreRol) {
+        document.getElementById('idUsuarioQuitar').value = idUsuario;
+        document.getElementById('nombreRolQuitar').textContent = nombreRol;
+        const modal = new bootstrap.Modal(document.getElementById('quitarRolModal'));
+        modal.show();
+    }
+</script>
