@@ -186,14 +186,10 @@ $router->get('/admin/Gestion_Usuarios', function ($router) {
     ]);
 });
 
-$router->delete('/admin/Gestion_Usuarios/eliminarUsuario', [UserMgmtController::class, 'eliminarUsuario']);
-$router->put('/admin/Gestion_Usuarios/editarUsuario', [UserMgmtController::class, 'editarUsuario']);
-
 //Control Gestión de roles
-$router->post('/admin/Gestion_Usuarios/crearRol', [UserMgmtController::class, 'registrarRol']);
-$router->delete('/admin/Gestion_Usuarios/eliminarRol',[UserMgmtController::class, 'eliminarRol']);
-$router->put('/admin/Gestion_Usuarios/editarRol', [UserMgmtController::class, 'editarRol']);
 $router->post('/admin/Gestion_Usuarios/asignarRol', [UserMgmtController::class, 'asignarRol']);
+$router->post('/admin/Gestion_Usuarios/quitarRol', [UserMgmtController::class, 'quitarRol']);
+
 
 // Control Pedidos
 $router->get('/admin/Pedidos', function ($router) {
