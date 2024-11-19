@@ -203,20 +203,12 @@ $router->get('/admin/Pedidos', function ($router) {
 $router->get('/admin/Reportes', function ($router) {
     $categoria = ReportController::getSalesByCategory();
     $diarias = ReportController::getDailySales();
-    $platillos = ReportController::getTopSellingDishes();
-    $mensuales = ReportController::getMonthlyIncome();
     $top = ReportController::getTopOrderedCategories();
     AdminController::renderAdminView($router, 'Reportes', 'layoutAdmin', [
         'categoria' => $categoria,
         'diarias' => $diarias,
-        'platillos' => $platillos,
-        'mensuales' => $mensuales,
         'top' => $top
     ]);
-});
-// Control Configuracion de Pagina
-$router->get('/admin/Config', function ($router) {
-    ConfiguracionAdminController::renderAdminView($router, 'Config');
 });
 
 //Agregar Productos
@@ -228,47 +220,25 @@ $router->get('/admin/Agregar_Productos', function($router) {
 });
 $router->post('/admin/Agregar_Productos' ,[ProductController::class, 'addProduct']);
 
-//Editar Productos
-$router->post('/admin/platillos/editar', function() use ($db) {
-    $controller = new EditarProductosController($db);
-    $data = $_POST;
-    $result = $controller->updatePlatillo($data);
-    if ($result) {
-        echo "Producto actualizado con éxito";
-    } else {
-        echo "Error al actualizar producto";
-    }
-});
-
-$router->get('/admin/Editar_Productos', function($router) {
-    AdminController::renderAdminView($router, 'Editar_Productos', 'layoutAdmin');
-});
-$router->get('/admin/obtenerPlatillos', [ProductController::class, 'obtenerPlatillos']);
+// Editar productos
+$router->get('/admin/Editar_Productos', [ProductController::class, 'listarProductos']);
 $router->post('/admin/platillos/editar', [EditarProductosController::class, 'editarPlatillo']);
 $router->delete('/admin/platillos/eliminar', [EditarProductosController::class, 'eliminarPlatillo']);
-$router->get('/admin/Editar_Productos', [ProductController::class, 'listarProductos']);
 
 
 //Categorias
-$router->post('/admin/Categorias-add', [CategoriasController::class, 'agregarCategoria']);
-$router->post('/categorias/editar',  [CategoriasController::class, 'editarCategoria']);
-$router->delete('/admin/categorias/eliminar', [CategoriasController::class, 'eliminarCategoria']); 
-
 $router->get('/admin/Categorias', function($router) {
     $categorias = CategoriasController::getCategories();
     AdminController::renderAdminView($router, 'Categorias', 'layoutAdmin', [
         'categorias' => $categorias
     ]);
 });
+$router->post('/admin/Categorias-add', [CategoriasController::class, 'agregarCategoria']);
+$router->post('/categorias/editar',  [CategoriasController::class, 'editarCategoria']);
+$router->delete('/admin/categorias/eliminar', [CategoriasController::class, 'eliminarCategoria']); 
 
 //Gestion de Ventas
 $router->get('/admin/Ventas', [VentasController::class, 'listarPlatillos']);
-
-// Ruta para generar el reporte de ventas generales
-$router->get('/admin/Ventas/reporte', function($router) {
-    $controller = new VentasController();
-    $controller->reporteVentas($router);
-});
 
 $router->get('/admin/VentaController/generarDetalleVentaPdf', function($router) {
     $platilloId = $_GET['platilloId'] ?? null;
@@ -283,7 +253,15 @@ $router->get('/admin/ventas/generarTopPlatillosMenosVendidosPdf', function() {
     Controllers\VentasController::generarTopPlatillosMenosVendidosPdf();
 });
 
+$router->get('/admin/ventas/showTopSellingDishesChart', function() {
+    $controller = new VentasController();
+    $controller->showTopSellingDishesChart();
+});
 
+$router->get('/admin/ventas/showMonthlyIncomeChart', function() {
+    $controller = new VentasController();
+    $controller->showMonthlyIncomeChart();
+});
 
 // Manejar la solicitud
 $router->checkRoutes();

@@ -1,11 +1,11 @@
    <!-- NAVBAR -->
    <nav>
        <i class='bx bx-menu'></i>
-       <a href="#" class="nav-link">Categories</a>
+       
        <form action="#">
            <div class="form-input">
-               <input type="search" placeholder="Search...">
-               <button type="submit" class="search-btn"><i class='bx bx-search'></i></button>
+               
+               <button><i class='bx bx-search'></i></button>
            </div>
        </form>
        <input type="checkbox" id="switch-mode" hidden>
@@ -73,8 +73,8 @@
                                    <td class="preformatted"><?= htmlspecialchars($vacante['descripcionVacante']); ?></td>
                                    <td><?= htmlspecialchars($vacante['Activa']); ?></td>
                                    <td>
-                                       <a href="#" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editarVacanteModal">Editar</a>
-                                       <a href="#" class="btn btn-danger" onclick="eliminarVacante(<?= htmlspecialchars($vacante['IdVacante']); ?>)">Eliminar</a>
+                                       <a href="#" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editarVacanteModal"><i class='bx bxs-edit'></i></a>
+                                       <a href="#" class="btn btn-danger" onclick="eliminarVacante(<?= htmlspecialchars($vacante['IdVacante']); ?>)"><i class='bx bxs-trash'></i></a>
                                    </td>
                                </tr>
                            <?php endforeach; ?>

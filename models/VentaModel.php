@@ -276,6 +276,55 @@ class VentaModel
         $stmt = $this->db->query($query);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    
+// VentaModel.php
+public function getMonthlyIncome()
+{
+    try {
+        $sql = $this->db->prepare("
+            SELECT 
+                DATE_FORMAT(v.FechaVenta, '%Y-%m') AS Mes, 
+                SUM(v.MontoTotal) AS TotalIngresos
+            FROM 
+                venta v
+            GROUP BY 
+                DATE_FORMAT(v.FechaVenta, '%Y-%m')
+            ORDER BY 
+                Mes ASC
+            LIMIT 4;
+        ");
+
+        $sql->execute(); // No olvides ejecutar la consulta
+        return $sql->fetchAll(PDO::FETCH_ASSOC); // Asegúrate de devolver los datos en formato asociativo
+    } catch (\Exception $e) {
+        echo $e->getMessage();
+    }
+}
+
+    public function getTopSellingDishes()
+    {
+        try {
+            $sql = $this->db->prepare("
+                SELECT 
+                    p.NombrePlatillo, 
+                    SUM(dv.Cantidad) AS TotalVendidos, 
+                    SUM(dv.Subtotal) AS TotalGanancias
+                FROM 
+                    platillo p
+                INNER JOIN 
+                    detalleventa dv ON p.IdPlatillo = dv.IdPlatillo
+                GROUP BY 
+                    p.IdPlatillo, p.NombrePlatillo
+                ORDER BY 
+                    TotalVendidos DESC
+                LIMIT 10
+            ");
+            $sql->execute();
+            return $sql->fetchAll(PDO::FETCH_ASSOC);
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+        }
+    }
 
 }
 

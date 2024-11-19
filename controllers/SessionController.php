@@ -36,6 +36,22 @@ class SessionController
         // Devolver los datos del usuario desde la sesión
         return isset($_SESSION['user']) ? $_SESSION['user'] : null;
     }
+    // FUNCION PARA VALIDAR SI ES ADMIN
+
+    public static function requireAdmin()
+    {
+        // Iniciar la sesión si no ha sido iniciada
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        // Verificar si el usuario es administrador
+        if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'Admin') {
+            // Redirigir al usuario si no es Admin
+            header('Location: /');
+            exit;
+        }
+    }
     public function destroySession()
     {
         // Destruir la sesión

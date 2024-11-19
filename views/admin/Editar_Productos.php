@@ -1,17 +1,17 @@
 <!-- NAVBAR -->
 <nav>
-    <i class='bx bx-menu'></i>
-    <a href="#" class="nav-link">Categories</a>
-    <form action="#">
-        <div class="form-input">
-            <input type="search" placeholder="Search...">
-            <button type="submit" class="search-btn"><i class='bx bx-search'></i></button>
-        </div>
-    </form>
-    <input type="checkbox" id="switch-mode" hidden>
-    <label for="switch-mode" class="switch-mode"></label>
+       <i class='bx bx-menu'></i>
+       
+       <form action="#">
+           <div class="form-input">
+               
+               <button><i class='bx bx-search'></i></button>
+           </div>
+       </form>
+       <input type="checkbox" id="switch-mode" hidden>
+       <label for="switch-mode" class="switch-mode"></label>
 
-</nav>
+   </nav>
     <div class="content">
         <div class="container-fluid">
     <div class="container-fluid">
@@ -19,10 +19,9 @@
 
 
                     <div class="table-responsive">
-                        <table id="table-platillos" class="table table-bordered table-hover" style="width: 100%">
+                        <table id="table-platillos" class="table" style="width: 100%">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
                                     <th>Nombre</th>
                                     <th>Descripción</th>
                                     <th>Precio</th>
@@ -34,7 +33,6 @@
                             <tbody>
                                 <?php foreach ($platillos as $platillo): ?>
                                     <tr data-id="<?= $platillo['IdPlatillo']; ?>">
-                                        <td><?= $platillo['IdPlatillo']; ?></td>
                                         <td class="nombre-platillo"><?= htmlspecialchars($platillo['NombrePlatillo']); ?></td>
                                         <td class="descripcion-platillo"><?= htmlspecialchars($platillo['DescripcionPlatillo']); ?></td>
                                         <td class="precio-platillo"><?= htmlspecialchars($platillo['PrecioPlatillo']); ?></td>
@@ -50,8 +48,8 @@
 
                                         <td>
                                             <a href="#" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editarPlatilloModal"
-                                               onclick="abrirModalEditar(<?= $platillo['IdPlatillo']; ?>, '<?= htmlspecialchars($platillo['NombrePlatillo']); ?>', '<?= htmlspecialchars($platillo['DescripcionPlatillo']); ?>', '<?= htmlspecialchars($platillo['PrecioPlatillo']); ?>', '<?= htmlspecialchars($platillo['Disponibilidad']); ?>')">Editar</a>
-                                            <a href="#" class="btn btn-danger" onclick="eliminarPlatillo(<?= $platillo['IdPlatillo']; ?>)">Eliminar</a>
+                                               onclick="abrirModalEditar(<?= $platillo['IdPlatillo']; ?>, '<?= htmlspecialchars($platillo['NombrePlatillo']); ?>', '<?= htmlspecialchars($platillo['DescripcionPlatillo']); ?>', '<?= htmlspecialchars($platillo['PrecioPlatillo']); ?>', '<?= htmlspecialchars($platillo['Disponibilidad']); ?>')"><i class='bx bxs-edit'></i></a>
+                                            <a href="#" class="btn btn-danger" onclick="eliminarPlatillo(<?= $platillo['IdPlatillo']; ?>)"><i class='bx bxs-trash'></i></a>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
