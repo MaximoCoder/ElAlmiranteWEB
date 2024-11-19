@@ -43,7 +43,6 @@ class PaymentController
         try {
             $ventaId = $ventaModel->createVenta(
                 $userData->getUser()['IdUsuario'],
-                date('Y-m-d H:i:s'),
                 $total,
                 'pago en tienda',
                 'Pendiente',
@@ -54,7 +53,6 @@ class PaymentController
             $ordenId = $ventaModel->createOrden(
                 $ventaId,
                 $userData->getUser()['IdUsuario'],
-                date('Y-m-d H:i:s'),
                 $total,
                 'Pendiente',
                 $nota
@@ -134,7 +132,6 @@ class PaymentController
             // Crea una nueva venta
             $ventaId = $ventaModel->createVenta(
                 $IdCliente,
-                $FechaVenta,
                 $MontoTotal,
                 'Pago en linea',
                 'Completado',
@@ -145,7 +142,6 @@ class PaymentController
             $ordenId = $ventaModel->createOrden(
                 $ventaId,
                 $IdCliente,
-                $FechaVenta,
                 $MontoTotal,
                 'Pendiente',
                 $nota
